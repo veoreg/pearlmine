@@ -7,7 +7,6 @@ Never starts by itself, never restarts after a safety stop, changes no GPU setti
 from hashlib import sha256
 import json
 from pathlib import Path
-import socket
 import sys
 import time
 
@@ -37,9 +36,8 @@ def pool_dialect(url):
 
 
 def worker_name():
-    """Pool-side label only; an unusual host name must not break the login."""
-    name="".join(c for c in socket.gethostname() if c.isalnum() or c in "-_")[:32]
-    return name or "pearlmine"
+    """Pool-side label, visible to anyone who looks up the address: never the computer's real name."""
+    return "pearlmine"
 
 
 class LiveMining:
