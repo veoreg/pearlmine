@@ -61,11 +61,11 @@ def set_clock(command):
     except (OSError,subprocess.SubprocessError):return False
 
 
-def start_saved(_args):
+def start_saved(args):
     """The Spark's own console starts with the destination last confirmed in the panel."""
     saved=read_json(SETTINGS)
     if not saved:raise SystemExit("Сначала запустите майнинг на Spark из приложения PearlMine: там задаётся адрес и пул.")
-    start(argparse.Namespace(wallet=saved["wallet"],pool=saved["pool"],seconds=DEFAULT_SECONDS))
+    start(argparse.Namespace(wallet=saved["wallet"],pool=saved["pool"],seconds=args.seconds))
 
 
 def start(args):
@@ -157,7 +157,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     commands=parser.add_subparsers(dest="command",required=True)
     begin=commands.add_parser("start");begin.add_argument("wallet");begin.add_argument("pool");begin.add_argument("seconds",type=int);begin.set_defaults(run=start)
-    for name,function in (("start-saved",start_saved),("stop",stop),("supervise",supervise),("session",session)):commands.add_parser(name).set_defaults(run=function)
+    saved=commands.add_parser("start-saved");saved.add_argument("seconds",type=int,nargs="?",default=DEFAULT_SECONDS);saved.set_defaults(run=start_saved)
+    for name,function in (("stop",stop),("supervise",supervise),("session",session)):commands.add_parser(name).set_defaults(run=function)
     args=parser.parse_args();args.run(args)
 
 
