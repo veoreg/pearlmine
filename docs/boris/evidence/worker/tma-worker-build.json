@@ -1,5 +1,5 @@
 {
-  "binary_sha256": "20b6192600e8ecf47655133bac945237b5d2c9d2c27cab82fadc98047a84f41a",
+  "binary_sha256": "e873974bdb15a3d3d06728e361916a84f6920f3e21d698b674a2915742b9e866",
   "cudart_sha256": "05bfafcb97bd53b0089568a96e1e5bd6921637bd0853ff7f5342bd31a6a16890",
   "manifest": "tma_worker/Cargo.toml",
   "arch": "sm_120a",

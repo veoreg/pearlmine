@@ -15,6 +15,9 @@ use spm_pow::U256;
 use spm_work::{Shape, WorkUnit};
 use std::collections::VecDeque;
 use std::io::{Read, Write};
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
+use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::Arc;
 use std::time::{Duration, Instant};
 use zk_pow::api::proof::SeedDerivation;
 use zk_pow::api::verify::verify_plain_proof;
@@ -27,12 +30,14 @@ const CANARY_HITS: u64 = 8;
 const CANARIES_CHECKED: usize = 2;
 /// One reply at least this often, so telemetry, stop and job changes stay responsive.
 const MAX_CHUNK_WALL: Duration = Duration::from_millis(800);
+/// Finished attempts waiting for the checker before canaries are skipped; shares are never skipped.
+const MAX_CANARY_BACKLOG: usize = 2;
 
 struct Active {
     binding: String,
     immutable_request: String,
-    host: host::JobHost,
-    wu: WorkUnit,
+    host: Arc<host::JobHost>,
+    wu: Arc<WorkUnit>,
     job: Job,
     nonce: u64,
     att: host::AttemptHost,
@@ -40,7 +45,85 @@ struct Active {
     device_uuid: String,
     total_tiles: u64,
     nonce_changes: u64,
-    canaries: u64,
+    canaries: Arc<AtomicU64>,
+    backlog: Arc<AtomicUsize>,
+    to_checker: Sender<Finished>,
+    from_checker: Receiver<Result<Value, String>>,
+}
+
+/// One finished attempt on its way to the CPU checker. The GPU has already moved on.
+struct Finished {
+    att: host::AttemptHost,
+    hits: Vec<spm_gpu::Hit>,
+}
+
+/// CPU work must never hold the GPU back: canaries and proofs run here while the next attempt mines.
+fn spawn_checker(
+    host: Arc<host::JobHost>,
+    wu: Arc<WorkUnit>,
+    canaries: Arc<AtomicU64>,
+    backlog: Arc<AtomicUsize>,
+) -> (Sender<Finished>, Receiver<Result<Value, String>>) {
+    let (to_checker, inbox) = channel::<Finished>();
+    let (outbox, from_checker) = channel();
+    std::thread::spawn(move || {
+        while let Ok(finished) = inbox.recv() {
+            let waiting = backlog.fetch_sub(1, Ordering::SeqCst) - 1;
+            let result = check(&host, &wu, &finished, waiting < MAX_CANARY_BACKLOG, &canaries);
+            let stop = result.is_err();
+            let values = match result {
+                Ok(values) => values.into_iter().map(Ok).collect::<Vec<_>>(),
+                Err(e) => vec![Err(format!("{e:#}"))],
+            };
+            for value in values {
+                if outbox.send(value).is_err() {
+                    return;
+                }
+            }
+            if stop {
+                return;
+            }
+        }
+    });
+    (to_checker, from_checker)
+}
+
+fn check(
+    host: &host::JobHost,
+    wu: &WorkUnit,
+    finished: &Finished,
+    with_canaries: bool,
+    canaries: &AtomicU64,
+) -> Result<Vec<Value>> {
+    if with_canaries {
+        for hit in finished.hits.iter().take(CANARIES_CHECKED) {
+            let cpu = host.tile(&finished.att, hit.t_rows, hit.t_cols)?;
+            ensure!(
+                cpu.digest == hit.digest,
+                "GPU result differs from the CPU reference; stop and requalify the device"
+            );
+            canaries.fetch_add(1, Ordering::Relaxed);
+        }
+    }
+    let share = wu.share_bound();
+    let mut proofs = Vec::new();
+    for hit in finished
+        .hits
+        .iter()
+        .filter(|h| U256::from_little_endian(&h.digest) <= share)
+    {
+        let proof = host.proof(&finished.att, hit.t_rows, hit.t_cols)?;
+        verify_plain_proof(
+            host.header(),
+            &proof,
+            Some(wu.nbits_share),
+            SeedDerivation::Salted,
+        )?;
+        proofs.push(json!({"mode":"worker-proof","certificate_version":3,
+            "header76":hex::encode(wu.header),"nbits_override":wu.nbits_share,
+            "expected_digest":hex::encode(hit.digest),"proof":proof}));
+    }
+    Ok(proofs)
 }
 
 fn number(v: &Value, k: &str) -> Result<u64> {
@@ -117,7 +200,8 @@ fn prepare(v: &Value) -> Result<Active> {
         .unwrap_or(initial);
     ensure!(nonce >= initial, "invalid resume position");
     let device_uuid = spm_gpu::select_device(u32::try_from(number(v, "device_index")?)?)?;
-    let host = host::JobHost::new(&wu)?;
+    let host = Arc::new(host::JobHost::new(&wu)?);
+    let wu = Arc::new(wu);
     let spec = host.spec();
     let config = JobConfig::new(
         m,
@@ -130,6 +214,10 @@ fn prepare(v: &Value) -> Result<Active> {
     );
     let gpu_job = Job::new(&config).map_err(|e| anyhow!("job create: {e}"))?;
     let att = host.attempt(nonce);
+    let canaries = Arc::new(AtomicU64::new(0));
+    let backlog = Arc::new(AtomicUsize::new(0));
+    let (to_checker, from_checker) =
+        spawn_checker(host.clone(), wu.clone(), canaries.clone(), backlog.clone());
     let mut active = Active {
         binding: text(v, "binding")?.into(),
         immutable_request: immutable_request(v)?,
@@ -142,40 +230,25 @@ fn prepare(v: &Value) -> Result<Active> {
         device_uuid,
         total_tiles: 0,
         nonce_changes: 0,
-        canaries: 0,
+        canaries,
+        backlog,
+        to_checker,
+        from_checker,
     };
     begin_attempt(&mut active)?;
     Ok(active)
 }
 
-/// The attempt is complete: check its canaries on the CPU, turn its shares into verified proofs
-/// and move on to the next nonce.
+/// The attempt is complete: hand it to the checker and start the next nonce at once.
 fn finish_attempt(a: &mut Active) -> Result<()> {
     let (hits, _total) = a.job.hits().map_err(|e| anyhow!("read hits: {e}"))?;
-    for hit in hits.iter().take(CANARIES_CHECKED) {
-        let cpu = a.host.tile(&a.att, hit.t_rows, hit.t_cols)?;
-        ensure!(
-            cpu.digest == hit.digest,
-            "GPU result differs from the CPU reference; stop and requalify the device"
-        );
-        a.canaries += 1;
-    }
-    let share = a.wu.share_bound();
-    for hit in hits
-        .iter()
-        .filter(|h| U256::from_little_endian(&h.digest) <= share)
-    {
-        let proof = a.host.proof(&a.att, hit.t_rows, hit.t_cols)?;
-        verify_plain_proof(
-            a.host.header(),
-            &proof,
-            Some(a.wu.nbits_share),
-            SeedDerivation::Salted,
-        )?;
-        a.pending.push_back(json!({"mode":"worker-proof","certificate_version":3,
-            "header76":hex::encode(a.wu.header),"nbits_override":a.wu.nbits_share,
-            "expected_digest":hex::encode(hit.digest),"proof":proof}));
-    }
+    a.backlog.fetch_add(1, Ordering::SeqCst);
+    a.to_checker
+        .send(Finished {
+            att: a.att.clone(),
+            hits,
+        })
+        .map_err(|_| anyhow!("checker stopped"))?;
     a.total_tiles += a.host.tiles();
     a.nonce = a
         .nonce
@@ -191,10 +264,16 @@ fn chunk(a: &mut Active, v: &Value) -> Result<Value> {
     let started = Instant::now();
     let mut active = 0u128;
     let mut chunks = 0u64;
-    while a.pending.is_empty()
-        && active + 10_000_000 <= budget
-        && started.elapsed() < MAX_CHUNK_WALL
-    {
+    loop {
+        while let Ok(checked) = a.from_checker.try_recv() {
+            a.pending.push_back(checked.map_err(|e| anyhow!(e))?);
+        }
+        if !a.pending.is_empty()
+            || active + 10_000_000 > budget
+            || started.elapsed() >= MAX_CHUNK_WALL
+        {
+            break;
+        }
         let c = a.job.run_chunk().map_err(|e| anyhow!("run chunk: {e}"))?;
         active += c.kernel.as_nanos();
         chunks += 1;
@@ -207,7 +286,7 @@ fn chunk(a: &mut Active, v: &Value) -> Result<Value> {
     let candidate = a.pending.pop_front().unwrap_or(Value::Null);
     Ok(json!({"binding":a.binding,"active_ns":active.min(budget) as u64,"nonce":a.nonce,"tile":0,
         "candidate":candidate,"canary_ok":true,"nbits_share":a.wu.nbits_share,
-        "total_tiles":a.total_tiles,"nonce_changes":a.nonce_changes,"cache_hits":a.canaries,
+        "total_tiles":a.total_tiles,"nonce_changes":a.nonce_changes,"cache_hits":a.canaries.load(Ordering::Relaxed),
         "device_bytes":spm_gpu::job_device_bytes(a.wu.shape.m,a.wu.shape.n,a.wu.shape.k,false,false,0),
         "workspace_reused":true,"kernel_variant":KERNEL_VARIANT,"tiles_this_chunk":chunks}))
 }

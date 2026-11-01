@@ -26,9 +26,11 @@ from .telemetry import SensorError,TelemetryMonitor
 
 ROOT=Path(__file__).resolve().parent.parent
 FAST_CARDS={(12,0):"tma",(12,1):"tma"}  # RTX 5090 class and GB10: what the fast worker is compiled and tested for.
-GB10_STOP_WATTS=80  # Some GB10 units power off hard under sustained load near 90 W.
+GB10_STOP_WATTS=85  # Some GB10 units power off hard under sustained load at 88-92 W; the same hard stop as the kernel's author.
 THROTTLE_FROM_C=75
 RAMP_SECONDS=90
+COOL_DOWN_FROM_C=80
+COOL_DOWN_SECONDS=4
 DUTIES=(.25,.5,1)
 LAPTOP_DUTY=.1
 MAX_SECONDS=7*86400
@@ -182,6 +184,8 @@ class LiveMining:
         if ramp>0:pause=.6*ramp
         if sample and sample.gpu_c is not None and sample.gpu_c>=THROTTLE_FROM_C:
             pause+=.03*(sample.gpu_c-THROTTLE_FROM_C+1)**2
+            # This card can jump several degrees within one work slice: rest properly before the hard stop.
+            if sample.gpu_c>=COOL_DOWN_FROM_C:pause=max(pause,COOL_DOWN_SECONDS)
         if pause:
             deadline=time.monotonic()+pause;self.throttled_seconds+=pause
             while time.monotonic()<deadline and not self.controller.stopped.is_set():time.sleep(.02)
