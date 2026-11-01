@@ -20,5 +20,5 @@ data=[(str(root/source),target) for source,target in (
 a=Analysis([str(root/"packaging/pearlmine_entry.py")],pathex=[str(root)],datas=data,
     hiddenimports=collect_submodules("boris_pearl"),excludes=["PIL","numpy","pytest"])
 pyz=PYZ(a.pure)
-exe=EXE(pyz,a.scripts,[("X utf8",None,"OPTION")],exclude_binaries=True,name="PearlMine",console=False,contents_directory=".")
+exe=EXE(pyz,a.scripts,[("X utf8",None,"OPTION")],exclude_binaries=True,name="PearlMine",console=False,contents_directory=".",icon=str(root/"packaging/pearlmine.ico"))
 COLLECT(exe,a.binaries,a.datas,name="PearlMine")

@@ -14,11 +14,12 @@ from tkinter import filedialog,messagebox,ttk
 from . import theme
 from .config import Config
 from .control_center import DeviceService,ROOT,atomic_json,human_error
-from .fleet import Fleet
+from .fleet import Fleet,SshPeer
 from .remote_control import Pairing
 
+now_for_rows=time.time
 BG,PANEL,CARD,TEXT,MUTED=theme.WHITE,theme.SURFACE,theme.SURFACE,theme.TEXT,theme.MUTED
-STATES={"idle":"Готово","preparing":"Подготовка","running":"Проверка","paused":"Приостановлено","stopping":"Останавливается","stopped":"Остановлено","failed":"Нужна проверка"}
+STATES={"viewing":"На связи","idle":"Готово","preparing":"Подготовка","running":"Проверка","paused":"Приостановлено","stopping":"Останавливается","stopped":"Остановлено","failed":"Нужна проверка"}
 
 
 class Dashboard:
@@ -50,6 +51,9 @@ class Dashboard:
         self._home();self._fleet();self._settings();self._logs();self._help()
         root.boris_dashboard=self;root.protocol("WM_DELETE_WINDOW",self.close)
         self._load();self.page("home");self.poll()
+        if settings_path is None:
+            from .shortcut import create_once
+            if create_once(self.settings_path.parent):self.footer.set("Ярлык PearlMine добавлен на рабочий стол и в меню «Пуск».")
         if auto_discover:root.after(250,self.refresh)
 
     def page(self,key):
@@ -68,7 +72,7 @@ class Dashboard:
             tk.Label(card,text=label,bg=CARD,fg=MUTED,font=("Segoe UI",9,"bold")).pack(anchor="w")
             var=tk.StringVar(value=initial);tk.Label(card,textvariable=var,bg=CARD,fg=TEXT,font=("Segoe UI",24,"bold")).pack(anchor="w",pady=(5,0));self.metrics[key]=var
         bar=ttk.Frame(home);bar.pack(fill="x",pady=(0,10))
-        ttk.Label(bar,text="Этот компьютер",font=("Segoe UI",15,"bold")).pack(side="left")
+        ttk.Label(bar,text="Все карты",font=("Segoe UI",15,"bold")).pack(side="left")
         self.refresh_button=ttk.Button(bar,text="Обновить устройства",command=self.refresh);self.refresh_button.pack(side="right")
         ttk.Button(bar,text="Выбрать доступные",command=self.select_all).pack(side="right",padx=8)
         self.table=self._table(home,[("check","",38),("name","Устройство",230),("state","Состояние",140),("temp","°C",60),("watts","Вт",70),("memory","Свободно",95),("note","Готовность",240)],height=3)
@@ -111,6 +115,7 @@ class Dashboard:
         row=ttk.Frame(frame);row.pack(fill="x",pady=(0,12))
         ttk.Button(row,text="Добавить компьютер",style="Primary.TButton",command=self.pair_dialog).pack(side="left")
         ttk.Button(row,text="Разрешить управление этим ПК",command=self.agent_window).pack(side="left",padx=8)
+        ttk.Button(row,text="Посмотреть по SSH",command=self.ssh_dialog).pack(side="left")
         ttk.Button(row,text="Убрать выбранный",command=self.remove_peer).pack(side="right")
         self.peer_table=self._table(frame,[("name","Компьютер",220),("state","Подключение",200),("active","В работе",90),("note","Состояние",400)],height=3)
         self.peer_table.bind("<<TreeviewSelect>>",lambda e:self.peer_selected())
@@ -192,7 +197,9 @@ class Dashboard:
             from .pairing_store import unseal
             self.saved_peers=data.get("paired",[])[:16]
             for record in self.saved_peers:
-                try:self.fleet.connect(unseal(record))
+                try:
+                    if record.get("kind")=="ssh":self.fleet.connect_ssh(SshPeer(record["name"],record["target"],record.get("identity","")))
+                    else:self.fleet.connect(unseal(record))
                 except Exception:self.service.log("Для одного сохранённого компьютера нужен новый код подключения.")
         except Exception as exc:
             self.service.log("Настройки не загружены: "+human_error(exc)+" Файл сохранён рядом с расширением .bad.")
@@ -266,6 +273,23 @@ class Dashboard:
             self.fleet.start(self.current_peer,self.remote_checked,**self.options())
         except Exception as exc:self.footer.set(human_error(exc))
 
+    def ssh_dialog(self):
+        window=tk.Toplevel(self.root);window.title("Посмотреть компьютер по SSH");window.geometry("560x330");window.configure(bg=BG)
+        ttk.Label(window,text="Только просмотр: температура, потребление, загрузка",font=("Segoe UI",12,"bold")).pack(anchor="w",padx=18,pady=(16,4))
+        ttk.Label(window,text="На том компьютере ничего не устанавливается и не запускается. Нужен уже настроенный вход по SSH-ключу.",style="Muted.TLabel",wraplength=520).pack(anchor="w",padx=18)
+        fields={}
+        for key,title in (("name","Имя в панели"),("target","Адрес: имя из настроек SSH или пользователь@адрес"),("identity","Файл ключа (если нужен особый)")):
+            ttk.Label(window,text=title).pack(anchor="w",padx=18,pady=(8,2));fields[key]=tk.StringVar();ttk.Entry(window,textvariable=fields[key]).pack(fill="x",padx=18)
+        status=tk.StringVar();ttk.Label(window,textvariable=status,wraplength=520).pack(anchor="w",padx=18,pady=4)
+        def connect():
+            try:
+                peer=SshPeer(fields["name"].get().strip(),fields["target"].get().strip(),fields["identity"].get().strip())
+                self.fleet.connect_ssh(peer)
+                self.saved_peers.append(dict(kind="ssh",fingerprint=peer.key,name=peer.name,target=peer.target,identity=peer.identity));self._save()
+                window.destroy();self.footer.set("Подключаю "+peer.name+"…")
+            except Exception as exc:status.set(human_error(exc))
+        ttk.Button(window,text="Подключить",style="Primary.TButton",command=connect).pack(anchor="e",padx=18,pady=8)
+
     def pair_dialog(self):
         window=tk.Toplevel(self.root);window.title("Добавить свой компьютер");window.geometry("640x390");window.configure(bg=BG)
         ttk.Label(window,text="Вставьте код подключения с вашего устройства",font=("Segoe UI",13,"bold")).pack(anchor="w",padx=18,pady=16)
@@ -321,8 +345,18 @@ class Dashboard:
             except Empty:break
         snap=self.service.snapshot();devices=snap["devices"]
         self.checked.intersection_update(devices)
+        remote_rows={}
+        for peer_key,peer in self.fleet.snapshot().items():
+            cards=(peer["status"] or {}).get("devices",{});alive=peer["updated_at"] and now_for_rows()-peer["updated_at"]<=15 and not peer["error"]
+            if not cards:remote_rows[f"remote:{peer_key}"]=("",peer["name"],"Нет связи" if peer["error"] else "Подключаем…","—","—","—",peer["error"] or "")
+            for card_key,card in cards.items():
+                free=card.get("free_bytes")
+                remote_rows[f"remote:{peer_key}:{card_key}"]=("",peer["name"]+" · "+card["name"],self.state_text(card) if alive else "Нет связи",self.value(card.get("temperature") if alive else None,digits=0),self.value(card.get("watts") if alive else None,digits=0),self.value(None if not alive or free is None else free/(1<<30)," ГБ"),card.get("note","") if alive else (peer["error"] or ""))
         for key in self.table.get_children():
-            if key not in devices:self.table.delete(key)
+            if key not in devices and key not in remote_rows:self.table.delete(key)
+        for key,values in remote_rows.items():
+            if self.table.exists(key):self.table.item(key,values=values)
+            else:self.table.insert("","end",iid=key,values=values)
         now=time.time()
         for key,row in devices.items():
             fresh=row.get("updated_at") is not None and now-row["updated_at"]<=5
