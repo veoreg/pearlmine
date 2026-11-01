@@ -17,7 +17,7 @@ from .control_center import human_error
 # One shell loop over one SSH connection. The miner lines appear only where the service is installed.
 MINER_ROOT="/srv/spark/pearlmine"
 QUERY=("while :; do nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits; "
-    f"[ -f {MINER_ROOT}/src/boris_pearl/spark_miner.py ] && echo PEARLMINE_READY && [ -f {MINER_ROOT}/run/status.json ] && echo \"PEARLMINE $(cat {MINER_ROOT}/run/status.json)\"; sleep 3; done")
+    f"[ -f {MINER_ROOT}/src/tools/spark-status.sh ] && bash {MINER_ROOT}/src/tools/spark-status.sh; sleep 3; done")
 
 
 @dataclass(frozen=True)
@@ -42,13 +42,21 @@ def number(text):
     except ValueError:return None
 
 
-def miner_row(miner):
-    """How the service's own report looks in the panel's table."""
-    if not miner:return dict(note="Майнинг готов к запуску")
-    state=miner.get("state");counts=f"принято {miner.get('accepted',0)}, отклонено {miner.get('rejected',0)}"
-    if state=="running":return dict(state="running",note=f"Майнинг {miner.get('th',0):.0f} TH/s · {counts}")
-    if state=="waiting":return dict(note=f"{miner.get('reason') or 'Ждёт'} · {counts}")
-    return dict(note=human_error(miner.get("reason") or "Остановлено")+" · "+counts)
+def miner_row(miner,job=None,usage=None,hottest=None):
+    """The service's report as one table row. Temperature is the machine's hottest point, as on its own console."""
+    row={} if hottest is None else dict(temperature=hottest)
+    miner=miner or {};state=miner.get("state")
+    counts=f"принято {miner.get('accepted',0)}, отклонено {miner.get('rejected',0)}"
+    busy=f"занята на {usage:.0f}%" if usage and usage>=5 else None
+    other=job if job and job!="pearlmine" else None
+    if state=="running":return dict(row,state="running",note=f"Майнинг {miner.get('th',0):.0f} TH/s · {counts}")
+    if other or (usage or 0)>=5:row["state"]="busy"
+    now=" · ".join(x for x in ("Сейчас: "+other if other else "Сейчас работает задача" if row.get("state")=="busy" else None,busy) if x)
+    if state=="waiting":return dict(row,note=f"Майнинг ждёт очереди · {now or counts}")
+    reason=miner.get("reason")
+    if state=="stopped" and reason and reason not in ("Остановлено владельцем","Срок майнинга закончился"):
+        return dict(row,note="Майнинг остановлен защитой: "+human_error(reason)+(" · "+now if now else ""))
+    return dict(row,note=now+" · майнинг выключен" if now else "Майнинг выключен, можно включить")
 
 
 def parse_ssh_line(line):
@@ -56,7 +64,7 @@ def parse_ssh_line(line):
     if len(parts)!=5 or not parts[0].startswith("GPU-"):return None
     usage=number(parts[4])
     return parts[0],dict(name=parts[1],state="viewing",eligible=False,temperature=number(parts[2]),watts=number(parts[3]),
-        note="Только просмотр"+("" if usage is None else f" · занята на {usage:.0f}%"))
+        usage=usage,note="Только просмотр"+("" if usage is None else f" · занята на {usage:.0f}%"))
 
 
 class Fleet:
@@ -104,9 +112,12 @@ class Fleet:
                 try:
                     process=subprocess.Popen(command+[peer.target,QUERY],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,stdin=subprocess.DEVNULL,text=True,encoding="utf-8",errors="replace",
                         creationflags=subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0)
-                    row["process"]=process;devices={};ready=False;miner=None
+                    row["process"]=process;devices={};ready=False;miner=None;hottest=None;job=None
                     for line in process.stdout:
                         if line.startswith("PEARLMINE_READY"):ready=True;continue
+                        if line.startswith("PEARLMINE_HOT"):
+                            value=number(line[13:].strip());hottest=None if value is None else value/1000;continue
+                        if line.startswith("PEARLMINE_JOB"):job=line[13:].strip() or None;continue
                         if line.startswith("PEARLMINE "):
                             try:miner=json.loads(line[10:])
                             except ValueError:miner=None
@@ -114,7 +125,7 @@ class Fleet:
                         parsed=parse_ssh_line(line)
                         if parsed:
                             devices[parsed[0]]=parsed[1];wait=5
-                            shown={k:dict(v,**miner_row(miner)) for k,v in devices.items()} if ready else dict(devices)
+                            shown={k:dict(v,**miner_row(miner,job,v.get("usage"),hottest)) for k,v in devices.items()} if ready else dict(devices)
                             with self.lock:row.update(status=dict(devices=shown,active=int(ready and (miner or {}).get("state")=="running"),allow_tests=False,read_only=True,miner_ready=ready,miner=miner),error=None,updated_at=time.time())
                     process.wait()
                 except OSError:pass

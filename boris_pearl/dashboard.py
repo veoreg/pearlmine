@@ -19,7 +19,7 @@ from .remote_control import Pairing
 
 now_for_rows=time.time
 BG,PANEL,CARD,TEXT,MUTED=theme.WHITE,theme.SURFACE,theme.SURFACE,theme.TEXT,theme.MUTED
-STATES={"viewing":"На связи","idle":"Готово","preparing":"Подготовка","running":"Проверка","paused":"Приостановлено","stopping":"Останавливается","stopped":"Остановлено","failed":"Нужна проверка"}
+STATES={"viewing":"На связи","busy":"Занята","idle":"Готово","preparing":"Подготовка","running":"Проверка","paused":"Приостановлено","stopping":"Останавливается","stopped":"Остановлено","failed":"Нужна проверка"}
 
 
 class Dashboard:

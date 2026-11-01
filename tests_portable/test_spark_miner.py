@@ -49,7 +49,13 @@ class SparkMinerTests(unittest.TestCase):
     def test_panel_row_shows_real_state(self):
         self.assertIn("74 TH/s",miner_row(dict(state="running",th=74,accepted=2,rejected=0))["note"])
         self.assertEqual(miner_row(dict(state="running",th=74))["state"],"running")
-        self.assertIn("заказам",miner_row(dict(state="waiting",reason="Уступает заказам"))["note"])
+        self.assertIn("очереди",miner_row(dict(state="waiting",reason="Уступает заказам"))["note"])
+    def test_other_work_is_shown_instead_of_an_old_stop_message(self):
+        row=miner_row(dict(state="stopped",reason="Остановлено владельцем"),"char3d-parity",96,86)
+        self.assertEqual(row["state"],"busy");self.assertEqual(row["temperature"],86)
+        self.assertIn("char3d-parity",row["note"]);self.assertIn("96%",row["note"]);self.assertNotIn("владельцем",row["note"])
+        self.assertIn("защитой",miner_row(dict(state="stopped",reason="power threshold"))["note"])
+        self.assertIn("можно включить",miner_row(None,None,0)["note"])
     def test_box_style_peer_has_no_miner_commands(self):
         fleet=Fleet();row=dict(pairing=SshPeer("Бокс","root@box"),client=None,status=dict(devices={},miner_ready=False),notice=None,stop=mock.Mock(),threads=[])
         fleet.peers["ssh:root@box"]=row
