@@ -34,11 +34,12 @@ def main():
     parser.add_argument("--until-shares",type=int,default=1)
     parser.add_argument("--new-job-every",type=float,default=0)
     parser.add_argument("--output")
+    parser.add_argument("--max-watts",type=float)
     args=parser.parse_args()
     report=dict(target=args.target)
     with MockPool(first_job=notify(job_id="loopback_2097152",header=header(),target=args.target)) as pool,tempfile.TemporaryDirectory(prefix="boris-live-loop-") as tmp:
         config=Config(fixture_address(3),pool.endpoint)
-        session=LiveMining(config,seconds=args.seconds,duty=args.duty,device_index="0",
+        session=LiveMining(config,seconds=args.seconds,duty=args.duty,device_index="0",max_watts=args.max_watts,
             tls_contexts=dict(user=pool.client_context),state_dir=tmp)
         started=time.monotonic()
         try:

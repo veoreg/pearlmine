@@ -4,17 +4,19 @@
 Created only by an explicit Start with the disclosed payout, fee, pool and stop deadline.
 Never starts by itself, never restarts after a safety stop, changes no GPU settings.
 """
+from dataclasses import replace
 from hashlib import sha256
 import json
 from pathlib import Path
+import subprocess
 import sys
 import time
+from types import SimpleNamespace
 
 from .config import is_kryptex
 from .controller import Controller
 from .core import Router,Session
 from .cuda_worker import CudaWorker,LiveRunConsent
-from .devices import discover,select_device
 from .load import DutyLimiter
 from .official_bridge import OfficialVerifierCallback
 from .pool import PoolAccess,PoolClient,PoolError
@@ -23,7 +25,8 @@ from .safety import Guard
 from .telemetry import SensorError,TelemetryMonitor
 
 ROOT=Path(__file__).resolve().parent.parent
-FAST_CARDS={(12,0):"tma"}  # Exact compute capability the fast worker is compiled and tested for.
+FAST_CARDS={(12,0):"tma",(12,1):"tma"}  # RTX 5090 class and GB10: what the fast worker is compiled and tested for.
+GB10_STOP_WATTS=80  # Some GB10 units power off hard under sustained load near 90 W.
 THROTTLE_FROM_C=75
 RAMP_SECONDS=90
 DUTIES=(.25,.5,1)
@@ -33,6 +36,37 @@ MAX_SECONDS=7*86400
 
 def pool_dialect(url):
     return "kryptex" if is_kryptex(url) else "object"
+
+
+def select_card(request):
+    """The card by index or complete UUID, from the driver itself; no CUDA context and no GPU work."""
+    flags=subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0
+    text=subprocess.run(["nvidia-smi","--query-gpu=index,uuid,name,compute_cap","--format=csv,noheader"],capture_output=True,text=True,timeout=15,check=True,creationflags=flags).stdout
+    for line in text.splitlines():
+        index,uuid,name,capability=[part.strip() for part in line.split(",")]
+        if str(request) in (index,uuid):
+            major,minor=capability.split(".")
+            return SimpleNamespace(cuda_index=int(index),uuid="GPU-"+uuid[4:].lower(),name=name,cc_major=int(major),cc_minor=int(minor))
+    raise ValueError("Выбранная карта сейчас не видна.")
+
+
+def board_temperature():
+    """Hottest ACPI zone in C, the sensor the Spark's own watchdog reads."""
+    values=[]
+    for zone in Path("/sys/class/thermal").glob("thermal_zone*"):
+        try:
+            if "acpitz" in (zone/"type").read_text():values.append(int((zone/"temp").read_text())/1000)
+        except (OSError,ValueError):pass
+    return max(values) if values else None
+
+
+def available_memory():
+    """GB10 shares one memory pool with the CPU and the driver reports none of it separately."""
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemAvailable:"):return int(line.split()[1])*1024
+    except (OSError,ValueError,IndexError):pass
+    return None
 
 
 def worker_name():
@@ -61,6 +95,10 @@ class LiveMining:
         self.shares=dict(accepted=0,rejected=0,uncertain=0,stale=0)
         self.first_share_seconds=None;self.reconnects=0;self.failures=0;self.next_connect=0;self.throttled_seconds=0;self.finished_job_tiles=0
 
+    def _sample_with_board(self):
+        sample=self.monitor.sample()
+        return None if sample is None else replace(sample,board_c=board_temperature(),free_bytes=available_memory())
+
     def _client(self,owner,pool,wallet,router):
         access=PoolAccess(pool,self.config.identity,allow_external=True,allow_submit=True)
         return PoolClient(self.config,router,Session(owner,1,owner,pool,wallet),access,worker_name=worker_name(),
@@ -70,8 +108,8 @@ class LiveMining:
         if self.begun_at is not None:raise ValueError("Нужен новый явный запуск.")
         try:
             expected=json.loads(self.receipt.read_text())["binary_sha256"]
-            selected=select_device(discover(),self.device_request)
-            if selected.requires_gb10_guards:raise SensorError("GB10 board/OEM sensor is unqualified")
+            selected=select_card(self.device_request)
+            gb10=(selected.cc_major,selected.cc_minor)==(12,1)
             self.backend=FAST_CARDS.get((selected.cc_major,selected.cc_minor))
             if not self.backend:raise ValueError(selected.name+": быстрый режим для этой карты ещё не готов. Майнинг на ней пока не имеет смысла.")
             self.monitor=TelemetryMonitor(device_uuid=selected.uuid);self.monitor.start();self.monitor.updated.wait(3)
@@ -79,11 +117,11 @@ class LiveMining:
             if not details or sample is None:raise SensorError(self.monitor.last_error or "Fresh NVML telemetry unavailable")
             if details["device"]["uuid"].lower()!=selected.uuid.lower():raise SensorError("Selected CUDA identity differs from NVML sensor identity")
             limit=sample.power_limit_watts
-            if type(limit) not in (int,float) or limit<=0:raise SensorError("Driver did not report a power limit")
+            if not gb10 and (type(limit) not in (int,float) or limit<=0):raise SensorError("Driver did not report a power limit")
             # Software stops only: the driver's own limit stays in charge, nothing is written to the card.
-            watts=self.max_watts or (min(50,limit*.8) if self.profile=="laptop" else limit*1.15)
+            watts=self.max_watts or (GB10_STOP_WATTS if gb10 else min(50,limit*.8) if self.profile=="laptop" else limit*1.15)
             stop_at=time.time()+self.seconds
-            guard=Guard(stop_at=stop_at,max_watts=watts,min_free_bytes=1<<30,laptop=self.profile=="laptop",max_gpu_c=70 if self.profile=="laptop" else 83,ceiling_c=83)
+            guard=Guard(stop_at=stop_at,max_watts=watts,min_free_bytes=(8 if gb10 else 1)<<30,laptop=self.profile=="laptop",gb10=gb10,max_gpu_c=70 if self.profile=="laptop" else 83,ceiling_c=83)
             vname="boris-official-proof-check.exe" if sys.platform=="win32" else "boris-official-proof-check"
             verifier=OfficialVerifierCallback(ROOT/"proof_bridge/target/release"/vname,
                 json.loads((ROOT/"docs/boris/evidence/proof-lab/official-build.json").read_text())["binary_sha256"])
@@ -93,7 +131,7 @@ class LiveMining:
                 expected_device_uuid=selected.uuid,cpu_threads=16,graceful_job_change=True)
             self.state_dir.mkdir(parents=True,exist_ok=True)
             ledger=self.state_dir/("ledger-"+sha256((self.config.identity+selected.uuid).encode()).hexdigest()[:24]+".json")
-            self.controller=Controller(self.config,router,guard,ledger,worker=self.worker,sample=self.monitor.sample,
+            self.controller=Controller(self.config,router,guard,ledger,worker=self.worker,sample=self._sample_with_board if gb10 else self.monitor.sample,
                 pacer=None if self.duty==1 else DutyLimiter(self.duty))
             self.user_client=self._client("user",self.config.user_pool,self.config.user_wallet,router)
             developer=self._client("developer",self.config.developer_pool,self.config.developer_wallet,router) if self.config.effective_bps else None
