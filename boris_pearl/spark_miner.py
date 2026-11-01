@@ -118,7 +118,9 @@ def stop(_args):
     RUN.mkdir(parents=True,exist_ok=True);STOP.touch();WANT.unlink(missing_ok=True)
     subprocess.run(["systemctl",*user_flag(),"stop",UNIT],capture_output=True)
     if has_lock():set_clock(FULL_CLOCK)
-    if not read_json(STATUS,{}).get("state")=="running":write_status(state="stopped",reason="Остановлено владельцем",**totals())
+    # Always: a session ended with its unit cannot report for itself, and a stale "running" would mislead the panel.
+    last=read_json(STATUS,{}) or {}
+    write_status(state="stopped",reason="Остановлено владельцем",accepted=last.get("accepted",0),rejected=last.get("rejected",0))
 
 
 def totals():
