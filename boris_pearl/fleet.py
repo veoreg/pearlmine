@@ -15,9 +15,9 @@ from .control_center import human_error
 
 
 # One shell loop over one SSH connection. The miner lines appear only where the service is installed.
-MINER_ROOT="/srv/spark/pearlmine"
+MINER_ROOTS=("/srv/spark/pearlmine","/root/pearlmine")
 QUERY=("while :; do nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits; "
-    f"[ -f {MINER_ROOT}/src/tools/spark-status.sh ] && bash {MINER_ROOT}/src/tools/spark-status.sh; sleep 3; done")
+    +"".join(f"[ -f {root}/src/tools/spark-status.sh ] && bash {root}/src/tools/spark-status.sh; " for root in MINER_ROOTS)+"sleep 3; done")
 
 
 @dataclass(frozen=True)
@@ -141,7 +141,8 @@ class Fleet:
             row=self.peers.get(key)
             if not row or row["client"] is not None or not (row["status"] or {}).get("miner_ready"):raise ValueError("На этом компьютере нет службы майнинга.")
             peer=row["pairing"];row["notice"]=None
-        remote=f"cd {MINER_ROOT}/src && python3 -X utf8 -m boris_pearl.spark_miner {action} "+" ".join(shlex.quote(str(v)) for v in values)
+        arguments=" ".join(shlex.quote(str(v)) for v in values)
+        remote="for r in "+" ".join(MINER_ROOTS)+"; do [ -f $r/src/boris_pearl/spark_miner.py ] && cd $r/src && exec python3 -X utf8 -m boris_pearl.spark_miner "+action+" "+arguments+"; done; echo no-service >&2; exit 1"
         def send():
             command=["ssh","-o","BatchMode=yes","-o","ConnectTimeout=10"]+(["-i",peer.identity] if peer.identity else [])+[peer.target,remote]
             try:

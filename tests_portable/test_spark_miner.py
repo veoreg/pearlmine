@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """Pure service and panel-row logic: no SSH, GPU, lock or systemd."""
+import io
 import json
 import tempfile
 import unittest
@@ -19,6 +20,8 @@ class SparkMinerTests(unittest.TestCase):
         for name,value in names.items():
             patcher=mock.patch.object(spark_miner,name,value);patcher.start();self.addCleanup(patcher.stop)
         self.run_dir=run
+        for name,value in (("has_lock",lambda:True),("other_job_waiting",lambda:False)):
+            patcher=mock.patch.object(spark_miner,name,value);patcher.start();self.addCleanup(patcher.stop)
     def test_client_work_always_wins(self):
         self.assertFalse(spark_miner.client_work_waiting())
         spark_miner.CLIENTS.write_text(json.dumps(dict(comfy_running=[],comfy_pending=2)))
@@ -28,6 +31,16 @@ class SparkMinerTests(unittest.TestCase):
         spark_miner.CLIENTS.write_text(json.dumps(dict(comfy_running=[],comfy_pending=0)))
         spark_miner.INCOMING.mkdir();(spark_miner.INCOMING/"job").touch()
         self.assertTrue(spark_miner.client_work_waiting())
+    def test_box_without_lock_follows_the_comfy_queue_and_fails_closed(self):
+        def reply(payload):
+            answer=mock.MagicMock();answer.__enter__.return_value=io.BytesIO(json.dumps(payload).encode());return answer
+        with mock.patch.object(spark_miner,"has_lock",lambda:False):
+            with mock.patch("urllib.request.urlopen",return_value=reply(dict(queue_running=[],queue_pending=[]))):
+                self.assertFalse(spark_miner.client_work_waiting())
+            with mock.patch("urllib.request.urlopen",return_value=reply(dict(queue_running=[1],queue_pending=[]))):
+                self.assertTrue(spark_miner.client_work_waiting())
+            with mock.patch("urllib.request.urlopen",side_effect=OSError("down")):
+                self.assertTrue(spark_miner.client_work_waiting())
     def test_stop_forgets_the_request_and_supervisor_does_not_start_again(self):
         spark_miner.WANT.write_text(json.dumps(dict(wallet="w",pool="p",until=9e12)))
         with mock.patch("subprocess.run"):spark_miner.stop(None)

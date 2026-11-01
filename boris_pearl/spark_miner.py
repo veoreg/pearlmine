@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Owner-started mining on the DGX Spark that lives on the Spark and always gives way to client work.
+"""Owner-started mining that lives on the machine itself and always gives way to its generation work.
+Used on the DGX Spark (with its heavy-task lock and clock limit) and on the owner's box (ComfyUI queue only).
 
 start   remember the owner's payout and deadline, launch the supervisor
 stop    stop now; nothing restarts
@@ -13,6 +14,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import urllib.request
 
 from .config import Config
 
@@ -20,6 +22,7 @@ ROOT=Path(__file__).resolve().parent.parent
 RUN=ROOT.parent/"run"
 WANT,STOP,STATUS,TOTALS,SETTINGS=RUN/"want.json",RUN/"stop",RUN/"status.json",RUN/"totals.json",RUN/"settings.json"
 CLIENTS=Path("/srv/spark/run/clients_state.json")
+COMFY_QUEUES=("http://127.0.0.1:58188/queue",)
 HEAVY="/srv/spark/run/spark_heavy.py"
 INCOMING=Path("/srv/spark/queue/incoming")
 UNIT="pearlmine-supervisor"
@@ -43,7 +46,23 @@ def write_status(**values):
     os.replace(temporary,STATUS)
 
 
+def has_lock():
+    return Path(HEAVY).exists()
+
+
+def comfy_busy():
+    """Fails closed: an unreadable queue means generations may be running, so mining waits."""
+    for url in COMFY_QUEUES:
+        try:
+            with urllib.request.urlopen(url,timeout=5) as reply:
+                queue=json.load(reply)
+            if queue.get("queue_running") or queue.get("queue_pending"):return True
+        except (OSError,ValueError):return True
+    return False
+
+
 def client_work_waiting():
+    if not has_lock():return comfy_busy()
     state=read_json(CLIENTS,{}) or {}
     if state.get("comfy_running") or state.get("comfy_pending"):return True
     try:
@@ -71,6 +90,10 @@ def set_clock(command):
     except (OSError,subprocess.SubprocessError):return False
 
 
+def user_flag():
+    return [] if getattr(os,"geteuid",lambda:1)()==0 else ["--user"]
+
+
 def start_saved(args):
     """The Spark's own console starts with the destination last confirmed in the panel."""
     saved=read_json(SETTINGS)
@@ -86,14 +109,15 @@ def start(args):
     SETTINGS.write_text(json.dumps(dict(wallet=config.user_wallet,pool=config.user_pool)),encoding="utf-8")
     WANT.write_text(json.dumps(dict(wallet=config.user_wallet,pool=config.user_pool,until=time.time()+args.seconds)),encoding="utf-8")
     write_status(state="waiting",reason="Запускаю")
-    subprocess.run(["systemd-run","--user","--unit",UNIT,"--collect","--quiet","-p",f"WorkingDirectory={ROOT}",
+    env=[f"--setenv=LD_LIBRARY_PATH={ROOT.parent/'lib'}"]
+    subprocess.run(["systemd-run",*user_flag(),"--unit",UNIT,"--collect","--quiet","-p",f"WorkingDirectory={ROOT}",*env,
         "/usr/bin/python3","-X","utf8","-m","boris_pearl.spark_miner","supervise"],check=True)
 
 
 def stop(_args):
     RUN.mkdir(parents=True,exist_ok=True);STOP.touch();WANT.unlink(missing_ok=True)
-    subprocess.run(["systemctl","--user","stop",UNIT],capture_output=True)
-    set_clock(FULL_CLOCK)
+    subprocess.run(["systemctl",*user_flag(),"stop",UNIT],capture_output=True)
+    if has_lock():set_clock(FULL_CLOCK)
     if not read_json(STATUS,{}).get("state")=="running":write_status(state="stopped",reason="Остановлено владельцем",**totals())
 
 
@@ -114,7 +138,10 @@ def supervise(_args):
             write_status(state="waiting",reason="Уступает заказам",**totals());time.sleep(20);continue
         if holder:
             write_status(state="waiting",reason="Занято: "+str(holder),**totals());time.sleep(20);continue
-        subprocess.run(["/usr/bin/python3",HEAVY,"--name","pearlmine","--budget","8","--wait","run",str(job)],capture_output=True)
+        if has_lock():
+            subprocess.run(["/usr/bin/python3",HEAVY,"--name","pearlmine","--budget","8","--wait","run",str(job)],capture_output=True)
+        else:
+            subprocess.run(["/bin/bash",str(job)])
         status=read_json(STATUS,{}) or {}
         if status.get("state")=="stopped":return
         time.sleep(REST_SECONDS)
@@ -127,7 +154,7 @@ def session(_args):
     base=totals()
     seconds=min(SLICE_SECONDS,int(want["until"]-time.time()))
     if seconds<1:return
-    set_clock(MINING_CLOCK)
+    if has_lock():set_clock(MINING_CLOCK)
     miner=LiveMining(Config(want["wallet"],want["pool"]),seconds=seconds,duty=1,device_index="0")
     ending=None;published=0;started=time.monotonic();clock_checked=started
     def counts():
@@ -140,7 +167,7 @@ def session(_args):
             if client_work_waiting():ending="yield";break
             now=time.monotonic()
             # The Spark's heat watchdog resets clocks when it releases its own limit: keep ours in place.
-            if now-clock_checked>=20:clock_checked=now;set_clock(MINING_CLOCK)
+            if has_lock() and now-clock_checked>=20:clock_checked=now;set_clock(MINING_CLOCK)
             if now-published>=3:
                 published=now;sample=miner.monitor.sample()
                 write_status(state="running",th=round(miner.mined_tiles*524288/max(1,now-started)/1e12,1),reason=None,
@@ -150,7 +177,7 @@ def session(_args):
     finally:
         reason=ending or (miner.controller.stop_reason if miner.controller else None)
         miner.close("pilot finished")
-        set_clock(FULL_CLOCK)  # Client work and training always get the full clock back.
+        if has_lock():set_clock(FULL_CLOCK)  # Client work and training always get the full clock back.
     TOTALS.write_text(json.dumps(counts()),encoding="utf-8")
     if reason=="manual stop":
         write_status(state="stopped",reason="Остановлено владельцем",**counts())
