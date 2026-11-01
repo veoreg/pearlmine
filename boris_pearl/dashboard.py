@@ -10,14 +10,17 @@ import threading
 import time
 import tkinter as tk
 from tkinter import filedialog,messagebox,ttk
+import webbrowser
 
-from . import theme
+from . import pool_stats,theme
 from .config import Config
 from .control_center import DeviceService,ROOT,atomic_json,human_error
 from .fleet import Fleet,SshPeer
 from .remote_control import Pairing
 
 now_for_rows=time.time
+POOL_EVERY_SECONDS=300
+POOL_RETRY_SECONDS=60
 BG,PANEL,CARD,TEXT,MUTED=theme.WHITE,theme.SURFACE,theme.SURFACE,theme.TEXT,theme.MUTED
 STATES={"viewing":"На связи","busy":"Занята","idle":"Готово","preparing":"Подготовка","running":"Проверка","paused":"Приостановлено","stopping":"Останавливается","stopped":"Остановлено","failed":"Нужна проверка"}
 
@@ -28,6 +31,7 @@ class Dashboard:
         self.settings_path=Path(settings_path) if settings_path else ROOT/"state/control-center/settings.json"
         self.checked=set();self.remote_checked=set();self.peer_mine=set();self.closing=False;self.background=[];self.events=Queue();self.saved_peers=[]
         self.pages={};self.nav={};self.last_log="";self.current_peer=None;self.agent_windows=[];self.saved_config=Config()
+        self.pool_reader=pool_stats.fetch if auto_discover else None;self.pool_stats=self.pool_wallet=self.pool_result=None;self.pool_failed=self.pool_reading=False;self.pool_next=0
         root.title("PearlMine — центр управления");root.geometry("1220x840");root.minsize(1060,760)
         theme.apply(root)
         shell=ttk.Frame(root);shell.pack(fill="both",expand=True)
@@ -67,7 +71,7 @@ class Dashboard:
 
     def _home(self):
         home=self.frame("home");metrics=ttk.Frame(home);metrics.pack(fill="x",pady=(0,18));self.metrics={}
-        for key,label,initial in (("devices","ВСЕГО УСТРОЙСТВ","—"),("active","В РАБОТЕ","0"),("power","ПОТРЕБЛЕНИЕ","—")):
+        for key,label,initial in (("devices","ВСЕГО УСТРОЙСТВ","—"),("active","В РАБОТЕ","0"),("power","ПОТРЕБЛЕНИЕ","—"),("credited","ЗАЧИСЛЕНО НА ПУЛЕ","—")):
             card=tk.Frame(metrics,bg=CARD,padx=18,pady=14,highlightthickness=1,highlightbackground=theme.LINE);card.pack(side="left",fill="x",expand=True,padx=(0,10))
             tk.Label(card,text=label,bg=CARD,fg=MUTED,font=("Segoe UI",9,"bold")).pack(anchor="w")
             var=tk.StringVar(value=initial);tk.Label(card,textvariable=var,bg=CARD,fg=TEXT,font=("Segoe UI",24,"bold")).pack(anchor="w",pady=(5,0));self.metrics[key]=var
@@ -92,9 +96,40 @@ class Dashboard:
         ttk.Combobox(mining,textvariable=self.mine_for,values=("1 час","8 часов","24 часа","7 дней"),state="readonly",width=9).pack(side="left",padx=8)
         self.mine_button=ttk.Button(mining,text="Начать майнинг",style="Primary.TButton",command=self.start_mining);self.mine_button.pack(side="right")
         detail=tk.Frame(home,bg=CARD,padx=18,pady=14,highlightthickness=1,highlightbackground=theme.LINE);detail.pack(fill="x")
-        tk.Label(detail,text="Что происходит сейчас",bg=CARD,fg=TEXT,font=("Segoe UI",12,"bold")).pack(anchor="w")
+        title=tk.Frame(detail,bg=CARD);title.pack(fill="x")
+        tk.Label(title,text="Что происходит сейчас",bg=CARD,fg=TEXT,font=("Segoe UI",12,"bold")).pack(side="left")
+        self.pool_button=ttk.Button(title,text="Открыть на сайте пула",command=self.open_pool)
         self.activity=tk.StringVar(value="Вычисления не запущены. Ничего не загружается.")
         tk.Label(detail,textvariable=self.activity,bg=CARD,fg=MUTED,font=("Segoe UI",10),wraplength=880,justify="left").pack(anchor="w",pady=(7,0))
+        self.pool_line=tk.StringVar();tk.Label(detail,textvariable=self.pool_line,bg=CARD,fg=MUTED,font=("Segoe UI",10),wraplength=880,justify="left").pack(anchor="w",pady=(7,0))
+
+    def open_pool(self):
+        webbrowser.open(pool_stats.page_url(self.saved_config.user_wallet))
+
+    def _pool_read(self,wallet):
+        try:self.pool_result=(wallet,self.pool_reader(wallet),None)
+        except Exception as exc:self.pool_result=(wallet,None,exc)
+
+    def _pool_tick(self,now):
+        """The saved address only, every few minutes, off the UI thread; an old figure stays up if the pool is unreachable."""
+        config=self.saved_config;wallet=config.user_wallet
+        if not self.pool_reader or not pool_stats.supported(wallet,config.user_pool):
+            self.pool_wallet=self.pool_stats=None;self.metrics["credited"].set("—");self.pool_line.set("");self.pool_button.pack_forget();return
+        if wallet!=self.pool_wallet:
+            self.pool_wallet=wallet;self.pool_stats=None;self.pool_failed=False;self.pool_next=0;self.pool_button.pack(side="right")
+        result,self.pool_result=self.pool_result,None
+        if result:
+            self.pool_reading=False
+            if result[0]==wallet:
+                self.pool_failed=result[2] is not None
+                if result[1]:self.pool_stats=result[1]
+                if self.pool_failed:self.pool_next=now+POOL_RETRY_SECONDS
+        if now>=self.pool_next and not self.pool_reading:
+            self.pool_reading=True;self.pool_next=now+POOL_EVERY_SECONDS
+            threading.Thread(target=self._pool_read,args=(wallet,),name="pearlmine-pool-stats",daemon=True).start()
+        stats=self.pool_stats
+        self.metrics["credited"].set(pool_stats.credited(stats) if stats else "—")
+        self.pool_line.set((pool_stats.summary(stats) if stats else "")+(" Не удалось обновить, показаны прошлые данные." if stats and self.pool_failed else "Пул сейчас не отвечает, повторим позже." if self.pool_failed else "" if stats else "Запрашиваю баланс у пула…"))
 
     @staticmethod
     def state_text(row):
@@ -376,6 +411,7 @@ class Dashboard:
         remote_active=sum(status.get("active",0) for status in online.values())
         self.metrics["devices"].set(str(len(devices)+sum(len(status.get("devices",{})) for status in online.values())));self.metrics["active"].set(str(snap["active"]+remote_active))
         self.metrics["power"].set(f"{sum(powers):.0f} Вт" if powers else "—")
+        self._pool_tick(now)
         self.refresh_button.state(["disabled"] if snap["refreshing"] or snap["active"] else ["!disabled"])
         self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
         self.mine_button.state(["!disabled"] if (self.checked or self.peer_mine) and not snap["refreshing"] and not self.closing else ["disabled"])

@@ -37,7 +37,7 @@ MAX_SECONDS=7*86400
 
 
 def pool_dialect(url):
-    return "kryptex" if is_kryptex(url) else "object"
+    return "kryptex-v2" if is_kryptex(url) else "object"
 
 
 def select_card(request):

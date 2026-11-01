@@ -13,7 +13,7 @@ from tests_portable.test_core import fixture_address
 class LivePolicyTests(unittest.TestCase):
     def config(self):return Config(fixture_address(3),"stratum+ssl://prl.kryptex.network:8048")
     def test_dialect_only_for_the_exact_kryptex_domain(self):
-        self.assertEqual(pool_dialect("stratum+ssl://prl-sg.kryptex.network:8048"),"kryptex")
+        self.assertEqual(pool_dialect("stratum+ssl://prl-sg.kryptex.network:8048"),"kryptex-v2")
         self.assertEqual(pool_dialect("stratum+ssl://kryptex.network.example.com:8048"),"object")
     def test_needs_saved_destination_and_bounded_explicit_options(self):
         with self.assertRaisesRegex(ValueError,"кошелёк"):LiveMining(Config(),seconds=60,duty=1,device_index="0")

@@ -301,13 +301,13 @@ class PoolClient:
                 # Subscribe can be silent; send it without waiting for an ack, as captured.
                 sent = threading.Event()
                 self.sequence += 1
-                frame = json.dumps({"jsonrpc":"2.0","id":self.sequence,"method":"mining.subscribe","params":["boris-pearl/0.2"]}).encode()+b"\n"
+                frame = json.dumps({"jsonrpc":"2.0","id":self.sequence,"method":"mining.subscribe","params":["pearlmine/0.4"]}).encode()+b"\n"
                 self.outgoing.put_nowait((frame, sent, [], None))
                 params = [f"{self.session.wallet}.{self.worker_name}", "x"]
             elif self.dialect == "kryptex-v2":
-                params = {"wallet": f"{self.session.wallet}.{self.worker_name}", "agent":"boris-pearl/0.2", "password":"x", "type":"v2"}
+                params = {"wallet": f"{self.session.wallet}.{self.worker_name}", "agent":"pearlmine/0.4", "password":"x", "type":"v2"}
             else:
-                params = {"wallet":self.session.wallet,"worker":self.worker_name,"agent":"boris-pearl/0.2"}
+                params = {"wallet":self.session.wallet,"worker":self.worker_name,"agent":"pearlmine/0.4"}
             reply = self._request("mining.authorize", params, jsonrpc=self.dialect != "object")
             if not self.accepted(reply):
                 raise PoolError("Pool authorization rejected")

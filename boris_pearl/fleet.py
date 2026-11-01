@@ -16,7 +16,8 @@ from .control_center import human_error
 
 # One shell loop over one SSH connection. The miner lines appear only where the service is installed.
 MINER_ROOTS=("/srv/spark/pearlmine","/root/pearlmine")
-QUERY=("while :; do nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits; "
+# The echo is what ends the loop once the panel is gone: nothing else here notices a closed connection.
+QUERY=("while :; do echo PEARLMINE_ALIVE || exit; nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits; "
     +"".join(f"[ -f {root}/src/tools/spark-status.sh ] && bash {root}/src/tools/spark-status.sh; " for root in MINER_ROOTS)+"sleep 3; done")
 
 

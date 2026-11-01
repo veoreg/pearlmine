@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from boris_pearl.config import Config
 from boris_pearl.remote_control import RemoteClient
 
 try:
@@ -18,6 +19,7 @@ except ImportError:
     tk=None
 from boris_pearl.control_center import DeviceService
 from tests_portable.test_control_center import devices,FakeSession
+from tests_portable.test_core import fixture_address
 from tests_portable.test_devices import U1
 
 WALLET_BAD="prl1pnotvalid"
@@ -70,6 +72,20 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(self.ui.config_vars["user_pool"].get(),"stratum+ssl://pool.example:443")
         self.assertEqual(self.ui.config_vars["pool_fee_percent"].get(),"1.5")
         self.assertEqual(self.ui.profile.get(),"Ноутбук");self.assertEqual(self.ui.duration.get(),"3 мин")
+    def test_credited_balance_shows_for_the_saved_address_and_survives_a_failed_read(self):
+        wallet=fixture_address(3);self.assertEqual(self.ui.metrics["credited"].get(),"—")
+        calls=[]
+        def reader(address):
+            calls.append(address)
+            if len(calls)>1:raise OSError("pool down")
+            return dict(pending=.003903,confirmed=0.0,threshold=1.0,paid=0.0,workers=[dict(name="pearlmine",online=False,valid=3,stale=0,invalid=0,th_30m=0.0,th_24h=.3)])
+        self.ui.pool_reader=reader;self.ui.saved_config=Config(wallet,"stratum+ssl://prl-sg.kryptex.network:8048")
+        self.pump(lambda:self.ui.metrics["credited"].get()=="0.003903 PRL")
+        self.assertEqual(calls,[wallet]);self.assertIn("принято 3",self.ui.pool_line.get());self.assertIn("от 1 PRL",self.ui.pool_line.get())
+        self.ui.pool_next=0;self.pump(lambda:"прошлые данные" in self.ui.pool_line.get())
+        self.assertEqual(self.ui.metrics["credited"].get(),"0.003903 PRL")
+        self.ui.saved_config=Config(wallet,"stratum+ssl://pool.example:443");self.pump(lambda:self.ui.metrics["credited"].get()=="—")
+        self.assertEqual(self.ui.pool_line.get(),"");self.assertEqual(len(calls),2)
     def test_bad_form_gives_russian_error_and_does_not_block_remembering_a_computer(self):
         self.ui.config_vars["user_wallet"].set(WALLET_BAD);self.ui.save_settings()
         self.assertIn("prl1p",self.ui.settings_message.get());self.assertFalse(self.path.exists())
