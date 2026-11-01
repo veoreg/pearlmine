@@ -46,8 +46,18 @@ def write_status(**values):
 def client_work_waiting():
     state=read_json(CLIENTS,{}) or {}
     if state.get("comfy_running") or state.get("comfy_pending"):return True
-    try:return any(INCOMING.iterdir())
-    except OSError:return False
+    try:
+        if any(INCOMING.iterdir()):return True
+    except OSError:pass
+    return other_job_waiting()
+
+
+def other_job_waiting():
+    """Another heavy job queued on the lock: mining is the lowest priority, so it gets the machine now."""
+    try:
+        rows=subprocess.run(["pgrep","-af","spark_heavy.py"],capture_output=True,text=True,timeout=5).stdout.splitlines()
+    except (OSError,subprocess.SubprocessError):return False
+    return any(" run " in row and "--name pearlmine" not in row and "pgrep" not in row for row in rows)
 
 
 def lock_holder():
