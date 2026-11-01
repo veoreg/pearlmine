@@ -36,6 +36,10 @@ LAPTOP_DUTY=.1
 MAX_SECONDS=7*86400
 
 
+# Changing job costs seconds of preparation on the fast worker, so the 2% is paid as one turn of about 100 minutes' worth.
+FEE_BURST_NS=120_000_000_000
+
+
 def pool_dialect(url):
     return "kryptex-v2" if is_kryptex(url) else "object"
 
@@ -131,6 +135,7 @@ class LiveMining:
             consent=LiveRunConsent(self.config.identity,selected.cuda_index,stop_at)
             self.worker=CudaWorker(self.binary,expected,verifier,config_identity=self.config.identity,live_consent=consent,
                 expected_device_uuid=selected.uuid,cpu_threads=16,graceful_job_change=True)
+            self.worker.fee_burst_ns=FEE_BURST_NS
             self.state_dir.mkdir(parents=True,exist_ok=True)
             ledger=self.state_dir/("ledger-"+sha256((self.config.identity+selected.uuid).encode()).hexdigest()[:24]+".json")
             self.controller=Controller(self.config,router,guard,ledger,worker=self.worker,sample=self._sample_with_board if gb10 else self.monitor.sample,

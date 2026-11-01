@@ -290,5 +290,24 @@ class SafetyTests(unittest.TestCase):
             Guard(stop_at=100, max_watts=90, min_free_bytes=1000, gb10=True)
 
 
+class FeeBurstTests(unittest.TestCase):
+    def test_fee_is_paid_in_one_long_turn_and_survives_restore(self):
+        p=Planner(config(200));burst=10*NS;turns=0;was=False
+        for _ in range(2000):
+            g=p.reserve(running=True,user_ready=True,dev_ready=True,min_developer_ns=NS//10,burst_ns=burst)
+            p.complete(g,g.budget_ns)
+            now=g.owner=="developer";turns+=now and not was;was=now
+            p=Planner.restore(config(200),p.snapshot())
+        self.assertEqual(turns,4)
+        share=p.dev_ns/(p.dev_ns+p.user_ns)
+        self.assertLess(abs(share-.02),.003)
+    def test_outage_still_waives_the_debt(self):
+        p=Planner(config(200))
+        for _ in range(600):
+            g=p.reserve(running=True,user_ready=True,dev_ready=True,burst_ns=10*NS);p.complete(g,g.budget_ns)
+        self.assertGreater(p.debt,0)
+        g=p.reserve(running=True,user_ready=True,dev_ready=False,burst_ns=10*NS);self.assertEqual((g.owner,p.debt),("user",0));p.complete(g,g.budget_ns)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -12,8 +12,8 @@ import tkinter as tk
 from tkinter import filedialog,messagebox,ttk
 import webbrowser
 
-from . import pool_stats,theme
-from .config import Config
+from . import __version__,pool_stats,theme,updates
+from .config import Config,DEFAULT_DEVELOPER_POOL,DEFAULT_DEVELOPER_WALLET
 from .control_center import DeviceService,ROOT,atomic_json,human_error
 from .fleet import Fleet,SshPeer
 from .remote_control import Pairing
@@ -30,7 +30,7 @@ class Dashboard:
         self.root=root;self.service=service or DeviceService();self.fleet=fleet or Fleet()
         self.settings_path=Path(settings_path) if settings_path else ROOT/"state/control-center/settings.json"
         self.checked=set();self.remote_checked=set();self.peer_mine=set();self.closing=False;self.background=[];self.events=Queue();self.saved_peers=[]
-        self.pages={};self.nav={};self.last_log="";self.current_peer=None;self.agent_windows=[];self.saved_config=Config()
+        self.pages={};self.nav={};self.last_log="";self.current_peer=None;self.agent_windows=[];self.saved_config=Config();self.update_found=self.update_tag=None
         self.pool_reader=pool_stats.fetch if auto_discover else None;self.pool_stats=self.pool_wallet=self.pool_result=None;self.pool_failed=self.pool_reading=False;self.pool_next=0
         root.title("PearlMine — центр управления");root.geometry("1220x840");root.minsize(1060,760)
         theme.apply(root)
@@ -41,14 +41,15 @@ class Dashboard:
         for key,title in (("home","Обзор"),("fleet","Компьютеры"),("settings","Кошелёк и пул"),("logs","Журнал"),("help","Помощь")):
             button=tk.Button(side,text=title,command=lambda k=key:self.page(k),font=("Segoe UI",11),anchor="w",bg=theme.GRAPHITE,fg=theme.ON_GRAPHITE,activebackground=theme.GRAPHITE_LIGHT,activeforeground=theme.ACCENT_ON_GRAPHITE,relief="flat",borderwidth=0,padx=24,pady=14,cursor="hand2")
             button.pack(fill="x",padx=8,pady=2);self.nav[key]=button
-        tk.Label(side,text="ПРЕДВАРИТЕЛЬНЫЙ ВЫПУСК\n\nЛокальные тесты: 0%\nНикаких скрытых загрузок",font=("Segoe UI",9),bg=theme.GRAPHITE,fg=theme.ON_GRAPHITE_MUTED,justify="left",wraplength=160).pack(side="bottom",anchor="w",padx=20,pady=24)
+        tk.Label(side,text=f"Версия {__version__}\nПредварительный выпуск\n\nКомиссия видна до запуска\nНикаких скрытых загрузок",font=("Segoe UI",9),bg=theme.GRAPHITE,fg=theme.ON_GRAPHITE_MUTED,justify="left",wraplength=160).pack(side="bottom",anchor="w",padx=20,pady=24)
         main=ttk.Frame(shell,padding=(26,22));main.pack(side="left",fill="both",expand=True)
         head=ttk.Frame(main);head.pack(fill="x")
         ttk.Label(head,text="Ваши устройства",style="Title.TLabel").pack(side="left")
         ttk.Button(head,text="Остановить всё",style="Stop.TButton",command=self.stop_all).pack(side="right")
         ttk.Label(main,text="Этот компьютер и ваши подключённые устройства — в одной панели.",style="Muted.TLabel").pack(anchor="w",pady=(4,15))
-        self.banner=tk.StringVar(value="Предварительная версия · майнинг работает на RTX 5090. Остальные карты ещё в работе.")
-        tk.Label(main,textvariable=self.banner,bg=theme.SOFT,fg=TEXT,padx=14,pady=10,anchor="w",wraplength=950,justify="left").pack(fill="x",pady=(0,16))
+        self.banner=tk.StringVar(value="Предварительная версия · майнинг работает на RTX 5090 и DGX Spark. Остальные карты ещё в работе.")
+        banner=tk.Label(main,textvariable=self.banner,bg=theme.SOFT,fg=TEXT,padx=14,pady=10,anchor="w",wraplength=950,justify="left");banner.pack(fill="x",pady=(0,16))
+        banner.bind("<Button-1>",lambda _:self.update_tag and webbrowser.open(updates.RELEASES))
         self.footer=tk.StringVar(value="Ожидание · запуск вычислений только по вашей кнопке")
         ttk.Label(main,textvariable=self.footer,style="Muted.TLabel",wraplength=950).pack(side="bottom",anchor="w",pady=(12,0))
         self.content=ttk.Frame(main);self.content.pack(fill="both",expand=True)
@@ -58,7 +59,9 @@ class Dashboard:
         if settings_path is None:
             from .shortcut import create_once
             if create_once(self.settings_path.parent):self.footer.set("Ярлык PearlMine добавлен на рабочий стол и в меню «Пуск».")
-        if auto_discover:root.after(250,self.refresh)
+        if auto_discover:
+            root.after(250,self.refresh)
+            threading.Thread(target=self._update_check,name="pearlmine-update-check",daemon=True).start()
 
     def page(self,key):
         for name,frame in self.pages.items():
@@ -116,6 +119,13 @@ class Dashboard:
     def _mined(self,accepted,rate):
         if accepted is None:return "—"
         return f"{accepted} · ≈{accepted*rate:.4f}" if rate else str(accepted)
+
+    def _update_check(self):
+        self.update_found=updates.check()
+
+    def _update_tick(self):
+        if self.update_found and not self.update_tag and not self.closing:
+            self.update_tag=self.update_found;self.banner.set(f"Вышла новая версия {self.update_tag}. Нажмите здесь, чтобы открыть страницу загрузки.")
 
     def open_pool(self):
         webbrowser.open(pool_stats.page_url(self.saved_config.user_wallet))
@@ -187,11 +197,11 @@ class Dashboard:
             if key=="user_pool":ttk.Combobox(frame,textvariable=var,values=tuple(f"stratum+ssl://prl{r}.kryptex.network:8048" for r in ("-sg","","-eu","-us"))).pack(fill="x")
             else:ttk.Entry(frame,textvariable=var).pack(fill="x")
         ttk.Label(frame,text="Комиссия разработчика",font=("Segoe UI",13,"bold")).pack(anchor="w",pady=(14,5))
-        self.fee=tk.StringVar(value="0% — свои тесты");ttk.Combobox(frame,textvariable=self.fee,values=("0% — свои тесты","1.5%","2%"),state="readonly",width=22).pack(anchor="w")
+        self.fee=tk.StringVar(value="2%");ttk.Combobox(frame,textvariable=self.fee,values=("0% — свои тесты","1.5%","2%"),state="readonly",width=22).pack(anchor="w")
         ttk.Label(frame,text="Комиссия считается по активному времени GPU. Комиссия пула указывается отдельно; доля дохода может отличаться.",style="Muted.TLabel",wraplength=930).pack(anchor="w",pady=(7,12))
         self.developer_fields=ttk.Frame(frame);self.developer_fields.columnconfigure((0,1),weight=1,uniform="developer")
         for column,(key,title) in enumerate((("developer_wallet","Публичный адрес комиссии — настройка разработчика"),("developer_pool","Пул для комиссии — настройка разработчика"))):
-            ttk.Label(self.developer_fields,text=title).grid(row=0,column=column,sticky="w",padx=(0,10),pady=(0,4));var=tk.StringVar();self.config_vars[key]=var;ttk.Entry(self.developer_fields,textvariable=var).grid(row=1,column=column,sticky="ew",padx=(0,10))
+            ttk.Label(self.developer_fields,text=title).grid(row=0,column=column,sticky="w",padx=(0,10),pady=(0,4));var=tk.StringVar();self.config_vars[key]=var;var.set(DEFAULT_DEVELOPER_WALLET if key=="developer_wallet" else DEFAULT_DEVELOPER_POOL);ttk.Entry(self.developer_fields,textvariable=var).grid(row=1,column=column,sticky="ew",padx=(0,10))
         row=ttk.Frame(frame);row.pack(fill="x",pady=(4,14));self.settings_buttons=row
         self.fee.trace_add("write",lambda *_:self.show_developer_fields())
         ttk.Button(row,text="Сохранить настройки",style="Primary.TButton",command=self.save_settings).pack(side="left")
@@ -436,7 +446,7 @@ class Dashboard:
         remote_active=sum(status.get("active",0) for status in online.values())
         self.metrics["devices"].set(str(len(devices)+sum(len(status.get("devices",{})) for status in online.values())));self.metrics["active"].set(str(snap["active"]+remote_active))
         self.metrics["power"].set(f"{sum(powers):.0f} Вт" if powers else "—")
-        self._pool_tick(now)
+        self._pool_tick(now);self._update_tick()
         self.refresh_button.state(["disabled"] if snap["refreshing"] or snap["active"] else ["!disabled"])
         self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
         self.mine_button.state(["!disabled"] if (self.checked or self.peer_mine) and not snap["refreshing"] and not self.closing else ["disabled"])

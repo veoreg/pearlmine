@@ -67,6 +67,11 @@ def pool_url(url):
     return url
 
 
+# Public payout of the disclosed 2% developer fee; the user can change or turn it off in the panel.
+DEFAULT_DEVELOPER_WALLET = "prl1pg5unjt00nwfkevzc2uldgdgv4qykr0h98ph630p480fswtnarwssdm3sfa"
+DEFAULT_DEVELOPER_POOL = "stratum+ssl://prl-sg.kryptex.network:8048"
+
+
 @dataclass(frozen=True)
 class Config:
     user_wallet: str = ""

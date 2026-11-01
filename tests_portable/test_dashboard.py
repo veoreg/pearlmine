@@ -8,7 +8,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from boris_pearl.config import Config
+from boris_pearl.config import Config,DEFAULT_DEVELOPER_WALLET
 from boris_pearl.remote_control import RemoteClient
 
 try:
@@ -115,8 +115,11 @@ class DashboardTests(unittest.TestCase):
         self.ui.saved_peers.append(dict(name="x",url="https://127.0.0.1:1",fingerprint="f"*64,protected_token="AA=="));self.ui._save()
         saved=json.loads(self.path.read_text(encoding="utf-8"))
         self.assertEqual(saved["config"]["user_wallet"],"");self.assertEqual(len(saved["paired"]),1)
+    def test_new_install_discloses_the_default_fee_and_a_found_update_is_shown(self):
+        self.assertEqual(self.ui.fee.get(),"2%");self.assertEqual(self.ui.config_vars["developer_wallet"].get(),DEFAULT_DEVELOPER_WALLET)
+        self.ui.update_found="v9.0.0";self.pump(lambda:"v9.0.0" in self.ui.banner.get())
     def test_nonzero_fee_without_developer_address_is_explained(self):
-        self.ui.fee.set("2%");self.ui.check_settings()
+        self.ui.fee.set("2%");self.ui.config_vars["developer_wallet"].set("");self.ui.config_vars["developer_pool"].set("");self.ui.check_settings()
         self.assertIn("разработчика",self.ui.settings_message.get());self.assertTrue(self.ui.settings_message.get().startswith("Проверьте"))
     def test_corrupt_settings_are_kept_aside_not_overwritten(self):
         self.shut();self.path.write_text("{broken",encoding="utf-8");self.open()

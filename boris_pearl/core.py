@@ -54,8 +54,11 @@ class Planner:
         self.uncertain_dev_ns = 0
         self.sequence = 0
         self.pending = None
+        self.cap_ns = quantum_ns
+        self.bursting = False
 
-    def reserve(self, *, running, user_ready, dev_ready, min_developer_ns=0):
+    def reserve(self, *, running, user_ready, dev_ready, min_developer_ns=0, burst_ns=0):
+        """burst_ns: a worker whose job switch is expensive pays the fee in rare long turns instead of many short ones."""
         if not natural(min_developer_ns) or min_developer_ns > self.quantum:
             raise ValueError("Invalid minimum developer slice")
         if self.pending:
@@ -65,8 +68,13 @@ class Planner:
         if not dev_ready:
             # Lost fee time is waived; do not repay an outage as a burst.
             self.debt = 0
+        self.cap_ns = max(self.cap_ns, 2 * burst_ns)
         budget = min(self.quantum, self.debt // self.den)
-        owner = "developer" if self.bps and dev_ready and budget and budget >= min_developer_ns else "user"
+        due = bool(budget and budget >= min_developer_ns)
+        if burst_ns:
+            self.bursting = self.debt // self.den >= burst_ns or (self.bursting and due)
+            due = due and self.bursting
+        owner = "developer" if self.bps and dev_ready and due else "user"
         if owner == "developer":
             self.debt -= budget * self.den
         else:
@@ -86,11 +94,11 @@ class Planner:
         else:
             self.user_ns += active_ns
             if grant.accrue:
-                self.debt = min(self.quantum * self.den, self.debt + active_ns * self.bps)
+                self.debt = min(self.cap_ns * self.den, self.debt + active_ns * self.bps)
         self.pending = None
 
     def snapshot(self):
-        return {"version": 1, "policy": self.config.identity, "quantum_ns": self.quantum,
+        return {"version": 1, "policy": self.config.identity, "quantum_ns": self.quantum, "cap_ns": self.cap_ns, "bursting": self.bursting,
                 "debt": self.debt, "user_ns": self.user_ns, "dev_ns": self.dev_ns,
                 "uncertain_dev_ns": self.uncertain_dev_ns, "sequence": self.sequence,
                 "pending": asdict(self.pending) if self.pending else None}
@@ -104,7 +112,11 @@ class Planner:
             if not natural(state.get(name)):
                 raise ValueError(f"Invalid state field: {name}")
             setattr(obj, name, state[name])
-        if obj.debt > obj.quantum * obj.den:
+        obj.cap_ns = state.get("cap_ns", obj.quantum)
+        if not natural(obj.cap_ns) or obj.cap_ns < obj.quantum:
+            raise ValueError("Invalid fee cap")
+        obj.bursting = state.get("bursting") is True
+        if obj.debt > obj.cap_ns * obj.den:
             raise ValueError("Invalid fee debt")
         pending = state.get("pending")
         if pending is not None:

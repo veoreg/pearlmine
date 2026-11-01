@@ -163,7 +163,8 @@ class CudaWorker:
             params = dict(spec.__dict__, binding=binding, certificate_version=job.certificate_version,
                           job_id=job.job_id, session_id=job.session.epoch, generation=job.session.epoch)
             if key in self.checkpoints:
-                params.update(resume_nonce=self.checkpoints[key][0],resume_cursor=self.checkpoints[key][1])
+                # The fast worker counts whole attempts: the interrupted one starts over on the next nonce, so no proof repeats.
+                params.update(resume_nonce=self.checkpoints[key][0]+(spec.backend=="tma"),resume_cursor=self.checkpoints[key][1])
             prepared = self.transport.request("prepare", params, timeout=120 if self.live_consent is not None else 30, permit=allowed)
             if prepared.get("binding") != binding or prepared.get("nbits_share") != compact_target(spec.target):
                 raise WorkerError("Prepared job/target does not match originating session")
@@ -171,6 +172,9 @@ class CudaWorker:
                 self.close()
                 raise WorkerError("CUDA device differs from the GPU monitored by NVML")
             self.active_binding = binding
+            if spec.backend=="tma" and key in self.checkpoints:
+                # A re-prepared fast job counts its tiles from zero again.
+                self.checkpoints[key]=(*self.checkpoints[key][:2],prepared.get("total_tiles",0))
         result = self.transport.request("chunk", {"binding": binding, "budget_ns": budget_ns,
                     "max_tiles":self.chunk_tiles}, timeout=timeout, permit=allowed)
         active = result.get("active_ns")

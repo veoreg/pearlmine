@@ -101,7 +101,8 @@ class Controller:
         work_started = self.monotonic()
         try:
             grant = self.planner.reserve(running=True, user_ready=True, dev_ready=developer_ready,
-                                         min_developer_ns=getattr(self.worker, "minimum_slice_ns", 0))
+                                         min_developer_ns=getattr(self.worker, "minimum_slice_ns", 0),
+                                         burst_ns=getattr(self.worker, "fee_burst_ns", 0))
             job = developer_job if grant.owner == "developer" else user_job
             self.persist(self.state_path, self.planner)  # write-ahead: failure must prevent execute
             if self.worker.process is None:
