@@ -119,7 +119,7 @@ def session(_args):
     if seconds<1:return
     set_clock(MINING_CLOCK)
     miner=LiveMining(Config(want["wallet"],want["pool"]),seconds=seconds,duty=1,device_index="0")
-    ending=None;published=0;started=time.monotonic()
+    ending=None;published=0;started=time.monotonic();clock_checked=started
     def counts():
         return dict(accepted=base["accepted"]+miner.shares["accepted"],rejected=base["rejected"]+miner.shares["rejected"])
     try:
@@ -129,6 +129,8 @@ def session(_args):
             if STOP.exists():ending="manual stop";break
             if client_work_waiting():ending="yield";break
             now=time.monotonic()
+            # The Spark's heat watchdog resets clocks when it releases its own limit: keep ours in place.
+            if now-clock_checked>=20:clock_checked=now;set_clock(MINING_CLOCK)
             if now-published>=3:
                 published=now;sample=miner.monitor.sample()
                 write_status(state="running",th=round(miner.mined_tiles*524288/max(1,now-started)/1e12,1),reason=None,
