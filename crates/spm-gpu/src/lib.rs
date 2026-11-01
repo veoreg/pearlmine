@@ -29,6 +29,13 @@ pub fn version() -> String {
     ffi::version()
 }
 
+/// Binds the calling thread to CUDA device `index` and returns its physical identity.
+pub fn select_device(index: u32) -> anyhow::Result<String> {
+    let (rc, uuid) = ffi::select_device(i32::try_from(index)?);
+    anyhow::ensure!(rc == 0, "cudaSetDevice failed with CUDA error {rc}");
+    Ok(uuid)
+}
+
 pub fn device_info() -> anyhow::Result<DeviceInfo> {
     let (rc, raw) = ffi::device_info();
     anyhow::ensure!(

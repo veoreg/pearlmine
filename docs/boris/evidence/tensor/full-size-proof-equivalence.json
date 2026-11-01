@@ -8,7 +8,7 @@
       "m": 131072,
       "n": 131072,
       "k": 4096,
-      "active_ns": 126080,
+      "active_ns": 127744,
       "wire_bytes": 102193,
       "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
       "official": true
@@ -18,7 +18,7 @@
       "m": 131072,
       "n": 131072,
       "k": 4096,
-      "active_ns": 112608,
+      "active_ns": 112704,
       "wire_bytes": 102193,
       "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
       "official": true
@@ -28,7 +28,7 @@
       "m": 131072,
       "n": 131072,
       "k": 4096,
-      "active_ns": 37631,
+      "active_ns": 37567,
       "wire_bytes": 102193,
       "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
       "official": true

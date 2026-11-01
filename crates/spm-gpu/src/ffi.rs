@@ -86,6 +86,7 @@ pub(crate) struct JobInfoRaw {
 }
 
 extern "C" {
+    fn spm_cuda_select_device(index: i32, uuid: *mut c_char, uuid_len: u32) -> i32;
     fn spm_cuda_device_info(out: *mut DeviceInfoRaw) -> i32;
     fn spm_cuda_imma_peak(seconds: f64) -> f64;
     fn spm_cuda_version() -> *const c_char;
@@ -146,6 +147,18 @@ pub(crate) fn status_str(status: i32) -> String {
 pub(crate) fn last_cuda_error() -> i32 {
     // SAFETY: reads a thread-local integer on the C side.
     unsafe { spm_last_cuda_error() }
+}
+
+pub(crate) fn select_device(index: i32) -> (i32, String) {
+    let mut uuid = [0 as c_char; 64];
+    // SAFETY: fixed writable buffer whose exact capacity is passed along.
+    let rc = unsafe { spm_cuda_select_device(index, uuid.as_mut_ptr(), uuid.len() as u32) };
+    if rc != 0 {
+        return (rc, String::new());
+    }
+    // SAFETY: on success the library wrote a NUL-terminated string inside the buffer.
+    let text = unsafe { CStr::from_ptr(uuid.as_ptr()) };
+    (rc, text.to_string_lossy().into_owned())
 }
 
 pub(crate) fn device_info() -> (i32, DeviceInfoRaw) {

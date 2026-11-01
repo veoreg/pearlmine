@@ -42,7 +42,7 @@ class Dashboard:
         ttk.Label(head,text="Ваши устройства",style="Title.TLabel").pack(side="left")
         ttk.Button(head,text="Остановить всё",style="Stop.TButton",command=self.stop_all).pack(side="right")
         ttk.Label(main,text="Этот компьютер и ваши подключённые устройства — в одной панели.",style="Muted.TLabel").pack(anchor="w",pady=(4,15))
-        self.banner=tk.StringVar(value="Предварительная версия · реальный майнинг ещё не включён. Доступны безопасные локальные тесты.")
+        self.banner=tk.StringVar(value="Предварительная версия · майнинг работает на RTX 5090. Остальные карты ещё в работе.")
         tk.Label(main,textvariable=self.banner,bg=theme.SOFT,fg=TEXT,padx=14,pady=10,anchor="w",wraplength=950,justify="left").pack(fill="x",pady=(0,16))
         self.footer=tk.StringVar(value="Ожидание · запуск вычислений только по вашей кнопке")
         ttk.Label(main,textvariable=self.footer,style="Muted.TLabel",wraplength=950).pack(side="bottom",anchor="w",pady=(12,0))
@@ -80,8 +80,13 @@ class Dashboard:
         ttk.Combobox(controls,textvariable=self.profile,values=("Обычный компьютер","Ноутбук"),state="readonly",width=20).pack(side="left",padx=(8,18))
         ttk.Label(controls,text="Длительность").pack(side="left");self.duration=tk.StringVar(value="1 мин")
         ttk.Combobox(controls,textvariable=self.duration,values=("30 сек","1 мин","3 мин","5 мин"),state="readonly",width=9).pack(side="left",padx=8)
-        self.start_button=ttk.Button(controls,text="Запустить тест выбранных",style="Primary.TButton",command=self.start);self.start_button.pack(side="right")
-        ttk.Label(home,text="Тест проверяет выбранные карты без пула и выплат. Ноутбук — до 10% рабочего времени; обычный ПК — 20%.",style="Muted.TLabel",wraplength=940).pack(anchor="w",pady=(10,18))
+        self.start_button=ttk.Button(controls,text="Тест без пула",command=self.start);self.start_button.pack(side="right")
+        mining=ttk.Frame(home);mining.pack(fill="x",pady=(8,12))
+        ttk.Label(mining,text="Нагрузка").pack(side="left");self.load=tk.StringVar(value="100%")
+        ttk.Combobox(mining,textvariable=self.load,values=("25%","50%","100%"),state="readonly",width=8).pack(side="left",padx=(8,18))
+        ttk.Label(mining,text="Майнить").pack(side="left");self.mine_for=tk.StringVar(value="24 часа")
+        ttk.Combobox(mining,textvariable=self.mine_for,values=("1 час","8 часов","24 часа","7 дней"),state="readonly",width=9).pack(side="left",padx=8)
+        self.mine_button=ttk.Button(mining,text="Начать майнинг",style="Primary.TButton",command=self.start_mining);self.mine_button.pack(side="right")
         detail=tk.Frame(home,bg=CARD,padx=18,pady=14,highlightthickness=1,highlightbackground=theme.LINE);detail.pack(fill="x")
         tk.Label(detail,text="Что происходит сейчас",bg=CARD,fg=TEXT,font=("Segoe UI",12,"bold")).pack(anchor="w")
         self.activity=tk.StringVar(value="Вычисления не запущены. Ничего не загружается.")
@@ -122,8 +127,10 @@ class Dashboard:
         frame=self.frame("settings");ttk.Label(frame,text="Кошелёк и пул",font=("Segoe UI",17,"bold")).pack(anchor="w")
         ttk.Label(frame,text="Достаточно публичного адреса PRL. Секретные ключи и seed-фразы приложению не нужны.",style="Muted.TLabel",wraplength=900).pack(anchor="w",pady=(7,18))
         self.config_vars={}
-        for key,title in (("user_wallet","Ваш публичный адрес PRL"),("user_pool","Ваш пул — stratum+ssl://адрес:порт"),("pool_fee_percent","Комиссия пула, % — оставьте пустым, если неизвестна")):
-            ttk.Label(frame,text=title).pack(anchor="w",pady=(5,3));var=tk.StringVar();self.config_vars[key]=var;ttk.Entry(frame,textvariable=var).pack(fill="x")
+        for key,title in (("user_wallet","Куда платить: публичный адрес PRL или логин Kryptex"),("user_pool","Ваш пул — stratum+ssl://адрес:порт"),("pool_fee_percent","Комиссия пула, % — оставьте пустым, если неизвестна")):
+            ttk.Label(frame,text=title).pack(anchor="w",pady=(5,3));var=tk.StringVar();self.config_vars[key]=var
+            if key=="user_pool":ttk.Combobox(frame,textvariable=var,values=tuple(f"stratum+ssl://prl{r}.kryptex.network:8048" for r in ("-sg","","-eu","-us"))).pack(fill="x")
+            else:ttk.Entry(frame,textvariable=var).pack(fill="x")
         ttk.Label(frame,text="Комиссия разработчика",font=("Segoe UI",13,"bold")).pack(anchor="w",pady=(14,5))
         self.fee=tk.StringVar(value="0% — свои тесты");ttk.Combobox(frame,textvariable=self.fee,values=("0% — свои тесты","1.5%","2%"),state="readonly",width=22).pack(anchor="w")
         ttk.Label(frame,text="Комиссия считается по активному времени GPU. Комиссия пула указывается отдельно; доля дохода может отличаться.",style="Muted.TLabel",wraplength=930).pack(anchor="w",pady=(7,12))
@@ -134,7 +141,7 @@ class Dashboard:
         self.fee.trace_add("write",lambda *_:self.show_developer_fields())
         ttk.Button(row,text="Сохранить настройки",style="Primary.TButton",command=self.save_settings).pack(side="left")
         ttk.Button(row,text="Проверить",command=self.check_settings).pack(side="left",padx=8)
-        self.settings_message=tk.StringVar(value="Сохранение настроек не запускает майнинг и не подключает пул.")
+        self.settings_message=tk.StringVar(value="Сохранение настроек ничего не запускает и не подключает пул.")
         ttk.Label(frame,textvariable=self.settings_message,style="Muted.TLabel",wraplength=930).pack(anchor="w")
 
     def _logs(self):
@@ -147,7 +154,7 @@ class Dashboard:
 
     def _help(self):
         frame=self.frame("help");ttk.Label(frame,text="Простой запуск",font=("Segoe UI",17,"bold")).pack(anchor="w")
-        text="1. Откройте PearlMine.exe.\n\n2. На обзоре видны обнаруженные карты и их готовность. Отметьте нужные и запустите тест.\n\n3. В разделе «Кошелёк и пул» один раз сохраните публичный адрес и выбранный пул. Боевой запуск появится после проверки реальных shares.\n\n4. Для Spark и других компьютеров откройте «Компьютеры». На удалённом устройстве включите агент и перенесите код подключения в свою панель. Устройства могут находиться в разных местах, если связаны частной VPN-сетью.\n\n«Остановить всё» останавливает локальные и подключённые удалённые тесты. При закрытии программы её процессы завершаются.\n\nНичего не устанавливается и не скачивается автоматически. Поддержка модели показывается отдельно от наличия карты. Windows RTX 5090 прошла локальные проверки; другие модели ещё требуют физических испытаний."
+        text="1. Откройте PearlMine.exe.\n\n2. На обзоре видны обнаруженные карты и их готовность. Отметьте нужные и запустите тест.\n\n3. В разделе «Кошелёк и пул» один раз сохраните адрес или логин Kryptex и пул. Затем отметьте карту и нажмите «Начать майнинг».\n\n4. Для Spark и других компьютеров откройте «Компьютеры». На удалённом устройстве включите агент и перенесите код подключения в свою панель. Устройства могут находиться в разных местах, если связаны частной VPN-сетью.\n\n«Остановить всё» останавливает локальные и подключённые удалённые тесты. При закрытии программы её процессы завершаются.\n\nНичего не устанавливается и не скачивается автоматически. Поддержка модели показывается отдельно от наличия карты. Windows RTX 5090 прошла локальные проверки; другие модели ещё требуют физических испытаний."
         ttk.Label(frame,text=text,wraplength=880,justify="left",font=("Segoe UI",11)).pack(anchor="w",pady=18)
 
     def show_developer_fields(self):
@@ -198,6 +205,20 @@ class Dashboard:
 
     def start(self):
         try:self.service.start(list(self.checked),**self.options())
+        except Exception as exc:self.footer.set(human_error(exc))
+
+    def start_mining(self):
+        config=self.saved_config
+        if not config.user_wallet or not config.user_pool:
+            self.footer.set("Сначала сохраните кошелёк или логин и пул.");self.page("settings");return
+        laptop=self.profile.get()=="Ноутбук"
+        duty=.1 if laptop else {"25%":.25,"50%":.5,"100%":1}[self.load.get()]
+        seconds={"1 час":3600,"8 часов":28800,"24 часа":86400,"7 дней":604800}[self.mine_for.get()]
+        text=(f"Выплаты: {config.user_wallet}\nПул: {config.user_pool}\nКомиссия пула указана на его сайте, она отдельная.\n"
+            f"Комиссия разработчика: {config.effective_bps/100:g}% активного времени GPU.\nНагрузка: {duty*100:g}%, срок: {self.mine_for.get()}.\n\n"
+            "Карта будет под высокой нагрузкой и расходует электричество. При нагреве программа сбавит темп, при 83 °C остановится.\n\nНачать майнинг?")
+        if not messagebox.askokcancel("Начать майнинг",text,parent=self.root):return
+        try:self.service.start_mining(list(self.checked),config,seconds=seconds,duty=duty,profile="laptop" if laptop else "standard")
         except Exception as exc:self.footer.set(human_error(exc))
 
     def stop_all(self):self.service.stop();self.fleet.stop();self.footer.set("Останавливаю все принадлежащие программе тесты…")
@@ -315,9 +336,9 @@ class Dashboard:
         self.metrics["devices"].set(str(len(devices)+sum(len(status.get("devices",{})) for status in online.values())));self.metrics["active"].set(str(snap["active"]+remote_active))
         self.metrics["power"].set(f"{sum(powers):.0f} Вт" if powers else "—")
         self.refresh_button.state(["disabled"] if snap["refreshing"] or snap["active"] else ["!disabled"])
-        self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
+        for button in (self.start_button,self.mine_button):button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
         self.empty.set("Диагностика устройств…" if snap["refreshing"] else (snap["error"] or ("Нажмите на строку карты, чтобы отметить её." if devices else "Нет проверенного вычислительного модуля или доступных CUDA GPU. Откройте журнал для подробностей.")))
-        self.activity.set(f"Тесты: здесь {snap['active']}, на других компьютерах {remote_active}. Никаких подключений к пулу и загрузок." if snap["active"] or remote_active else "Вычисления не запущены. Ничего не загружается. Локальные тесты — комиссия 0%.")
+        self.activity.set(f"Идёт майнинг на {snap['mining']} GPU, подключение к вашему пулу открыто. Кнопка «Остановить всё» завершает его сразу." if snap.get("mining") else f"Тесты: здесь {snap['active']}, на других компьютерах {remote_active}. Без пула и выплат." if snap["active"] or remote_active else "Вычисления не запущены. Майнинг начинается только по вашей кнопке.")
         logs="\n".join(row["time"]+"  "+row["message"] for row in snap["logs"])
         if logs!=self.last_log:
             self.log_box.configure(state="normal");self.log_box.delete("1.0","end");self.log_box.insert("1.0",logs);self.log_box.see("end");self.log_box.configure(state="disabled");self.last_log=logs

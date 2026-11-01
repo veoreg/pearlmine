@@ -124,3 +124,5 @@ Primary-source research: evidence/amd/backend-research.json and AMD_OPENCL.md.
 
 Внутрь входят CPython, Tcl/Tk, cryptography и OpenSSL, собранные PyInstaller 6.11.1. Перед публичным выпуском нужно
 приложить их лицензии и перепроверить этот список. Сейчас сборка внутренняя.
+
+Быстрый worker кладёт рядом `cudart64_13.dll` из CUDA Toolkit 13.4.1. Перед публичным выпуском сверить условия распространения NVIDIA и приложить лицензию. CUTLASS (подмодуль на коммите `098de2a`) — BSD-3-Clause.

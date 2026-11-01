@@ -8,7 +8,7 @@
       "m": 64,
       "n": 64,
       "k": 2048,
-      "active_ns": 65696,
+      "active_ns": 65888,
       "wire_bytes": 51569,
       "wire_sha256": "c8a5954cddb218c66307deeb07aebb54c5ab1798ea988600ec0fd3f56c328f7f",
       "official": true
@@ -18,7 +18,7 @@
       "m": 64,
       "n": 64,
       "k": 2048,
-      "active_ns": 57792,
+      "active_ns": 58400,
       "wire_bytes": 51569,
       "wire_sha256": "c8a5954cddb218c66307deeb07aebb54c5ab1798ea988600ec0fd3f56c328f7f",
       "official": true
@@ -28,7 +28,7 @@
       "m": 64,
       "n": 64,
       "k": 2048,
-      "active_ns": 21983,
+      "active_ns": 20735,
       "wire_bytes": 51569,
       "wire_sha256": "c8a5954cddb218c66307deeb07aebb54c5ab1798ea988600ec0fd3f56c328f7f",
       "official": true
@@ -38,7 +38,7 @@
       "m": 64,
       "n": 64,
       "k": 2176,
-      "active_ns": 70143,
+      "active_ns": 70367,
       "wire_bytes": 68849,
       "wire_sha256": "3328597c9b480b07a969dc85f0a1a5507054e19e09dabd51feac8d9aaf6aa5a2",
       "official": true
@@ -48,7 +48,7 @@
       "m": 64,
       "n": 64,
       "k": 2176,
-      "active_ns": 60543,
+      "active_ns": 61535,
       "wire_bytes": 68849,
       "wire_sha256": "3328597c9b480b07a969dc85f0a1a5507054e19e09dabd51feac8d9aaf6aa5a2",
       "official": true
@@ -58,7 +58,7 @@
       "m": 64,
       "n": 64,
       "k": 2176,
-      "active_ns": 24000,
+      "active_ns": 21279,
       "wire_bytes": 68849,
       "wire_sha256": "3328597c9b480b07a969dc85f0a1a5507054e19e09dabd51feac8d9aaf6aa5a2",
       "official": true
@@ -68,7 +68,7 @@
       "m": 64,
       "n": 64,
       "k": 4096,
-      "active_ns": 127136,
+      "active_ns": 127744,
       "wire_bytes": 101489,
       "wire_sha256": "1504b5172c9e2cd6f4bbab8b6919604c974fff7e4a136075116452994bc00566",
       "official": true
@@ -78,7 +78,7 @@
       "m": 64,
       "n": 64,
       "k": 4096,
-      "active_ns": 110848,
+      "active_ns": 111936,
       "wire_bytes": 101489,
       "wire_sha256": "1504b5172c9e2cd6f4bbab8b6919604c974fff7e4a136075116452994bc00566",
       "official": true

@@ -46,7 +46,7 @@ class WorkerJob:
                 type(self.k) is not int or not 2048 <= self.k <= 4096 or self.k % 128):
             raise ValueError("Worker shape/target/device invalid")
         compact_target(self.target)
-        if self.backend not in ("dp4a","wmma-int8","mma-int8"):
+        if self.backend not in ("dp4a","wmma-int8","mma-int8","tma"):
             raise ValueError("Unknown explicit CUDA backend")
 
 
@@ -70,14 +70,15 @@ class CudaWorker:
 
     def __init__(self, binary, expected_sha256, verifier, *, config_identity=None, live_consent=None,
                  large_fixed_fixture=False, local_search_test=False, chunk_tiles=1,
-                 expected_device_uuid=None, cpu_threads=2):
+                 expected_device_uuid=None, cpu_threads=2, graceful_job_change=False):
         path = Path(binary)
         if not path.is_file() or sha256(path.read_bytes()).hexdigest() != expected_sha256:
             raise ValueError("GPU worker must match the recorded reviewed build SHA256")
         argv = [str(path.resolve())]
         self.binary,self.expected_sha256=path,expected_sha256
         self.live_consent = live_consent
-        if (type(cpu_threads) is not int or not 1<=cpu_threads<=8 or type(chunk_tiles) is not int or
+        self.graceful_job_change = graceful_job_change
+        if (type(cpu_threads) is not int or not 1<=cpu_threads<=32 or type(chunk_tiles) is not int or
                 not 1<=chunk_tiles<=64 or sum(bool(v) for v in (live_consent,large_fixed_fixture,local_search_test))>1):
             raise ValueError("Worker CPU/batch/mode limits invalid")
         self.chunk_tiles, self.expected_device_uuid = chunk_tiles, expected_device_uuid
@@ -152,6 +153,8 @@ class CudaWorker:
             if reason:
                 self.close()
                 raise WorkerInterrupted(reason)
+            if self.graceful_job_change:
+                return ChunkResult(0, [])  # The pool moved on a moment ago: nothing to run, not a fault.
             raise WorkerError("No immutable job bound to CUDA worker")
         job,spec,binding=bound
         if budget_ns < self.minimum_slice_ns:
@@ -173,15 +176,21 @@ class CudaWorker:
         active = result.get("active_ns")
         if (result.get("binding") != binding or result.get("canary_ok") is not True or
                 type(active) is not int or not 0 <= active <= budget_ns or
-                result.get("kernel_variant") != {"dp4a":4,"wmma-int8":16,"mma-int8":32}[spec.backend]):
+                result.get("kernel_variant") != {"dp4a":4,"wmma-int8":16,"mma-int8":32,"tma":64}[spec.backend]):
             raise WorkerError("CUDA activity or canary result invalid")
         self.minimum_slice_ns = min(1_000_000_000, max(self.minimum_slice_ns, active * 2))
         total,nonce,tile,done=(result.get(k) for k in ("total_tiles","nonce","tile","tiles_this_chunk"))
         tile_count=spec.m*spec.n//128
         previous=self.checkpoints.get(key,(spec.nonce,0,0))[2]
-        if (any(type(x) is not int for x in (total,nonce,tile,done)) or
-                not 1<=done<=self.chunk_tiles or total!=previous+done or nonce<spec.nonce or
-                not 0<=tile<tile_count or (nonce-spec.nonce)*tile_count+tile+1!=total):
+        if spec.backend=="tma":
+            # Whole attempts: the kernel reports completed nonces, each worth exactly tile_count.
+            bad=(any(type(x) is not int for x in (total,nonce,tile,done)) or nonce<spec.nonce or
+                 total<previous or (total-previous)%tile_count)
+        else:
+            bad=(any(type(x) is not int for x in (total,nonce,tile,done)) or
+                 not 1<=done<=self.chunk_tiles or total!=previous+done or nonce<spec.nonce or
+                 not 0<=tile<tile_count or (nonce-spec.nonce)*tile_count+tile+1!=total)
+        if bad:
             self.close()
             raise WorkerError("Worker nonce/cursor continuity mismatch")
         self.checkpoints[key]=(nonce,tile+1,total)

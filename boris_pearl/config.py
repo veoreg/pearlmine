@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 import json
 import math
+import re
 from urllib.parse import urlsplit
 
 CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
@@ -39,6 +40,18 @@ def valid_address(address):
     return len(payload) == 52 and payload[-1] & 15 == 0
 
 
+def is_kryptex(url):
+    host = urlsplit(url).hostname or "" if isinstance(url, str) else ""
+    return host == "kryptex.network" or host.endswith(".kryptex.network")
+
+
+def valid_payout(wallet, pool):
+    """A public PRL address, or a Kryptex account name on a Kryptex pool (it pays out in BTC/USDT)."""
+    if valid_address(wallet):
+        return True
+    return is_kryptex(pool) and re.fullmatch(r"[A-Za-z0-9_-]{3,40}", wallet) is not None
+
+
 def pool_url(url):
     if not isinstance(url, str):
         raise ValueError("Pool URL must be text")
@@ -69,8 +82,8 @@ class Config:
                 raise ValueError("Wallets and pool endpoints must be text")
         if type(self.fee_bps) is not int or self.fee_bps not in (0, 150, 200):
             raise ValueError("Developer fee must be 0, 150 or 200 basis points")
-        for wallet in (self.user_wallet, self.developer_wallet):
-            if wallet and not valid_address(wallet):
+        for wallet, pool in ((self.user_wallet, self.user_pool), (self.developer_wallet, self.developer_pool)):
+            if wallet and not valid_payout(wallet, pool):
                 raise ValueError("Expected a public PRL mainnet P2TR address with a valid checksum")
         for url in (self.user_pool, self.developer_pool):
             if url:

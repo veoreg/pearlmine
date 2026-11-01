@@ -26,7 +26,7 @@
     "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
   },
   "load_profile": "standard",
-  "elapsed_seconds": 0.35899999999674037,
+  "elapsed_seconds": 0.17100000000209548,
   "requested_seconds": 10,
   "backend": "dp4a",
   "duty_limit": 0.2,
@@ -46,35 +46,35 @@
   },
   "stop": {
     "reason": "missing or stale telemetry",
-    "stop_call_seconds": 7.299997378140688e-06,
+    "stop_call_seconds": 8.29999044071883e-06,
     "worker_reaped": true,
     "worker_still_listed_by_nvml": null,
     "nvml_after_stop_fresh": false
   },
   "worker_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
-  "work_wall_seconds": 0.3280000000013388,
-  "software_busy_fraction": 0.9136490250816628,
+  "work_wall_seconds": 0.13999999999941792,
+  "software_busy_fraction": 0.818713450278961,
   "pause_counts": {
     "missing or stale telemetry": 1
   },
   "ledger": {
-    "user_active_ns": 125632,
+    "user_active_ns": 125440,
     "developer_active_ns": 0
   },
   "sensor_retention_limit": 1300,
-  "sensor_window_start": 1793462621.6049798,
-  "sensor_window_end": 1793462621.6049798,
+  "sensor_window_start": 1793528982.9826,
+  "sensor_window_end": 1793528982.9826,
   "sensor_samples": 1,
-  "max_gpu_c": 31,
-  "max_watts": 77.655,
+  "max_gpu_c": 39,
+  "max_watts": 76.841,
   "max_gpu_util": 5,
-  "min_free_bytes": 31312003072,
+  "min_free_bytes": 30227435520,
   "sensors": [
     {
-      "observed_at": 1793462621.6049798,
-      "gpu_c": 31,
-      "watts": 77.655,
-      "free_bytes": 31312003072,
+      "observed_at": 1793528982.9826,
+      "gpu_c": 39,
+      "watts": 76.841,
+      "free_bytes": 30227435520,
       "board_c": null,
       "on_battery": false,
       "gpu_util_percent": 5,

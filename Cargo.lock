@@ -1230,7 +1230,6 @@ checksum = "a4933f3f57a8e9d9da04db23fb153356ecaf00cbd14aee46279c33dc80925c37"
 [[package]]
 name = "layout-macro"
 version = "0.1.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1474,7 +1473,6 @@ dependencies = [
 [[package]]
 name = "pearl-blake3"
 version = "0.1.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "anyhow",
  "blake3",
@@ -1514,7 +1512,6 @@ checksum = "f6b464fbc74e149a392436b17d523f769e057cb6877f6a5c4618bc6f11800548"
 [[package]]
 name = "plonky2"
 version = "1.1.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1539,7 +1536,6 @@ dependencies = [
 [[package]]
 name = "plonky2_field"
 version = "1.0.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "anyhow",
  "itertools 0.11.0",
@@ -1554,7 +1550,6 @@ dependencies = [
 [[package]]
 name = "plonky2_maybe_rayon"
 version = "1.0.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "rayon",
 ]
@@ -1562,7 +1557,6 @@ dependencies = [
 [[package]]
 name = "plonky2_util"
 version = "1.0.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 
 [[package]]
 name = "portable-atomic"
@@ -2380,7 +2374,6 @@ dependencies = [
 [[package]]
 name = "starky"
 version = "1.1.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3214,7 +3207,6 @@ checksum = "e13c156562582aa81c60cb29407084cdb54c4164760106ab78e6c5b0858cf64e"
 [[package]]
 name = "zk-pow"
 version = "0.1.0"
-source = "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8"
 dependencies = [
  "anyhow",
  "base64 0.21.7",

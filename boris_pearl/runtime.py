@@ -12,7 +12,7 @@ class PoolCoordinator:
     def __init__(self, controller, user_client, developer_client=None, *, shape=(131072, 131072, 4096), device_index=0, backend="dp4a"):
         self.controller = controller
         self.clients = {"user":user_client, "developer":developer_client}
-        if backend not in ("dp4a","wmma-int8","mma-int8"):
+        if backend not in ("dp4a","wmma-int8","mma-int8","tma"):
             raise ValueError("Unknown explicit CUDA backend")
         self.backend=backend
         self.shape, self.device_index = shape, device_index

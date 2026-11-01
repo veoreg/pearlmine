@@ -17,6 +17,9 @@ typedef struct {
   int64_t total_mem_bytes;
 } spm_device_info_t;
 
+// Binds the calling thread to CUDA device `index` and writes its "GPU-xxxxxxxx-..." identity.
+int32_t spm_cuda_select_device(int32_t index, char* uuid, uint32_t uuid_len);
+
 // Fills `out` for device 0. Returns 0 on success, a CUDA error code otherwise.
 int32_t spm_cuda_device_info(spm_device_info_t* out);
 

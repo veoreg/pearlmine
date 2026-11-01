@@ -29,7 +29,7 @@ def main():
                 path.name in SKIP_NAMES or path.suffix.lower() in SKIP_EXTENSIONS):
             continue
         files.append((path, relative.as_posix()))
-    destination = ROOT.parent / "pearlmine-0.3-source.zip"
+    destination = ROOT.parent / "pearlmine-0.4-source.zip"
     manifest = "".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {name}\n" for p, name in files)
     with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for path, relative in files:

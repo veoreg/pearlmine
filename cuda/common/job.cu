@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "spm_cuda.h"
+#include <atomic>
 
 #include "../gemm/gemm_tma.cuh"
 #include "../prep/prep.cuh"
@@ -107,6 +108,9 @@ spm::prep::Seed seed_from_bytes(const uint8_t bytes[32]) {
 
 }  // namespace
 
+// The abort word lives in host-mapped memory: same-size lock-free atomic on every host compiler.
+static_assert(std::atomic<uint32_t>::is_always_lock_free && sizeof(std::atomic<uint32_t>) == sizeof(uint32_t), "abort word");
+inline std::atomic<uint32_t>* host_atomic(uint32_t* word) { return reinterpret_cast<std::atomic<uint32_t>*>(word); }
 struct spm_abort {
   uint32_t* host = nullptr;  // cudaHostAlloc'd, mapped
   uint32_t* dev = nullptr;   // device alias of `host`
@@ -312,7 +316,7 @@ int32_t spm_abort_create(spm_abort_t** out) {
     return fail_cuda(e);
   }
   a->host = static_cast<uint32_t*>(host);
-  __atomic_store_n(a->host, 0u, __ATOMIC_SEQ_CST);
+  host_atomic(a->host)->store(0u);
   void* dev = nullptr;
   e = cudaHostGetDevicePointer(&dev, host, 0);
   if (e != cudaSuccess) {
@@ -326,12 +330,12 @@ int32_t spm_abort_create(spm_abort_t** out) {
 }
 
 void spm_abort_set(spm_abort_t* flag, uint32_t value) {
-  if (flag != nullptr && flag->host != nullptr) __atomic_store_n(flag->host, value, __ATOMIC_SEQ_CST);
+  if (flag != nullptr && flag->host != nullptr) host_atomic(flag->host)->store(value);
 }
 
 uint32_t spm_abort_get(const spm_abort_t* flag) {
   if (flag == nullptr || flag->host == nullptr) return 0;
-  return __atomic_load_n(flag->host, __ATOMIC_SEQ_CST);
+  return host_atomic(const_cast<uint32_t*>(flag->host))->load();
 }
 
 void spm_abort_destroy(spm_abort_t* flag) {

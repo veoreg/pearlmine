@@ -22,7 +22,7 @@ class Telemetry:
 
 class Guard:
     def __init__(self, *, stop_at, max_watts, min_free_bytes, gb10=False, laptop=False,
-                 max_gpu_c=None, max_gpu_util=None):
+                 max_gpu_c=None, max_gpu_util=None, ceiling_c=None):
         if (not finite_number(stop_at) or not finite_number(max_watts) or
                 max_watts <= 0 or type(min_free_bytes) is not int or min_free_bytes <= 0):
             raise ValueError("Explicit deadline, reviewed power threshold and memory budget are required")
@@ -34,6 +34,11 @@ class Guard:
         self.gb10 = gb10
         self.laptop = laptop
         ceiling = 83 if gb10 else 80
+        # A regulated mining session may use the same 83 C software stop; never above it.
+        if ceiling_c is not None:
+            if not finite_number(ceiling_c) or not 30 <= ceiling_c <= 83:
+                raise ValueError("Temperature ceiling must stay at or below 83 C")
+            ceiling = ceiling_c
         if max_gpu_c is not None and (not finite_number(max_gpu_c) or not 30 <= max_gpu_c <= ceiling):
             raise ValueError("Temperature threshold may only lower the safety ceiling")
         if max_gpu_util is not None and (not finite_number(max_gpu_util) or not 1 <= max_gpu_util <= 100):

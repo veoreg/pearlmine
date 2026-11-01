@@ -1,0 +1,9 @@
+{
+  "binary_sha256": "20b6192600e8ecf47655133bac945237b5d2c9d2c27cab82fadc98047a84f41a",
+  "cudart_sha256": "05bfafcb97bd53b0089568a96e1e5bd6921637bd0853ff7f5342bd31a6a16890",
+  "manifest": "tma_worker/Cargo.toml",
+  "arch": "sm_120a",
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "nvcc": "Build cuda_13.4.r13.4/compiler.38657139_0",
+  "scope": "persistent TMA kernel, RTX 5090 class (compute capability 12.0)"
+}

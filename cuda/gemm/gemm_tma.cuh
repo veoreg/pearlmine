@@ -83,11 +83,21 @@ constexpr int PRODUCER_WARPS = 4;  // a whole warpgroup: setmaxnreg acts per war
 constexpr int THREADS = (MMA_WARPS + PRODUCER_WARPS) * 32;
 constexpr uint32_t MMA_REGS = 232;
 constexpr uint32_t PRODUCER_REGS = 40;
-constexpr uint32_t STAGES = 4;
+// The kernel is bound by load latency, so a deeper ring is faster where shared memory allows it.
+#ifndef SPM_STAGES
+#define SPM_STAGES 4
+#endif
+#ifndef SPM_SMEM_LIMIT
+#define SPM_SMEM_LIMIT 101376  // GB10: at most 99 KiB per block. RTX 5090 allows more.
+#endif
+constexpr uint32_t STAGES = SPM_STAGES;
 // L2 prefetch distance (k-tiles) of the band leader's B'ᵀ loads. Measured on the GB10 at
 // 16384^2 x 4096: 4 -> +1.6 points of peak, 8 -> +0.9; prefetching from every CTA (both operands)
 // costs 5-12 points, because the column's other 15 CTAs already hit L2.
-constexpr uint32_t B_PREFETCH_KTILES = 4;
+#ifndef SPM_B_PREFETCH
+#define SPM_B_PREFETCH 4
+#endif
+constexpr uint32_t B_PREFETCH_KTILES = SPM_B_PREFETCH;
 /// Shared-memory layout the TMA descriptors of both operands use (boxes of BK = 64 bytes per row);
 /// the ldmatrix addressing below assumes it.
 constexpr CUtensorMapSwizzle OPERAND_SWIZZLE = CU_TENSOR_MAP_SWIZZLE_64B;
@@ -104,7 +114,7 @@ constexpr uint32_t DUMP_WORDS = 26;
 constexpr int32_t CMD_STOP = -1;
 
 static_assert(STAGE_BYTES % 1024 == 0, "stage buffers must keep the swizzle alignment");
-static_assert(SMEM_BYTES <= 101376, "GB10 allows at most 99 KiB of shared memory per block");
+static_assert(SMEM_BYTES <= SPM_SMEM_LIMIT, "ring exceeds the shared memory allowed per block");
 // Per SM sub-partition: 2 MMA warps + 1 producer warp must fit in 16384 registers.
 static_assert((2 * MMA_REGS + PRODUCER_REGS) * 32 <= 16384, "register split exceeds a sub-partition");
 

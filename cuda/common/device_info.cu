@@ -3,7 +3,20 @@
 #include <cstring>
 #include <cstdio>
 
-extern "C" const char* spm_cuda_version(void) { return "libspm_cuda 0.0.1 (sm_121a)"; }
+extern "C" const char* spm_cuda_version(void) { return "libspm_cuda 0.0.1"; }
+
+extern "C" int32_t spm_cuda_select_device(int32_t index, char* uuid, uint32_t uuid_len) {
+  if (!uuid || uuid_len < 41) return -1;
+  cudaError_t e = cudaSetDevice(index);
+  if (e != cudaSuccess) return (int32_t)e;
+  cudaDeviceProp p;
+  e = cudaGetDeviceProperties(&p, index);
+  if (e != cudaSuccess) return (int32_t)e;
+  const unsigned char* b = reinterpret_cast<const unsigned char*>(p.uuid.bytes);
+  snprintf(uuid, uuid_len, "GPU-%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+           b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15]);
+  return 0;
+}
 
 extern "C" int32_t spm_cuda_device_info(spm_device_info_t* out) {
   if (!out) return -1;

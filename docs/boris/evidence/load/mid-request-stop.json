@@ -29,7 +29,7 @@
     "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
   },
   "load_profile": "standard",
-  "elapsed_seconds": 0.3600000000005821,
+  "elapsed_seconds": 0.13999999999941792,
   "requested_seconds": 10,
   "backend": "dp4a",
   "duty_limit": 0.2,
@@ -49,36 +49,36 @@
   },
   "stop": {
     "reason": "explicit mid-request stop",
-    "stop_call_seconds": 8.999995770864189e-06,
+    "stop_call_seconds": 6.900008884258568e-06,
     "worker_reaped": true,
     "worker_still_listed_by_nvml": false,
     "nvml_after_stop_fresh": true
   },
   "worker_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
-  "work_wall_seconds": 0.3280000000013388,
-  "software_busy_fraction": 0.9111111111133567,
+  "work_wall_seconds": 0.10899999999674037,
+  "software_busy_fraction": 0.7785714285513826,
   "pause_counts": {},
   "ledger": {
-    "user_active_ns": 127711,
+    "user_active_ns": 125632,
     "developer_active_ns": 0
   },
   "sensor_retention_limit": 1300,
-  "sensor_window_start": 1793462625.4361646,
-  "sensor_window_end": 1793462625.4361646,
+  "sensor_window_start": 1793528985.134588,
+  "sensor_window_end": 1793528985.134588,
   "sensor_samples": 1,
-  "max_gpu_c": 32,
-  "max_watts": 77.351,
-  "max_gpu_util": 5,
-  "min_free_bytes": 31314624512,
+  "max_gpu_c": 39,
+  "max_watts": 77.9,
+  "max_gpu_util": 10,
+  "min_free_bytes": 30227435520,
   "sensors": [
     {
-      "observed_at": 1793462625.4361646,
-      "gpu_c": 32,
-      "watts": 77.351,
-      "free_bytes": 31314624512,
+      "observed_at": 1793528985.134588,
+      "gpu_c": 39,
+      "watts": 77.9,
+      "free_bytes": 30227435520,
       "board_c": null,
       "on_battery": false,
-      "gpu_util_percent": 5,
+      "gpu_util_percent": 10,
       "total_bytes": 34190917632,
       "power_limit_watts": 575.0
     }
@@ -87,5 +87,5 @@
   "external_pool_connections": 0,
   "real_submissions": 0,
   "test_result": "passed",
-  "async_stop_call_seconds": 0.02030229999945732
+  "async_stop_call_seconds": 0.024960800001281314
 }

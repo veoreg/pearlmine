@@ -1,0 +1,44 @@
+{
+  "target": "00000000000007ffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "start_seconds": 0.3,
+  "scope": "live mining",
+  "backend": "tma",
+  "duty": 1,
+  "shares": {
+    "accepted": 7,
+    "rejected": 0,
+    "uncertain": 0,
+    "stale": 0
+  },
+  "stats": {
+    "nonce": 3687738138936261574,
+    "tile": 0,
+    "total_tiles": 2147483648,
+    "tiles_this_chunk": 146,
+    "nonce_changes": 16,
+    "cache_hits": 32,
+    "device_bytes": 1107480608,
+    "workspace_reused": true,
+    "kernel_variant": 64
+  },
+  "first_share_seconds": 57.23399999999674,
+  "reconnects": 0,
+  "stop": {
+    "reason": "stop deadline",
+    "worker_reaped": true
+  },
+  "throttled_seconds": 133.94483333333406,
+  "elapsed_seconds": 419.7960000000021,
+  "user_active_ns": 275643607296,
+  "developer_active_ns": 0,
+  "last_error": null,
+  "pool_error": null,
+  "th_per_second_from_work": 158.6,
+  "th_per_second_from_shares": 150.2,
+  "peak_watts": 581.581,
+  "peak_gpu_c": 81,
+  "jobs_sent": 9,
+  "mean_watts": 393,
+  "mean_gpu_c": 71,
+  "pool_received_submits": 7
+}

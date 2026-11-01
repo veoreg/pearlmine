@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "active_ns": 66239,
+      "active_ns": 64543,
       "backend": "dp4a",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2048,
@@ -9,7 +9,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 66175,
+      "active_ns": 64992,
       "backend": "dp4a",
       "digest": "c5873cce5cd970196c23dc486539de294a3b6ebfffc1f1354fdf12cd8205461f",
       "k": 2048,
@@ -17,7 +17,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 64960,
+      "active_ns": 65151,
       "backend": "dp4a",
       "digest": "ea1bb9fb2d8f5c9558cb9ec3882e95bee9ae6e8c52147a8e5f5de91b259ef5bf",
       "k": 2048,
@@ -25,7 +25,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 66271,
+      "active_ns": 67520,
       "backend": "dp4a",
       "digest": "6ef18f3256236364bc989324280d0583fa426d4eff6d91e87197754341682535",
       "k": 2048,
@@ -33,7 +33,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 66816,
+      "active_ns": 65119,
       "backend": "dp4a",
       "digest": "6c7fcbde5dbbcdc614816429030b638f5ce61fb571186019532ce6a79dd34ec2",
       "k": 2048,
@@ -41,7 +41,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 69600,
+      "active_ns": 70079,
       "backend": "dp4a",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2176,
@@ -49,7 +49,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 87807,
+      "active_ns": 69472,
       "backend": "dp4a",
       "digest": "4c00e5daadfc928ecd371f9e1c016b106bd9de715a72b79f842dc452ef50968d",
       "k": 2176,
@@ -57,7 +57,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 70880,
+      "active_ns": 71552,
       "backend": "dp4a",
       "digest": "d4f67616e5d595c4b7b566218561b729d13a6c08ccd843c6ad5d33b4cf9f369b",
       "k": 2176,
@@ -65,7 +65,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 70207,
+      "active_ns": 71007,
       "backend": "dp4a",
       "digest": "b142bd8c14ef86a0682ebbb56b86320b997b100d1984bc9b5123f790f9a5c54b",
       "k": 2176,
@@ -81,7 +81,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 125088,
+      "active_ns": 125248,
       "backend": "dp4a",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 4096,
@@ -89,7 +89,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 124544,
+      "active_ns": 126463,
       "backend": "dp4a",
       "digest": "4410ea45b5c2952f0e909f04e4cfb479a1db9e5f56e20807024cd160b58db9aa",
       "k": 4096,
@@ -97,7 +97,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 124384,
+      "active_ns": 128352,
       "backend": "dp4a",
       "digest": "591b4f4f4b674704742af82df4601276d8f752c4642f0b6596502e5ea3b737bc",
       "k": 4096,
@@ -105,7 +105,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 128095,
+      "active_ns": 127488,
       "backend": "dp4a",
       "digest": "9d3d731315ef6f8f04fbb6da475f2b77a790e1644653b0f3ca66ce078906ec37",
       "k": 4096,
@@ -113,7 +113,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 128992,
+      "active_ns": 127263,
       "backend": "dp4a",
       "digest": "86c4e61bcf3372735199b9b2a854c252626d3d742d0eb44e56412e3e0b371ed5",
       "k": 4096,
@@ -121,7 +121,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 57888,
+      "active_ns": 56928,
       "backend": "wmma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2048,
@@ -129,7 +129,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 58240,
+      "active_ns": 57312,
       "backend": "wmma-int8",
       "digest": "c5873cce5cd970196c23dc486539de294a3b6ebfffc1f1354fdf12cd8205461f",
       "k": 2048,
@@ -137,7 +137,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 57983,
+      "active_ns": 56703,
       "backend": "wmma-int8",
       "digest": "ea1bb9fb2d8f5c9558cb9ec3882e95bee9ae6e8c52147a8e5f5de91b259ef5bf",
       "k": 2048,
@@ -145,7 +145,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 61983,
+      "active_ns": 56992,
       "backend": "wmma-int8",
       "digest": "6ef18f3256236364bc989324280d0583fa426d4eff6d91e87197754341682535",
       "k": 2048,
@@ -153,7 +153,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 59583,
+      "active_ns": 60352,
       "backend": "wmma-int8",
       "digest": "6c7fcbde5dbbcdc614816429030b638f5ce61fb571186019532ce6a79dd34ec2",
       "k": 2048,
@@ -161,7 +161,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 61951,
+      "active_ns": 61728,
       "backend": "wmma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2176,
@@ -169,7 +169,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 61983,
+      "active_ns": 62720,
       "backend": "wmma-int8",
       "digest": "4c00e5daadfc928ecd371f9e1c016b106bd9de715a72b79f842dc452ef50968d",
       "k": 2176,
@@ -185,7 +185,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 64032,
+      "active_ns": 62656,
       "backend": "wmma-int8",
       "digest": "b142bd8c14ef86a0682ebbb56b86320b997b100d1984bc9b5123f790f9a5c54b",
       "k": 2176,
@@ -193,7 +193,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 61535,
+      "active_ns": 63167,
       "backend": "wmma-int8",
       "digest": "ac83d870723c8a153b032adf710050215928c223a12b8542089a9c15c0329999",
       "k": 2176,
@@ -201,7 +201,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 111199,
+      "active_ns": 110688,
       "backend": "wmma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 4096,
@@ -209,7 +209,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 109792,
+      "active_ns": 112159,
       "backend": "wmma-int8",
       "digest": "4410ea45b5c2952f0e909f04e4cfb479a1db9e5f56e20807024cd160b58db9aa",
       "k": 4096,
@@ -217,7 +217,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 112992,
+      "active_ns": 111904,
       "backend": "wmma-int8",
       "digest": "591b4f4f4b674704742af82df4601276d8f752c4642f0b6596502e5ea3b737bc",
       "k": 4096,
@@ -225,7 +225,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 113119,
+      "active_ns": 113151,
       "backend": "wmma-int8",
       "digest": "9d3d731315ef6f8f04fbb6da475f2b77a790e1644653b0f3ca66ce078906ec37",
       "k": 4096,
@@ -233,7 +233,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 111776,
+      "active_ns": 111167,
       "backend": "wmma-int8",
       "digest": "86c4e61bcf3372735199b9b2a854c252626d3d742d0eb44e56412e3e0b371ed5",
       "k": 4096,
@@ -241,7 +241,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 20255,
+      "active_ns": 20447,
       "backend": "mma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2048,
@@ -249,7 +249,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 21919,
+      "active_ns": 22368,
       "backend": "mma-int8",
       "digest": "c5873cce5cd970196c23dc486539de294a3b6ebfffc1f1354fdf12cd8205461f",
       "k": 2048,
@@ -257,7 +257,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 22143,
+      "active_ns": 22624,
       "backend": "mma-int8",
       "digest": "ea1bb9fb2d8f5c9558cb9ec3882e95bee9ae6e8c52147a8e5f5de91b259ef5bf",
       "k": 2048,
@@ -265,7 +265,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 21088,
+      "active_ns": 20479,
       "backend": "mma-int8",
       "digest": "6ef18f3256236364bc989324280d0583fa426d4eff6d91e87197754341682535",
       "k": 2048,
@@ -273,7 +273,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 21120,
+      "active_ns": 20543,
       "backend": "mma-int8",
       "digest": "6c7fcbde5dbbcdc614816429030b638f5ce61fb571186019532ce6a79dd34ec2",
       "k": 2048,
@@ -281,7 +281,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 22336,
+      "active_ns": 22463,
       "backend": "mma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 2176,
@@ -289,7 +289,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 23552,
+      "active_ns": 24447,
       "backend": "mma-int8",
       "digest": "4c00e5daadfc928ecd371f9e1c016b106bd9de715a72b79f842dc452ef50968d",
       "k": 2176,
@@ -297,7 +297,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 23072,
+      "active_ns": 22463,
       "backend": "mma-int8",
       "digest": "d4f67616e5d595c4b7b566218561b729d13a6c08ccd843c6ad5d33b4cf9f369b",
       "k": 2176,
@@ -305,7 +305,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 23840,
+      "active_ns": 23711,
       "backend": "mma-int8",
       "digest": "b142bd8c14ef86a0682ebbb56b86320b997b100d1984bc9b5123f790f9a5c54b",
       "k": 2176,
@@ -313,7 +313,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 22848,
+      "active_ns": 23967,
       "backend": "mma-int8",
       "digest": "ac83d870723c8a153b032adf710050215928c223a12b8542089a9c15c0329999",
       "k": 2176,
@@ -321,7 +321,7 @@
       "pattern": 4
     },
     {
-      "active_ns": 38431,
+      "active_ns": 37760,
       "backend": "mma-int8",
       "digest": "acea72f33a11ecb2756557437024842e6df20faf04acb5b136776c8d0f5ec057",
       "k": 4096,
@@ -329,7 +329,7 @@
       "pattern": 0
     },
     {
-      "active_ns": 36288,
+      "active_ns": 39455,
       "backend": "mma-int8",
       "digest": "4410ea45b5c2952f0e909f04e4cfb479a1db9e5f56e20807024cd160b58db9aa",
       "k": 4096,
@@ -337,7 +337,7 @@
       "pattern": 1
     },
     {
-      "active_ns": 36224,
+      "active_ns": 37503,
       "backend": "mma-int8",
       "digest": "591b4f4f4b674704742af82df4601276d8f752c4642f0b6596502e5ea3b737bc",
       "k": 4096,
@@ -345,7 +345,7 @@
       "pattern": 2
     },
     {
-      "active_ns": 41792,
+      "active_ns": 37663,
       "backend": "mma-int8",
       "digest": "9d3d731315ef6f8f04fbb6da475f2b77a790e1644653b0f3ca66ce078906ec37",
       "k": 4096,
@@ -353,7 +353,7 @@
       "pattern": 3
     },
     {
-      "active_ns": 39648,
+      "active_ns": 37503,
       "backend": "mma-int8",
       "digest": "86c4e61bcf3372735199b9b2a854c252626d3d742d0eb44e56412e3e0b371ed5",
       "k": 4096,

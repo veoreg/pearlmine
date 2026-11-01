@@ -26,6 +26,7 @@
 __pycache__/
 /native/out/
 /production_worker/target/
+/tma_worker/target/
 /proof_bridge/target/
 /proof_bridge/local-build/target/
 /boris-state.json

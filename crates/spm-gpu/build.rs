@@ -29,6 +29,44 @@ fn main() {
         }
     }
     srcs.sort();
+    if env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows" {
+        // Windows: nvcc builds the static library itself through MSVC; no ar, -fPIC or stdc++.
+        let lib = out.join("spm_cuda.lib");
+        let mut cmd = Command::new(&nvcc);
+        cmd.args(["--lib", "-O3", "-std=c++17"])
+            .arg("-I")
+            .arg(cuda_dir.join("include"))
+            .arg("-I")
+            .arg(root.join("third_party/cutlass/include"));
+        if let Ok(compiler) = env::var("SPM_MSVC_BIN") {
+            cmd.arg("-ccbin").arg(compiler);
+        }
+        for a in arch.split(',') {
+            cmd.arg("-gencode")
+                .arg(format!("arch={},code={a}", a.replace("sm_", "compute_")));
+        }
+        if verbose {
+            cmd.arg("-Xptxas").arg("-v");
+        }
+        cmd.args(extra.split_whitespace());
+        cmd.args(&srcs).arg("-o").arg(&lib);
+        let output = cmd
+            .output()
+            .expect("nvcc not found: install CUDA 13 or set NVCC");
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(output.status.success(), "nvcc failed:\n{stderr}");
+        println!("cargo:rustc-link-search=native={}", out.display());
+        println!("cargo:rustc-link-lib=static=spm_cuda");
+        let cuda = env::var("CUDA_PATH").expect("set CUDA_PATH to the CUDA toolkit");
+        println!("cargo:rustc-link-search=native={cuda}/lib/x64");
+        println!("cargo:rustc-link-lib=dylib=cudart");
+        println!("cargo:rerun-if-env-changed=SPM_CUDA_ARCH");
+        println!("cargo:rerun-if-env-changed=SPM_NVCC_FLAGS");
+        println!("cargo:rerun-if-env-changed=SPM_MSVC_BIN");
+        println!("cargo:rerun-if-env-changed=NVCC");
+        println!("cargo:rerun-if-env-changed=CUDA_PATH");
+        return;
+    }
     let mut objs = Vec::new();
     for s in &srcs {
         println!("cargo:rerun-if-changed={}", s.display());

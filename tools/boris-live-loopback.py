@@ -30,35 +30,45 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seconds",type=int,default=240)
     parser.add_argument("--duty",type=float,default=1)
-    parser.add_argument("--backend",default=None)
     parser.add_argument("--target",default=KRYPTEX_TARGET)
     parser.add_argument("--until-shares",type=int,default=1)
+    parser.add_argument("--new-job-every",type=float,default=0)
+    parser.add_argument("--output")
     args=parser.parse_args()
     report=dict(target=args.target)
     with MockPool(first_job=notify(job_id="loopback_2097152",header=header(),target=args.target)) as pool,tempfile.TemporaryDirectory(prefix="boris-live-loop-") as tmp:
         config=Config(fixture_address(3),pool.endpoint)
-        session=LiveMining(config,seconds=args.seconds,duty=args.duty,device_index="0",backend=args.backend,
+        session=LiveMining(config,seconds=args.seconds,duty=args.duty,device_index="0",
             tls_contexts=dict(user=pool.client_context),state_dir=tmp)
         started=time.monotonic()
         try:
-            session.start();report["start_seconds"]=round(time.monotonic()-started,1);last=time.monotonic();peak=dict(watts=0,gpu_c=0)
+            session.start();report["start_seconds"]=round(time.monotonic()-started,1);last=last_job=time.monotonic();peak=dict(watts=0,gpu_c=0);jobs=0;samples=[]
             while not session.controller.stopped.is_set():
                 result=session.tick()
+                if args.new_job_every and time.monotonic()-last_job>=args.new_job_every and pool.connection:
+                    jobs+=1;last_job=time.monotonic();pool.send(notify(job_id=f"loopback{jobs}_2097152",header=header(),target=args.target))
                 if result.get("state")=="stopped":report["stopped_because"]=result.get("reason");break
                 sample=session.monitor.sample()
-                if sample:peak.update(watts=max(peak["watts"],sample.watts or 0),gpu_c=max(peak["gpu_c"],sample.gpu_c or 0))
+                if sample:
+                    peak.update(watts=max(peak["watts"],sample.watts or 0),gpu_c=max(peak["gpu_c"],sample.gpu_c or 0))
+                    samples.append((sample.watts or 0,sample.gpu_c or 0))
                 if time.monotonic()-last>=20:
-                    last=time.monotonic();print(json.dumps(dict(t=round(last-started),stats=session.stats,shares=session.shares,**peak)),flush=True)
+                    last=time.monotonic();print(json.dumps(dict(t=round(last-started),th=round(session.mined_tiles*524288/(last-started)/1e12,1),shares=session.shares,gpu_c=samples[-1][1] if samples else None,throttled=round(session.throttled_seconds),jobs=jobs)),flush=True)
                 if session.shares["accepted"]>=args.until_shares:break
             report.update(session.report())
             elapsed=report["elapsed_seconds"] or 1
-            if session.stats:report["tiles_per_second"]=round(session.stats["total_tiles"]/elapsed,1)
-            report.update(peak_watts=peak["watts"],peak_gpu_c=peak["gpu_c"])
+            report["th_per_second_from_work"]=round(session.mined_tiles*524288/elapsed/1e12,1)
+            found=sum(session.shares[k] for k in ("accepted","stale"))
+            report["th_per_second_from_shares"]=round(found*2097152*2**32/elapsed/1e12,1) if args.target==KRYPTEX_TARGET else None
+            report.update(peak_watts=peak["watts"],peak_gpu_c=peak["gpu_c"],jobs_sent=jobs,
+                mean_watts=round(sum(s[0] for s in samples)/len(samples)) if samples else None,
+                mean_gpu_c=round(sum(s[1] for s in samples)/len(samples)) if samples else None)
         finally:
             session.close("loopback finished")
             report["stop"]=session.stop_report
         report["pool_received_submits"]=sum(1 for m in pool.received if m.get("method")=="mining.submit")
     print(json.dumps(report,ensure_ascii=False,indent=2))
+    if args.output:Path(args.output).write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 
 
 if __name__=="__main__":main()

@@ -4,7 +4,7 @@
     "state": "offline-result",
     "owner": "user",
     "session": "user",
-    "active_ns": 65439,
+    "active_ns": 64383,
     "simulated_active_ns": null,
     "verified_proofs": 1,
     "work_stats": {
@@ -24,7 +24,7 @@
     "state": "offline-result",
     "owner": "developer",
     "session": "developer",
-    "active_ns": 65024,
+    "active_ns": 65087,
     "simulated_active_ns": null,
     "verified_proofs": 1,
     "work_stats": {
@@ -44,7 +44,7 @@
     "state": "offline-result",
     "owner": "user",
     "session": "user",
-    "active_ns": 62880,
+    "active_ns": 64543,
     "simulated_active_ns": null,
     "verified_proofs": 1,
     "work_stats": {

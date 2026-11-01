@@ -105,7 +105,9 @@ class MockPool:
             buffer = b""
             while not self.done.is_set():
                 try:
-                    data = self.connection.recv(65536)
+                    # The TLS object is not safe for a simultaneous read and write from two threads.
+                    with self.send_lock:
+                        data = self.connection.recv(65536)
                 except socket.timeout:
                     continue
                 if not data:

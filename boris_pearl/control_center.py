@@ -81,7 +81,8 @@ class DeviceLock:
 
 
 class DeviceService:
-    def __init__(self,*,inventory_provider=None,session_factory=None,probe_sensors=True):
+    def __init__(self,*,inventory_provider=None,session_factory=None,probe_sensors=True,mining_factory=None):
+        self.mining_factory=mining_factory
         self.inventory_provider=inventory_provider or discover
         self.session_factory=session_factory or LocalSearch
         self.probe_sensors=probe_sensors
@@ -175,14 +176,26 @@ class DeviceService:
         if type(seconds) is not int or not 5<=seconds<=300:raise ValueError("Для локального теста выберите от5 до300 секунд.")
         validate_request(profile,duty,None,True)
         if backend not in ("auto","dp4a","wmma-int8","mma-int8"):raise ValueError("Неизвестный режим вычислений.")
+        self._launch(device_ids,seconds,duty,profile,backend,self.session_factory,"test",f"Явно запущен локальный тест: {{}} GPU, {seconds}с, комиссия 0%.")
+
+    def start_mining(self,device_ids,config,*,seconds,duty,profile="standard"):
+        """Real mining to the owner's saved pool and payout; only ever called from an explicit Start."""
+        def default(**options):
+            from .live import LiveMining
+            options.pop("backend",None)
+            return LiveMining(config,**options)
+        self._launch(device_ids,seconds,duty,profile,"tma",self.mining_factory or default,"mining",
+            f"Запущен майнинг: {{}} GPU, пул {config.user_pool}, комиссия разработчика {config.effective_bps/100:g}%.")
+
+    def _launch(self,device_ids,seconds,duty,profile,backend,factory,kind,message):
         ids=list(device_ids)
-        if not ids or len(ids)>4 or len(ids)!=len(set(ids)):raise ValueError("Выберите от1 до4 разных GPU для одновременного теста.")
+        if not ids or len(ids)>4 or len(ids)!=len(set(ids)):raise ValueError("Выберите от 1 до 4 разных GPU.")
         with self.lock:
             if self.closing.is_set() or self.refreshing:raise ValueError("Дождитесь завершения диагностики.")
             for key in ids:
                 if key not in self.devices or not self.records[key]["eligible"]:raise ValueError("Для выбранной карты тест ещё недоступен.")
                 if key in self.jobs and self.jobs[key]["thread"].is_alive():raise ValueError("На этой карте уже идёт тест.")
-                if backend!="auto":self.devices[key].require_backend(backend)
+                if backend not in ("auto","tma"):self.devices[key].require_backend(backend)
             if sum(j["thread"].is_alive() for j in self.jobs.values())+len(ids)>4:raise ValueError("Не более4 одновременных тестов.")
             locks={}
             try:
@@ -192,18 +205,18 @@ class DeviceService:
                 raise
             for key in ids:
                 chosen="dp4a" if backend=="auto" else backend
-                job=dict(cancel=threading.Event(),session=None,thread=None,device_lock=locks[key])
+                job=dict(cancel=threading.Event(),session=None,thread=None,device_lock=locks[key],kind=kind,factory=factory)
                 self.jobs[key]=job;self.records[key].update(state="preparing",error=None,report=None,backend=chosen)
                 target=lambda key=key,job=job,chosen=chosen:self._run(key,job,seconds,duty,profile,chosen)
                 thread=threading.Thread(target=target,name="boris-test-"+key[-8:],daemon=False)
                 job["thread"]=thread;self.threads.append(thread);thread.start()
-        self.log(f"Явно запущен локальный тест: {len(ids)} GPU, {seconds}с, комиссия0%.")
+        self.log(message.format(len(ids)))
 
     def _run(self,key,job,seconds,duty,profile,backend):
         session=None;started=time.monotonic()
         try:
             if job["cancel"].is_set():return
-            session=self.session_factory(seconds=seconds,duty=duty,profile=profile,backend=backend,device_index=key)
+            session=job["factory"](seconds=seconds,duty=duty,profile=profile,backend=backend,device_index=key)
             with self.lock:job["session"]=session
             if job["cancel"].is_set():return
             session.start()
@@ -214,13 +227,18 @@ class DeviceService:
                     self.records[key].update(state="stopping" if job["cancel"].is_set() else "paused" if reply.get("state")=="paused" else "running",
                         elapsed=round(time.monotonic()-started,1),temperature=None if sample is None else sample.gpu_c,
                         watts=None if sample is None else sample.watts,free_bytes=None if sample is None else getattr(sample,"free_bytes",None),
-                        updated_at=time.time(),test_tiles=stats.get("total_tiles",0),note=human_error(reply.get("reason","Локальная проверка")))
+                        updated_at=time.time(),test_tiles=stats.get("total_tiles",0),
+                        note=self._mining_note(session,started) if job["kind"]=="mining" else human_error(reply.get("reason","Локальная проверка")))
                 if reply.get("state")=="stopped":break
                 if reply.get("state")=="paused":job["cancel"].wait(.02)
             session.stop_work("control center stop" if job["cancel"].is_set() else "stop deadline")
             report=session.report();report.pop("sensors",None)
-            with self.lock:self.records[key].update(report=report,state="stopped",note="Тест завершён; процесс остановлен.")
-            self.log(self.records[key]["name"]+": тест завершён.")
+            if job["kind"]=="mining":
+                why=(report.get("stop") or {}).get("reason") or "остановлено"
+                note=self._mining_note(session,started)+". Причина остановки: "+human_error(why)
+            else:note="Тест завершён; процесс остановлен."
+            with self.lock:self.records[key].update(report=report,state="stopped",note=note)
+            self.log(self.records[key]["name"]+": "+note)
         except Exception as exc:
             with self.lock:self.records[key].update(state="failed",error=human_error(exc),note=human_error(exc))
             self.log(self.records[key]["name"]+": "+human_error(exc))
@@ -232,6 +250,12 @@ class DeviceService:
             with self.lock:
                 if self.records.get(key,{}).get("state") not in ("failed","stopped"):
                     self.records[key].update(state="stopped",note="Остановлено до запуска вычислений.")
+
+    @staticmethod
+    def _mining_note(session,started):
+        shares=getattr(session,"shares",{});elapsed=max(1,time.monotonic()-started)
+        rate=getattr(session,"mined_tiles",0)*524288/elapsed/1e12
+        return f"Майнинг {rate:.0f} TH/s · принято {shares.get('accepted',0)}, отклонено {shares.get('rejected',0)}"
 
     def stop(self,device_ids=None):
         with self.lock:
@@ -247,7 +271,8 @@ class DeviceService:
 
     def snapshot(self):
         with self.lock:return dict(devices=deepcopy(self.records),refreshing=self.refreshing,error=self.refresh_error,
-            logs=list(self.logs),active=sum(j["thread"].is_alive() for j in self.jobs.values()),mining_enabled=False,downloads=[])
+            logs=list(self.logs),active=sum(j["thread"].is_alive() for j in self.jobs.values()),mining_enabled=False,downloads=[],
+            mining=sum(j["thread"].is_alive() and j["kind"]=="mining" for j in self.jobs.values()))
 
     def export(self):
         data=self.snapshot();data["devices"]=list(data["devices"].values())

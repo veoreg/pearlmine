@@ -1,0 +1,26 @@
+[package]
+name = "pearlmine-tma-worker"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+rust-version = "1.94"
+
+[workspace]
+resolver = "2"
+
+[dependencies]
+spm-cpuref = { path = "../crates/spm-cpuref" }
+spm-gpu = { path = "../crates/spm-gpu" }
+spm-pow = { path = "../crates/spm-pow" }
+spm-work = { path = "../crates/spm-work" }
+spm-proto = { path = "../crates/spm-proto" }
+spm-ipc = { path = "../crates/spm-ipc" }
+zk-pow = { path = "../third_party/pearl-proof/zk-pow" }
+pearl-blake3 = { path = "../third_party/pearl-proof/pearl-blake3" }
+serde_json = "=1.0.151"
+anyhow = "1"
+hex = "=0.4.3"
+rayon = "1.12"
+
+[profile.release]
+opt-level = 3

@@ -8,6 +8,9 @@ from PyInstaller.utils.hooks import collect_submodules
 root=Path(SPECPATH).parent
 data=[(str(root/source),target) for source,target in (
     ("production_worker/target/release/boris-pearl-worker.exe","production_worker/target/release"),
+    ("tma_worker/target/release/pearlmine-tma-worker.exe","tma_worker/target/release"),
+    ("tma_worker/target/release/cudart64_13.dll","tma_worker/target/release"),
+    ("docs/boris/evidence/worker/tma-worker-build.json","docs/boris/evidence/worker"),
     ("proof_bridge/target/release/boris-official-proof-check.exe","proof_bridge/target/release"),
     ("docs/boris/evidence/worker/worker-build.json","docs/boris/evidence/worker"),
     ("docs/boris/evidence/proof-lab/official-build.json","docs/boris/evidence/proof-lab"),

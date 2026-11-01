@@ -122,13 +122,20 @@ class Controller:
                     return "developer job retired" if job.session.owner=="developer" else "active session/job changed"
                 return self._permit()
             key = (job.session.identifier, job.session.epoch, job.job_id, job.header_hash)
-            result = self.worker.execute(key, budget_ns, permit=permit_during_work)
+            # A fast worker answers within a second: let it finish instead of killing it for a new job.
+            graceful = getattr(self.worker, "graceful_job_change", False)
+            result = self.worker.execute(key, budget_ns, permit=self._permit if graceful else permit_during_work)
             if hasattr(result, "proofs"):
                 active, proofs = result.active_ns, result.proofs
             else:
                 active, proof = result
                 proofs = [proof]
             reason = permit_during_work()
+            if reason and graceful and reason in ("user session/job changed","user job superseded","developer job retired","active session/job changed"):
+                # Real GPU time was spent, so it stays on the books; any proof of the old job is dropped.
+                self.planner.complete(grant, active)
+                self.persist(self.state_path, self.planner)
+                return {"state":"job-retired","reason":reason,"submitted":False,"work_stats":getattr(result,"stats",None)}
             if reason:
                 raise WorkerInterrupted(reason)
             self.planner.complete(grant, active)
