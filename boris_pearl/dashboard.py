@@ -93,7 +93,7 @@ class Dashboard:
         ttk.Label(mining,text="Нагрузка").pack(side="left");self.load=tk.StringVar(value="100%")
         ttk.Combobox(mining,textvariable=self.load,values=("25%","50%","100%"),state="readonly",width=8).pack(side="left",padx=(8,18))
         ttk.Label(mining,text="Майнить").pack(side="left");self.mine_for=tk.StringVar(value="24 часа")
-        ttk.Combobox(mining,textvariable=self.mine_for,values=("1 час","8 часов","24 часа","7 дней"),state="readonly",width=9).pack(side="left",padx=8)
+        ttk.Combobox(mining,textvariable=self.mine_for,values=("10 мин","20 мин","30 мин","1 час","8 часов","24 часа","7 дней"),state="readonly",width=9).pack(side="left",padx=8)
         self.mine_button=ttk.Button(mining,text="Начать майнинг",style="Primary.TButton",command=self.start_mining);self.mine_button.pack(side="right")
         detail=tk.Frame(home,bg=CARD,padx=18,pady=14,highlightthickness=1,highlightbackground=theme.LINE);detail.pack(fill="x")
         title=tk.Frame(detail,bg=CARD);title.pack(fill="x")
@@ -256,7 +256,7 @@ class Dashboard:
             self.footer.set("Сначала сохраните кошелёк или логин и пул.");self.page("settings");return
         laptop=self.profile.get()=="Ноутбук"
         duty=.1 if laptop else {"25%":.25,"50%":.5,"100%":1}[self.load.get()]
-        seconds={"1 час":3600,"8 часов":28800,"24 часа":86400,"7 дней":604800}[self.mine_for.get()]
+        seconds={"10 мин":600,"20 мин":1200,"30 мин":1800,"1 час":3600,"8 часов":28800,"24 часа":86400,"7 дней":604800}[self.mine_for.get()]
         text=(f"Выплаты: {config.user_wallet}\nПул: {config.user_pool}\nКомиссия пула указана на его сайте, она отдельная.\n"
             f"Комиссия разработчика: {config.effective_bps/100:g}% активного времени GPU.\nНагрузка: {duty*100:g}%, срок: {self.mine_for.get()}.\n\n"
             "Карта будет под высокой нагрузкой и расходует электричество. При нагреве программа сбавит темп, при 83 °C остановится.\n"

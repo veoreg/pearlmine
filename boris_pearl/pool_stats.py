@@ -40,10 +40,15 @@ def parse(html):
                 paid=float(field(totals,"paid") or 0),workers=workers)
 
 
-def fetch(wallet,timeout=20):
-    request=urllib.request.Request(page_url(wallet),headers={"User-Agent":"Mozilla/5.0 PearlMine"})
-    with urllib.request.urlopen(request,timeout=timeout) as reply:
-        return parse(reply.read(LIMIT).decode("utf-8","replace"))
+def fetch(wallet,timeout=20,attempts=3):
+    """The page often stalls halfway through, so one slow read is not yet a failure."""
+    request=urllib.request.Request(page_url(wallet),headers={"User-Agent":"Mozilla/5.0"})
+    for attempt in range(attempts):
+        try:
+            with urllib.request.urlopen(request,timeout=timeout) as reply:
+                return parse(reply.read(LIMIT).decode("utf-8","replace"))
+        except OSError:
+            if attempt==attempts-1:raise
 
 
 def amount(value):
