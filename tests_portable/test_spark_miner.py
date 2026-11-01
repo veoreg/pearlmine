@@ -22,6 +22,13 @@ class SparkMinerTests(unittest.TestCase):
         self.run_dir=run
         for name,value in (("has_lock",lambda:True),("other_job_waiting",lambda:False)):
             patcher=mock.patch.object(spark_miner,name,value);patcher.start();self.addCleanup(patcher.stop)
+    def test_all_time_count_grows_across_sessions_and_not_on_a_second_start(self):
+        read=lambda:json.loads(spark_miner.STATUS.read_text(encoding="utf-8"))
+        spark_miner.write_status(state="stopped",accepted=4,rejected=0);self.assertEqual(read()["all_time"],4)
+        spark_miner.close_session();spark_miner.write_status(state="waiting",reason="Запускаю");self.assertEqual(read()["all_time"],4)
+        spark_miner.write_status(state="running",accepted=3,rejected=0);self.assertEqual(read()["all_time"],7)
+        spark_miner.close_session();self.assertEqual(spark_miner.finished_accepted(),4)
+        spark_miner.write_status(state="stopped",accepted=3,rejected=0);spark_miner.close_session();self.assertEqual(spark_miner.finished_accepted(),7)
     def test_client_work_always_wins(self):
         self.assertFalse(spark_miner.client_work_waiting())
         spark_miner.CLIENTS.write_text(json.dumps(dict(comfy_running=[],comfy_pending=2)))

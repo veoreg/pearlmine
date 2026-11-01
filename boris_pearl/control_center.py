@@ -87,7 +87,7 @@ class DeviceService:
         self.session_factory=session_factory or LocalSearch
         self.probe_sensors=probe_sensors
         self.lock=threading.RLock();self.closing=threading.Event()
-        self.records={};self.devices={};self.jobs={};self.logs=deque(maxlen=400)
+        self.records={};self.devices={};self.jobs={};self.logs=deque(maxlen=400);self.tally={};self.tally_path=None
         self.threads=[];self.refreshing=False;self.refresh_error=None;self.monitors={};self.sensor_thread=None
         self.log("Программа открыта. Вычисления и загрузки не запускаются автоматически.")
 
@@ -220,7 +220,10 @@ class DeviceService:
             with self.lock:job["session"]=session
             if job["cancel"].is_set():return
             session.start()
-            with self.lock:self.records[key]["state"]="running"
+            with self.lock:
+                self.records[key]["state"]="running";base=self.tally.get(key,{}).get("total",0)
+                if job["kind"]=="mining":self.tally[key]=dict(total=base,last=0)
+            seen=0
             while not job["cancel"].is_set() and not session.controller.stopped.is_set():
                 reply=session.tick();sample=session.monitor.sample();stats=session.stats or {}
                 with self.lock:
@@ -229,11 +232,13 @@ class DeviceService:
                         watts=None if sample is None else sample.watts,free_bytes=None if sample is None else getattr(sample,"free_bytes",None),
                         updated_at=time.time(),test_tiles=stats.get("total_tiles",0),
                         note=self._mining_note(session,started) if job["kind"]=="mining" else human_error(reply.get("reason","Локальная проверка")))
+                if job["kind"]=="mining":seen=self._count_shares(key,session,base,seen)
                 if reply.get("state")=="stopped":break
                 if reply.get("state")=="paused":job["cancel"].wait(.02)
             session.stop_work("control center stop" if job["cancel"].is_set() else "stop deadline")
             report=session.report();report.pop("sensors",None)
             if job["kind"]=="mining":
+                seen=self._count_shares(key,session,base,seen)
                 why=(report.get("stop") or {}).get("reason") or "остановлено"
                 note=self._mining_note(session,started)+". Причина остановки: "+human_error(why)
             else:note="Тест завершён; процесс остановлен."
@@ -256,6 +261,25 @@ class DeviceService:
         shares=getattr(session,"shares",{});elapsed=max(1,time.monotonic()-started)
         rate=getattr(session,"mined_tiles",0)*524288/elapsed/1e12
         return f"Майнинг {rate:.0f} TH/s · принято {shares.get('accepted',0)}, отклонено {shares.get('rejected',0)}"
+
+    def use_tally(self,path):
+        """Accepted shares per card, kept on disk: the panel can be closed or reinstalled without losing them."""
+        self.tally_path=Path(path)
+        try:self.tally=json.loads(self.tally_path.read_text(encoding="utf-8"))
+        except (OSError,ValueError):self.tally={}
+
+    def tallied(self):
+        with self.lock:return deepcopy(self.tally)
+
+    def _count_shares(self,key,session,base,seen):
+        accepted=getattr(session,"shares",{}).get("accepted",0)
+        if accepted==seen:return seen
+        with self.lock:
+            self.tally[key]=dict(total=base+accepted,last=accepted);tally=deepcopy(self.tally)
+        if self.tally_path:
+            try:atomic_json(self.tally_path,tally)
+            except OSError as exc:self.log("Счётчик share не записан: "+human_error(exc))
+        return accepted
 
     def stop(self,device_ids=None):
         with self.lock:

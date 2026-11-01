@@ -54,7 +54,7 @@ class Dashboard:
         self.content=ttk.Frame(main);self.content.pack(fill="both",expand=True)
         self._home();self._fleet();self._settings();self._logs();self._help()
         root.boris_dashboard=self;root.protocol("WM_DELETE_WINDOW",self.close)
-        self._load();self.page("home");self.poll()
+        self._load_mined();self._load();self.page("home");self.poll()
         if settings_path is None:
             from .shortcut import create_once
             if create_once(self.settings_path.parent):self.footer.set("Ярлык PearlMine добавлен на рабочий стол и в меню «Пуск».")
@@ -79,14 +79,14 @@ class Dashboard:
         ttk.Label(bar,text="Все карты",font=("Segoe UI",15,"bold")).pack(side="left")
         self.refresh_button=ttk.Button(bar,text="Обновить устройства",command=self.refresh);self.refresh_button.pack(side="right")
         ttk.Button(bar,text="Выбрать доступные",command=self.select_all).pack(side="right",padx=8)
-        self.table=self._table(home,[("check","",38),("name","Устройство",230),("state","Состояние",140),("temp","°C",60),("watts","Вт",70),("memory","Свободно",95),("note","Готовность",240)],height=3)
+        self.table=self._table(home,[("check","",38),("name","Устройство",200),("state","Состояние",85),("temp","°C",45),("watts","Вт",50),("memory","Свободно",75),("session","За сессию",120),("total","За всё время",120),("note","Готовность",240)],height=3)
         self.table.bind("<Button-1>",self.toggle);self.table.bind("<space>",lambda e:self.toggle_focus())
         self.empty=tk.StringVar(value="Проверяем устройства…")
         ttk.Label(home,textvariable=self.empty,style="Muted.TLabel",wraplength=930).pack(anchor="w",pady=(8,15))
         controls=ttk.Frame(home);controls.pack(fill="x",pady=4)
         ttk.Label(controls,text="Режим").pack(side="left");self.profile=tk.StringVar(value="Обычный компьютер")
         ttk.Combobox(controls,textvariable=self.profile,values=("Обычный компьютер","Ноутбук"),state="readonly",width=20).pack(side="left",padx=(8,18))
-        ttk.Label(controls,text="Длительность").pack(side="left");self.duration=tk.StringVar(value="1 мин")
+        ttk.Label(controls,text="Длина теста").pack(side="left");self.duration=tk.StringVar(value="1 мин")
         ttk.Combobox(controls,textvariable=self.duration,values=("30 сек","1 мин","3 мин","5 мин"),state="readonly",width=9).pack(side="left",padx=8)
         self.start_button=ttk.Button(controls,text="Тест без пула",command=self.start);self.start_button.pack(side="right")
         mining=ttk.Frame(home);mining.pack(fill="x",pady=(8,12))
@@ -102,6 +102,20 @@ class Dashboard:
         self.activity=tk.StringVar(value="Вычисления не запущены. Ничего не загружается.")
         tk.Label(detail,textvariable=self.activity,bg=CARD,fg=MUTED,font=("Segoe UI",10),wraplength=880,justify="left").pack(anchor="w",pady=(7,0))
         self.pool_line=tk.StringVar();tk.Label(detail,textvariable=self.pool_line,bg=CARD,fg=MUTED,font=("Segoe UI",10),wraplength=880,justify="left").pack(anchor="w",pady=(7,0))
+
+    def _load_mined(self):
+        self.service.use_tally(self.settings_path.parent/"mined.json")
+        try:self.mined_known=json.loads((self.settings_path.parent/"mined_known.json").read_text(encoding="utf-8"))
+        except (OSError,ValueError):self.mined_known={}
+
+    def _share_rate(self,known):
+        """PRL per accepted share: the pool credits the address as a whole and does not split it by machine."""
+        stats=self.pool_stats;shares=sum(known.values())
+        return (stats["pending"]+stats["confirmed"]+stats["paid"])/shares if stats and shares else None
+
+    def _mined(self,accepted,rate):
+        if accepted is None:return "—"
+        return f"{accepted} · ≈{accepted*rate:.4f}" if rate else str(accepted)
 
     def open_pool(self):
         webbrowser.open(pool_stats.page_url(self.saved_config.user_wallet))
@@ -388,13 +402,23 @@ class Dashboard:
             except Empty:break
         snap=self.service.snapshot();devices=snap["devices"]
         self.checked.intersection_update(devices)
-        remote_rows={}
+        remote_rows={};tally=self.service.tallied()
+        known=dict(self.mined_known,**{key:row["total"] for key,row in tally.items()})
+        for peer_key,peer in self.fleet.snapshot().items():
+            miner=(peer["status"] or {}).get("miner")
+            if miner:known[peer_key]=miner.get("all_time",miner.get("accepted",0))
+        if known!=self.mined_known:
+            self.mined_known=known
+            try:atomic_json(self.settings_path.parent/"mined_known.json",known)
+            except OSError:pass
+        rate=self._share_rate(known)
         for peer_key,peer in self.fleet.snapshot().items():
             cards=(peer["status"] or {}).get("devices",{});alive=peer["updated_at"] and now_for_rows()-peer["updated_at"]<=15 and not peer["error"]
-            if not cards:remote_rows[f"remote:{peer_key}"]=("",peer["name"],"Нет связи" if peer["error"] else "Подключаем…","—","—","—",peer["error"] or "")
+            if not cards:remote_rows[f"remote:{peer_key}"]=("",peer["name"],"Нет связи" if peer["error"] else "Подключаем…","—","—","—","—",self._mined(known.get(peer_key),rate),peer["error"] or "")
+            miner=(peer["status"] or {}).get("miner")
             for card_key,card in cards.items():
                 free=card.get("free_bytes")
-                remote_rows[f"remote:{peer_key}:{card_key}"]=(("☑" if peer_key in self.peer_mine else "☐") if (peer["status"] or {}).get("miner_ready") else "",peer["name"]+" · "+card["name"],self.state_text(card) if alive else "Нет связи",self.value(card.get("temperature") if alive else None,digits=0),self.value(card.get("watts") if alive else None,digits=0),self.value(None if not alive or free is None else free/(1<<30)," ГБ"),card.get("note","") if alive else (peer["error"] or ""))
+                remote_rows[f"remote:{peer_key}:{card_key}"]=(("☑" if peer_key in self.peer_mine else "☐") if (peer["status"] or {}).get("miner_ready") else "",peer["name"]+" · "+card["name"],self.state_text(card) if alive else "Нет связи",self.value(card.get("temperature") if alive else None,digits=0),self.value(card.get("watts") if alive else None,digits=0),self.value(None if not alive or free is None else free/(1<<30)," ГБ"),self._mined(miner.get("accepted",0) if miner else None,rate),self._mined(known.get(peer_key),rate),card.get("note","") if alive else (peer["error"] or ""))
         for key in self.table.get_children():
             if key not in devices and key not in remote_rows:self.table.delete(key)
         for key,values in remote_rows.items():
@@ -403,7 +427,7 @@ class Dashboard:
         now=time.time()
         for key,row in devices.items():
             fresh=row.get("updated_at") is not None and now-row["updated_at"]<=5
-            values=("☑" if key in self.checked else "☐",row["name"],self.state_text(row),self.value(row["temperature"] if fresh else None,digits=0),self.value(row["watts"] if fresh else None,digits=0),self.value(None if not fresh or row["free_bytes"] is None else row["free_bytes"]/(1<<30)," ГБ"),row.get("note",""))
+            values=("☑" if key in self.checked else "☐",row["name"],self.state_text(row),self.value(row["temperature"] if fresh else None,digits=0),self.value(row["watts"] if fresh else None,digits=0),self.value(None if not fresh or row["free_bytes"] is None else row["free_bytes"]/(1<<30)," ГБ"),self._mined(tally.get(key,{}).get("last"),rate),self._mined(tally.get(key,{}).get("total"),rate),row.get("note",""))
             if self.table.exists(key):self.table.item(key,values=values)
             else:self.table.insert("","end",iid=key,values=values)
         powers=[r["watts"] for r in devices.values() if r["watts"] is not None and r.get("updated_at") and now-r["updated_at"]<=5]
@@ -416,7 +440,7 @@ class Dashboard:
         self.refresh_button.state(["disabled"] if snap["refreshing"] or snap["active"] else ["!disabled"])
         self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
         self.mine_button.state(["!disabled"] if (self.checked or self.peer_mine) and not snap["refreshing"] and not self.closing else ["disabled"])
-        self.empty.set("Диагностика устройств…" if snap["refreshing"] else (snap["error"] or ("Нажмите на строку карты, чтобы отметить её." if devices else "Нет проверенного вычислительного модуля или доступных CUDA GPU. Откройте журнал для подробностей.")))
+        self.empty.set("Диагностика устройств…" if snap["refreshing"] else (snap["error"] or ("Нажмите на строку карты, чтобы отметить её. Столбцы: принятые share машины (точно) · ≈PRL (оценка по их доле: пул начисляет на весь адрес, не по машинам)." if devices else "Нет проверенного вычислительного модуля или доступных CUDA GPU. Откройте журнал для подробностей.")))
         remote_mining=sum(1 for status in online.values() if (status.get("miner") or {}).get("state")=="running");remote_tests=remote_active-remote_mining
         self.activity.set(f"Идёт майнинг: здесь {snap.get('mining') or 0}, на других компьютерах {remote_mining}. Подключение к вашему пулу открыто. Кнопка «Остановить всё» завершает его сразу." if snap.get("mining") or remote_mining else f"Тесты: здесь {snap['active']}, на других компьютерах {remote_tests}. Без пула и выплат." if snap["active"] or remote_tests else "Вычисления не запущены. Майнинг начинается только по вашей кнопке.")
         logs="\n".join(row["time"]+"  "+row["message"] for row in snap["logs"])

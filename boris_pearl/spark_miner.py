@@ -39,10 +39,25 @@ def read_json(path,default=None):
     except (OSError,ValueError):return default
 
 
+def finished_accepted():
+    """Accepted shares of all earlier sessions; lives on the machine, so it outlasts the panel and its reinstalls."""
+    return (read_json(STATUS.with_name("lifetime.json"),{}) or {}).get("accepted",0)
+
+
+def close_session():
+    """The session's own count moves into the lifetime total once, right before a new session replaces it."""
+    status=read_json(STATUS,{}) or {};last=status.get("accepted",0)
+    if last and status.get("state")!="running":
+        path=STATUS.with_name("lifetime.json");temporary=path.with_name("lifetime.new")
+        temporary.write_text(json.dumps(dict(accepted=finished_accepted()+last)),encoding="utf-8")
+        os.replace(temporary,path)
+
+
 def write_status(**values):
     RUN.mkdir(parents=True,exist_ok=True)
     temporary=STATUS.with_name("status.new")
-    temporary.write_text(json.dumps(dict(values,updated=time.time()),ensure_ascii=False),encoding="utf-8")
+    all_time=finished_accepted()+values.get("accepted",0)
+    temporary.write_text(json.dumps(dict(values,all_time=all_time,updated=time.time()),ensure_ascii=False),encoding="utf-8")
     os.replace(temporary,STATUS)
 
 
@@ -105,7 +120,7 @@ def start(args):
     config=Config(args.wallet,args.pool)
     if config.effective_bps:raise SystemExit("A developer fee is not supported in this service yet")
     if not 60<=args.seconds<=7*86400:raise SystemExit("Deadline must be from one minute to seven days")
-    RUN.mkdir(parents=True,exist_ok=True);STOP.unlink(missing_ok=True);TOTALS.unlink(missing_ok=True)
+    RUN.mkdir(parents=True,exist_ok=True);close_session();STOP.unlink(missing_ok=True);TOTALS.unlink(missing_ok=True)
     SETTINGS.write_text(json.dumps(dict(wallet=config.user_wallet,pool=config.user_pool)),encoding="utf-8")
     WANT.write_text(json.dumps(dict(wallet=config.user_wallet,pool=config.user_pool,until=time.time()+args.seconds)),encoding="utf-8")
     write_status(state="waiting",reason="Запускаю")

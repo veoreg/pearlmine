@@ -91,6 +91,24 @@ class DashboardTests(unittest.TestCase):
         self.fleet.rows={"ssh:box":dict(name="Бокс",status=status,error=None,notice=None,updated_at=time.time())}
         self.pump(lambda:"Идёт майнинг: здесь 0, на других компьютерах 1" in self.ui.activity.get())
         self.assertEqual(self.ui.table.item("remote:ssh:box:GPU-1","values")[2],"Майнинг")
+    def test_mined_columns_stay_after_stop_and_estimate_from_the_address_total(self):
+        status=dict(devices={"GPU-1":dict(name="GB10",state="viewing",eligible=False,note="Майнинг выключен, можно включить")},active=0,miner=dict(state="stopped",accepted=4,all_time=30),miner_ready=True)
+        self.fleet.rows={"ssh:spark":dict(name="Spark",status=status,error=None,notice=None,updated_at=time.time())}
+        self.service.tally[U1]=dict(total=10,last=2)
+        self.ui.pool_stats=dict(pending=.04,confirmed=0.0,paid=0.0,threshold=1.0,workers=[]);self.ui.pool_reader=lambda w:self.ui.pool_stats
+        self.ui.saved_config=Config(fixture_address(3),"stratum+ssl://prl-sg.kryptex.network:8048")
+        self.service.refresh();self.pump(lambda:self.ui.table.exists("remote:ssh:spark:GPU-1") and self.ui.table.exists(U1))
+        self.pump(lambda:"≈" in self.ui.table.item("remote:ssh:spark:GPU-1","values")[6])
+        row=self.ui.table.item("remote:ssh:spark:GPU-1","values")
+        self.assertEqual((str(row[6]),str(row[7])),("4 · ≈0.0040","30 · ≈0.0300"))
+        mine=self.ui.table.item(U1,"values");self.assertEqual((str(mine[6]),str(mine[7])),("2 · ≈0.0020","10 · ≈0.0100"))
+        self.assertEqual(json.loads((self.path.parent/"mined_known.json").read_text(encoding="utf-8")),{U1:10,"ssh:spark":30})
+    def test_card_share_count_survives_reopen(self):
+        class Miner:shares=dict(accepted=7)
+        self.service.use_tally(self.path.parent/"mined.json");self.service.tally["GPU-a"]=dict(total=5,last=5)
+        self.assertEqual(self.service._count_shares("GPU-a",Miner,5,0),7)
+        self.shut();self.open()
+        self.assertEqual(self.service.tallied()["GPU-a"],dict(total=12,last=7))
     def test_bad_form_gives_russian_error_and_does_not_block_remembering_a_computer(self):
         self.ui.config_vars["user_wallet"].set(WALLET_BAD);self.ui.save_settings()
         self.assertIn("prl1p",self.ui.settings_message.get());self.assertFalse(self.path.exists())
