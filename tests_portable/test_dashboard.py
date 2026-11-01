@@ -86,6 +86,11 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(self.ui.metrics["credited"].get(),"0.003903 PRL")
         self.ui.saved_config=Config(wallet,"stratum+ssl://pool.example:443");self.pump(lambda:self.ui.metrics["credited"].get()=="—")
         self.assertEqual(self.ui.pool_line.get(),"");self.assertEqual(len(calls),2)
+    def test_remote_mining_is_called_mining_not_a_test(self):
+        status=dict(devices={"GPU-1":dict(name="RTX 5090",state="running",eligible=False,temperature=70,watts=570,note="Майнинг 275 TH/s · принято 16, отклонено 0")},active=1,miner=dict(state="running"),miner_ready=True)
+        self.fleet.rows={"ssh:box":dict(name="Бокс",status=status,error=None,notice=None,updated_at=time.time())}
+        self.pump(lambda:"Идёт майнинг: здесь 0, на других компьютерах 1" in self.ui.activity.get())
+        self.assertEqual(self.ui.table.item("remote:ssh:box:GPU-1","values")[2],"Майнинг")
     def test_bad_form_gives_russian_error_and_does_not_block_remembering_a_computer(self):
         self.ui.config_vars["user_wallet"].set(WALLET_BAD);self.ui.save_settings()
         self.assertIn("prl1p",self.ui.settings_message.get());self.assertFalse(self.path.exists())

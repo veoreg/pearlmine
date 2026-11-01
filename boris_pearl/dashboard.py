@@ -134,6 +134,7 @@ class Dashboard:
     @staticmethod
     def state_text(row):
         if row.get("state")=="idle" and not row.get("eligible"):return "Недоступно"
+        if row.get("state")=="running" and str(row.get("note","")).startswith("Майнинг"):return "Майнинг"
         return STATES.get(row.get("state"),row.get("state"))
 
     def _table(self,parent,columns,height):
@@ -416,7 +417,8 @@ class Dashboard:
         self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
         self.mine_button.state(["!disabled"] if (self.checked or self.peer_mine) and not snap["refreshing"] and not self.closing else ["disabled"])
         self.empty.set("Диагностика устройств…" if snap["refreshing"] else (snap["error"] or ("Нажмите на строку карты, чтобы отметить её." if devices else "Нет проверенного вычислительного модуля или доступных CUDA GPU. Откройте журнал для подробностей.")))
-        self.activity.set(f"Идёт майнинг на {snap['mining']} GPU, подключение к вашему пулу открыто. Кнопка «Остановить всё» завершает его сразу." if snap.get("mining") else f"Тесты: здесь {snap['active']}, на других компьютерах {remote_active}. Без пула и выплат." if snap["active"] or remote_active else "Вычисления не запущены. Майнинг начинается только по вашей кнопке.")
+        remote_mining=sum(1 for status in online.values() if (status.get("miner") or {}).get("state")=="running");remote_tests=remote_active-remote_mining
+        self.activity.set(f"Идёт майнинг: здесь {snap.get('mining') or 0}, на других компьютерах {remote_mining}. Подключение к вашему пулу открыто. Кнопка «Остановить всё» завершает его сразу." if snap.get("mining") or remote_mining else f"Тесты: здесь {snap['active']}, на других компьютерах {remote_tests}. Без пула и выплат." if snap["active"] or remote_tests else "Вычисления не запущены. Майнинг начинается только по вашей кнопке.")
         logs="\n".join(row["time"]+"  "+row["message"] for row in snap["logs"])
         if logs!=self.last_log:
             self.log_box.configure(state="normal");self.log_box.delete("1.0","end");self.log_box.insert("1.0",logs);self.log_box.see("end");self.log_box.configure(state="disabled");self.last_log=logs
