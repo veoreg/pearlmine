@@ -1,0 +1,10 @@
+OFFLINE KAT ONLY. No pool connection or mining.
+device=NVIDIA GeForce RTX 5090 cc=12.0
+golden seed=1 K=2048 row=0 col=0 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=2 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=4 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=6 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=64 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=66 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=68 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=70 fill+noise+transcript+digest=PASS

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "time_utc_epoch": 1793462813.4708657,
+  "system": "Windows",
+  "machine": "AMD64",
+  "scope": "read-only preflight; no GPU kernels, allocation, pool, wallet, settings writes or install",
+  "gb10_runtime_qualified": false,
+  "launch_authorized": false,
+  "blockers": [
+    "Requires the actual GB10 Linux ARM64 host; no WSL/container/cross-compiler fallback attempted"
+  ]
+}

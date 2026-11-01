@@ -1,0 +1,10 @@
+{
+  "status": "built successfully offline",
+  "source_revision": "3fe226761a139a9652b8f28a6464a4bbc25986c8",
+  "manifest": "proof_bridge/local-build/Cargo.toml",
+  "lock_sha256": "a294d9899e7dc6390271870fe5121541f4b871ca62af180b9dbc494dc005f08d",
+  "binary_sha256": "5e0a98e8aff4b5d034f03e7ac5ce96e29510b8a17ef56ccfa805fa8d313a54f3",
+  "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+  "registry_archive_checksums_verified": 202,
+  "official_source_files_verified": 351
+}

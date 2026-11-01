@@ -1,0 +1,47 @@
+test_deadline_during_blocked_child_cancels_process (test_controller.ControllerTests.test_deadline_during_blocked_child_cancels_process) ... ok
+test_explicit_policy_acknowledgment_and_stopped_default (test_controller.ControllerTests.test_explicit_policy_acknowledgment_and_stopped_default) ... ok
+test_full_user_dev_flow_preserves_owner_and_durable_ledger (test_controller.ControllerTests.test_full_user_dev_flow_preserves_owner_and_durable_ledger) ... ok
+test_hot_gpu_and_missing_user_session_never_dispatch (test_controller.ControllerTests.test_hot_gpu_and_missing_user_session_never_dispatch) ... ok
+test_restart_recovers_but_never_autostarts (test_controller.ControllerTests.test_restart_recovers_but_never_autostarts) ... ok
+test_session_loss_while_waiting_cancels_owned_worker (test_controller.ControllerTests.test_session_loss_while_waiting_cancels_owned_worker) ... ok
+test_wall_clock_rollback_does_not_extend_deadline (test_controller.ControllerTests.test_wall_clock_rollback_does_not_extend_deadline) ... ok
+test_worker_crash_waives_pending_dev_and_latches_stop (test_controller.ControllerTests.test_worker_crash_waives_pending_dev_and_latches_stop) ... ok
+test_write_ahead_failure_prevents_worker_start (test_controller.ControllerTests.test_write_ahead_failure_prevents_worker_start) ... ok
+test_crash_response_identity_and_time_are_checked (test_controller.PipeTests.test_crash_response_identity_and_time_are_checked) ... ok
+test_manual_cancel_during_response_wait (test_controller.PipeTests.test_manual_cancel_during_response_wait) ... ok
+test_real_child_selftest_and_cleanup (test_controller.PipeTests.test_real_child_selftest_and_cleanup) ... ok
+test_rejects_live_handshake_and_oversized_frame (test_controller.PipeTests.test_rejects_live_handshake_and_oversized_frame) ... ok
+test_roundtrip_and_input_limits (test_controller.PipeTests.test_roundtrip_and_input_limits) ... ok
+test_timeout_kills_only_owned_child (test_controller.PipeTests.test_timeout_kills_only_owned_child) ... ok
+test_checksum_network_case_and_padding (test_core.ConfigurationTests.test_checksum_network_case_and_padding) ... ok
+test_default_has_no_fee_or_destination (test_core.ConfigurationTests.test_default_has_no_fee_or_destination) ... ok
+test_endpoint_rejects_secrets_and_wrong_schemes (test_core.ConfigurationTests.test_endpoint_rejects_secrets_and_wrong_schemes) ... ok
+test_fee_and_pool_fee_validation (test_core.ConfigurationTests.test_fee_and_pool_fee_validation) ... ok
+test_nonzero_fee_needs_public_destination (test_core.ConfigurationTests.test_nonzero_fee_needs_public_destination) ... ok
+test_self_mining_has_no_fee (test_core.ConfigurationTests.test_self_mining_has_no_fee) ... ok
+test_atomic_state_roundtrip (test_core.FeeTests.test_atomic_state_roundtrip) ... ok
+test_crash_after_dev_reservation_does_not_charge_it_twice (test_core.FeeTests.test_crash_after_dev_reservation_does_not_charge_it_twice) ... ok
+test_developer_outage_waives_backlog (test_core.FeeTests.test_developer_outage_waives_backlog) ... ok
+test_duplicate_or_oversized_activity_rejected (test_core.FeeTests.test_duplicate_or_oversized_activity_rejected) ... ok
+test_exact_two_percent_and_one_point_five (test_core.FeeTests.test_exact_two_percent_and_one_point_five) ... ok
+test_idle_pause_no_user_pool_no_accounting (test_core.FeeTests.test_idle_pause_no_user_pool_no_accounting) ... ok
+test_random_activity_restart_outage_never_overcharges (test_core.FeeTests.test_random_activity_restart_outage_never_overcharges) ... ok
+test_restart_preserves_fraction_and_total (test_core.FeeTests.test_restart_preserves_fraction_and_total) ... ok
+test_state_rejects_other_wallet_and_corruption (test_core.FeeTests.test_state_rejects_other_wallet_and_corruption) ... ok
+test_zero_activity_is_never_charged (test_core.FeeTests.test_zero_activity_is_never_charged) ... ok
+test_zero_never_schedules_developer (test_core.FeeTests.test_zero_never_schedules_developer) ... ok
+test_disconnected_epoch_and_undisclosed_wallet_rejected (test_core.OwnershipTests.test_disconnected_epoch_and_undisclosed_wallet_rejected) ... ok
+test_reconnect_and_clean_invalidate_old_work (test_core.OwnershipTests.test_reconnect_and_clean_invalidate_old_work) ... ok
+test_session_spoof_unknown_fork_reused_header_rejected (test_core.OwnershipTests.test_session_spoof_unknown_fork_reused_header_rejected) ... ok
+test_shares_never_follow_current_fee_destination (test_core.OwnershipTests.test_shares_never_follow_current_fee_destination) ... ok
+test_truthy_non_boolean_verifier_is_rejected (test_core.OwnershipTests.test_truthy_non_boolean_verifier_is_rejected) ... ok
+test_wrong_proof_and_duplicate_are_rejected (test_core.OwnershipTests.test_wrong_proof_and_duplicate_are_rejected) ... ok
+test_day_work_deadline_latches_stop (test_core.SafetyTests.test_day_work_deadline_latches_stop) ... ok
+test_laptop_needs_confirmed_ac (test_core.SafetyTests.test_laptop_needs_confirmed_ac) ... ok
+test_restart_is_stopped_and_gb10_ceiling_cannot_be_raised (test_core.SafetyTests.test_restart_is_stopped_and_gb10_ceiling_cannot_be_raised) ... ok
+test_stale_missing_hot_overpower_memory (test_core.SafetyTests.test_stale_missing_hot_overpower_memory) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.836s
+
+OK

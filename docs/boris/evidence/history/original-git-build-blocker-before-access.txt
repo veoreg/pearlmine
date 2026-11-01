@@ -1,0 +1,10 @@
+error: failed to get `zk-pow` as a dependency of package `boris-official-proof-check v0.1.0 (C:\Users\user\Documents\Codex\2026-10-31\task\pearl-miner\proof_bridge)`
+
+Caused by:
+  failed to load source for dependency `zk-pow`
+
+Caused by:
+  Unable to update https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8
+
+Caused by:
+  can't checkout from 'https://github.com/pearl-research-labs/pearl': you are in the offline mode (--offline)

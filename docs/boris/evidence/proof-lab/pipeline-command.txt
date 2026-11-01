@@ -1,0 +1,13 @@
+{
+  "mode": "fixed offline fixture, no pool or nonce search",
+  "proof_bytes": 51697,
+  "proof_sha256": "786614f2d1a0e02130d9f4c64d636d7cf83ec1e7abfc9ea4ab44e8fb0bcd3125",
+  "cuda_binary_sha256": "5245b06b46c909fa7dbe873778024da07b7f9de1d6256a1914c9ac8bf81e3cf9",
+  "gpu_digest": "0e9359d550d555994ea1cf0d3ec4a015e63fd019f011c0082ab6a9ad5570608d",
+  "merkle_precheck": "passed; independent implementation",
+  "independent_dense_precheck": "passed; not official consensus verification",
+  "official_verification": "passed",
+  "submitted": false,
+  "difficulty_note": "0x207fffff is a test-only saturated override; never a real pool target",
+  "official_wire_sha256": "786614f2d1a0e02130d9f4c64d636d7cf83ec1e7abfc9ea4ab44e8fb0bcd3125"
+}

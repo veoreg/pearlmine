@@ -1,0 +1,6 @@
+{
+  "mode": "offline-synthetic; no GPU or pool",
+  "child_pid": 66960,
+  "simulated_active_ns": 1000000,
+  "proof_matches": true
+}

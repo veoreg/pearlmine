@@ -1,0 +1,58 @@
+{
+  "time_utc": "2026-10-31T16:07:57.397012+00:00",
+  "status": "independent preparation complete; physical ARM64 qualification blocked",
+  "scope": "GB10 source/build policy, read-only preflight and pure/static checks; Windows regression GPU fixtures only",
+  "portable_python_tests": 87,
+  "new_gb10_python_fixtures": 9,
+  "pure_rust_build_policy_tests": 7,
+  "windows_gpu_integration_tests": 27,
+  "windows_portable_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "lock_sha256": "626b5d32548535b3fcfcf5195bc67876d128a45a07da8ba17591abdaaf3bf3e7",
+  "official_source_commit": "3fe226761a139a9652b8f28a6464a4bbc25986c8",
+  "official_exact_source_files": 351,
+  "registry_archives_verified": 243,
+  "gb10_native_build_executed": false,
+  "gb10_gpu_executions": 0,
+  "linux_runtime_executions": 0,
+  "real_mining_executions": 0,
+  "real_pool_connections": 0,
+  "real_submissions": 0,
+  "system_settings_changes": 0,
+  "wsl_denial_retried_or_bypassed": false,
+  "remaining_blockers": [
+    {
+      "action": "nvcc --ptx -arch=compute_121 probe.cu",
+      "target": "GB10 CUDA device code",
+      "status": "blocked",
+      "reason": "installed CUDA12.4.131: Value 'compute_121' is not defined for option 'gpu-architecture'"
+    },
+    {
+      "action": "rustc +stable --target aarch64-unknown-linux-gnu --emit=metadata probe.rs",
+      "target": "Linux ARM64 Rust std/sysroot",
+      "status": "blocked",
+      "reason": "E0463 cannot find crate std; only Windows x64 target installed"
+    },
+    {
+      "action": "wsl --list --quiet (earlier phase)",
+      "target": "WSL distribution inventory",
+      "status": "denied, not retried",
+      "reason": "exit1 Wsl/EnumerateDistros/Service/E_ACCESSDENIED"
+    },
+    {
+      "action": "native build, proof and safety qualification",
+      "target": "physical MSI EdgeXpert / GB10 Linux ARM64",
+      "status": "blocked: hardware/authorized host absent",
+      "reason": "OEM board/power sensor and unified-memory admission require actual hardware; no safe inferred replacement"
+    }
+  ],
+  "minimum_safe_next_step": "On actual MSI/Spark in source root: python3 -m boris_pearl.gb10_preflight > gb10-preflight.json ; intentional exit2; read-only, no root/network/kernels/settings; review report before any compute",
+  "historical_evidence": "Previous architectures/full-size summaries remain tied to their original binary hashes; new binary is not credited with past long-run results",
+  "evidence_sha256": {
+    "docs/boris/GB10_LINUX_ARM64.md": "d5f54712f881eedd74cc70ca0cb2c776ad2359c878c77a09fc0083330b1d36d8",
+    "docs/boris/SUPPORT_MATRIX.md": "e43d997d18ee88ec5936e86b52d29b019fc8a9bd40363cb07ab0f493ac9a185c",
+    "docs/boris/evidence/gb10/static-verification.json": "4b71aa7dcaf863525660514a0f92d4c8839cc6e709739de7e688014a6a5856d5",
+    "docs/boris/evidence/worker/worker-build.json": "d9a97705a8968fd369c3fc3875c914354d10000b9baa77cf20a9f72b1fba0865",
+    "docs/boris/evidence/worker/verification-results.json": "99e74125a0e15887914a8803888418c78fbdf81a33ede1ca6c602df93493cd93",
+    "boris_pearl/backends.py": "ebe771ef188e7d52b075fe92bba66c9641ee679f7cd21f6178f465c03dfdc828"
+  }
+}

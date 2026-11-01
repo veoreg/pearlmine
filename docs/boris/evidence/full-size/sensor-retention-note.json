@@ -1,0 +1,7 @@
+{
+  "runtime_source_sha256": "8bad67ee9289d19d82d3834f2525ffc0488a8510208d7a1cb264d120340cd03e",
+  "runtime_source_snapshot": "run-local-search-source.txt",
+  "delivered_source_sha256": "6cc9874940dd274ca2820b4400a7dbab95711ec9d773f9ae66591f35d7db0d1d",
+  "difference": "Reporting retention only: runtime1300 rows; delivered full-grid source4000 rows plus window timestamps. GPU/guard/pacing/accounting unchanged.",
+  "current_run_extrema": "Retained sensor window only, not whole-run extrema"
+}

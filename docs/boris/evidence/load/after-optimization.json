@@ -1,0 +1,29 @@
+{
+  "scope": "fixed64x64x4096 hard artificial header/nonce; no pool or nonce progression",
+  "binary_sha256": "dd908e476a05c9f928ac3b5d4db61a263c471dceb9d8820ffe4c07c1fc7a87e3",
+  "samples": [
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.13525720000325236,
+      "device_ns": 4111667
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.012257200003659818,
+      "device_ns": 4132558
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.011949399995501153,
+      "device_ns": 4111823
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.01293660000374075,
+      "device_ns": 4168720
+    }
+  ],
+  "warm_fixed_batch_wall_speed_ratio": 3.932317330568425,
+  "warm_fixed_batch_device_speed_ratio": 1.3442652226538623,
+  "limits": "Small fixture timings, warm medians; driver clocks/background activity vary. Not production throughput."
+}

@@ -1,0 +1,21 @@
+[package]
+name = "boris-official-proof-check"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+# Isolated from the legacy CUDA/Unix workspace; never installs or runs a miner.
+[workspace]
+
+[dependencies]
+zk-pow = { git = "https://github.com/pearl-research-labs/pearl", rev = "3fe226761a139a9652b8f28a6464a4bbc25986c8", package = "zk-pow" }
+# Expected registry pins from the preserved upstream Cargo.lock. Registry/archive
+# availability and checksums must still be verified when network access is granted.
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+bincode = "=1.3.3"
+hex = "=0.4.3"
+sha2 = "=0.10.9"
+
+[profile.release]
+opt-level = 2

@@ -1,0 +1,14 @@
+{
+  "status": "expected direct pins match preserved upstream lock",
+  "direct_registry_pins": {
+    "serde": "=1.0.229",
+    "serde_json": "=1.0.151",
+    "bincode": "=1.3.3",
+    "hex": "=0.4.3",
+    "sha2": "=0.10.9"
+  },
+  "zk_pow_git_revision": "3fe226761a139a9652b8f28a6464a4bbc25986c8",
+  "manifest_sha256": "65c1137bca0a64455e80f0faefe3e836c5307cff2c3a14304bb1e8971614f0c1",
+  "download_integrity": "not checked: no archives/source obtained",
+  "bridge_build": "blocked"
+}

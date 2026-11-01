@@ -1,0 +1,15 @@
+Developer fee: 0.00% of active GPU time
+Developer payout: not configured
+Developer pool: not configured
+User payout: not configured
+User pool: not configured
+Pool fee, separate: unknown; confirm with the pool
+A time percentage does not guarantee the same percentage of revenue.
+Live mining is disabled in this prototype.
+{
+  "mode": "synthetic simulation; no mining",
+  "user_seconds": 3600.0,
+  "developer_seconds": 0.0,
+  "measured_time_percent": 0.0,
+  "configured_bps": 0
+}

@@ -1,0 +1,1 @@
+nvcc fatal   : Value 'compute_121' is not defined for option 'gpu-architecture'

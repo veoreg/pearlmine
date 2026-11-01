@@ -1,0 +1,89 @@
+{
+  "time_utc": "2026-10-31T11:24:25.046917+00:00",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "system": "Windows-10-10.0.19045-SP0",
+  "inventory": {
+    "system": "Windows",
+    "machine": "AMD64",
+    "devices": [
+      {
+        "index": "0",
+        "name": "NVIDIA GeForce RTX 5090",
+        "driver": "617.42",
+        "compute_capability": "12.0",
+        "memory_mib": "32607",
+        "qualification": "detected only; live backend unavailable"
+      }
+    ],
+    "mining_enabled": false
+  },
+  "checks": {
+    "cpu": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_portable",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "configuration": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "boris_pearl",
+        "check",
+        "--config",
+        "boris-config.example.json"
+      ],
+      "exit_code": 0
+    },
+    "simulation": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "boris_pearl",
+        "simulate",
+        "--seconds",
+        "3600"
+      ],
+      "exit_code": 0
+    },
+    "worker_ipc": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "boris_pearl",
+        "worker-selftest"
+      ],
+      "exit_code": 0
+    },
+    "gpu_kat": {
+      "command": [
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\boris-offline-kat.exe"
+      ],
+      "exit_code": 0
+    },
+    "cuda_targets": {
+      "command": [
+        "cuobjdump",
+        "--list-elf",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\boris-offline-kat.exe"
+      ],
+      "exit_code": 0
+    },
+    "cuda_ptx": {
+      "command": [
+        "cuobjdump",
+        "--list-ptx",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\boris-offline-kat.exe"
+      ],
+      "exit_code": 0
+    }
+  },
+  "scope": "offline prototype only; no pool connection, proof search or mining",
+  "kat_binary_sha256": "5245b06b46c909fa7dbe873778024da07b7f9de1d6256a1914c9ac8bf81e3cf9"
+}

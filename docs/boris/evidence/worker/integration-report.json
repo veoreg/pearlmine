@@ -1,0 +1,82 @@
+{
+  "scope": "two fixed small GPU tiles, official verifier, loopback TLS mocks only",
+  "user": {
+    "state": "offline-result",
+    "owner": "user",
+    "session": "user",
+    "active_ns": 65439,
+    "simulated_active_ns": null,
+    "verified_proofs": 1,
+    "work_stats": {
+      "nonce": 5422708195182210659,
+      "tile": 0,
+      "total_tiles": 1,
+      "tiles_this_chunk": 1,
+      "nonce_changes": 0,
+      "cache_hits": 0,
+      "device_bytes": 49280,
+      "workspace_reused": false,
+      "kernel_variant": 4
+    },
+    "submitted": false
+  },
+  "developer": {
+    "state": "offline-result",
+    "owner": "developer",
+    "session": "developer",
+    "active_ns": 65024,
+    "simulated_active_ns": null,
+    "verified_proofs": 1,
+    "work_stats": {
+      "nonce": 5422708195182210659,
+      "tile": 0,
+      "total_tiles": 1,
+      "tiles_this_chunk": 1,
+      "nonce_changes": 0,
+      "cache_hits": 0,
+      "device_bytes": 49280,
+      "workspace_reused": true,
+      "kernel_variant": 4
+    },
+    "submitted": false
+  },
+  "returned_user": {
+    "state": "offline-result",
+    "owner": "user",
+    "session": "user",
+    "active_ns": 62880,
+    "simulated_active_ns": null,
+    "verified_proofs": 1,
+    "work_stats": {
+      "nonce": 5422708195182210659,
+      "tile": 1,
+      "total_tiles": 2,
+      "tiles_this_chunk": 1,
+      "nonce_changes": 0,
+      "cache_hits": 1,
+      "device_bytes": 49280,
+      "workspace_reused": true,
+      "kernel_variant": 4
+    },
+    "submitted": false
+  },
+  "packets": [
+    {
+      "owner": "user",
+      "wire_sha256": "bc5160db0c93527de250bf81d77e6e83b83e2d4c0be2dd92a00a71dddecff34d",
+      "wire_bytes": 51697,
+      "mock_acceptance": true
+    },
+    {
+      "owner": "developer",
+      "wire_sha256": "1ec1a5d75ca60860f17d3d88433e72e1fa19df52f830f8bf02e2d30a86126930",
+      "wire_bytes": 51697,
+      "mock_acceptance": true
+    }
+  ],
+  "fee_setup": "5 seconds synthetic prior active credit; not a physical fee rate measurement",
+  "worker_reaped": true,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "live_mode": false
+}

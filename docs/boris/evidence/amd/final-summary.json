@@ -1,0 +1,103 @@
+{
+  "time_utc": "2026-10-31T16:29:24.207020+00:00",
+  "status": "independent AMD-oriented prototype complete; physical AMD/compiler/telemetry qualification blocked",
+  "actual_system": "Windows x64",
+  "actual_gpu": "NVIDIA GeForce RTX5090",
+  "portable_tests": 97,
+  "new_opencl_portable_tests": 10,
+  "opencl_arithmetic_cases": 15,
+  "opencl_golden_cases": 3,
+  "official_proofs_accepted": 3,
+  "official_negative_cases_rejected": 6,
+  "opencl_fixed_kernel_launches": 21,
+  "stop_cases": [
+    {
+      "case": "manual",
+      "reaped_elapsed_ms": 16.00000000325963,
+      "confirmation_elapsed_ms": 78.00000000133878,
+      "worker_reaped": true,
+      "worker_still_listed_by_fresh_nvml": false,
+      "limitation": "PID check does not prove exact VRAM recovery under WDDM"
+    },
+    {
+      "case": "deadline_without_next_request",
+      "reaped_elapsed_ms": 858.9999999967404,
+      "confirmation_elapsed_ms": 1093.9999999973224,
+      "worker_reaped": true,
+      "worker_still_listed_by_fresh_nvml": false,
+      "limitation": "PID check does not prove exact VRAM recovery under WDDM"
+    },
+    {
+      "case": "sensor_loss_without_next_request",
+      "reaped_elapsed_ms": 31.9999999992433,
+      "confirmation_elapsed_ms": 110.00000000058208,
+      "worker_reaped": true,
+      "worker_still_listed_by_fresh_nvml": false,
+      "limitation": "PID check does not prove exact VRAM recovery under WDDM"
+    }
+  ],
+  "main_device_event_ns": 2257984,
+  "main_sensor_samples": 17,
+  "max_observed_gpu_c": 32,
+  "max_observed_watts": 76.401,
+  "measurement_scope": "Short fixed fixtures only; no sustained-load, hashrate, profitability or AMD performance/safety qualification",
+  "cuda_binary_unchanged_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "official_exact_source_files": 351,
+  "lock_sha256": "626b5d32548535b3fcfcf5195bc67876d128a45a07da8ba17591abdaaf3bf3e7",
+  "new_dependencies": [],
+  "amd_gpu_executions": 0,
+  "hip_compilations": 0,
+  "linux_executions": 0,
+  "real_mining_executions": 0,
+  "real_pool_connections": 0,
+  "real_submissions": 0,
+  "system_setting_changes": 0,
+  "wsl_retry_or_bypass": false,
+  "remaining_blockers": [
+    {
+      "action": "Compile and execute fixed kernels/proofs on AMD Windows/Linux",
+      "target": "Physical AMD GPU and its existing driver/OpenCL ICD",
+      "status": "blocked: absent",
+      "reason": "Only NVIDIA platform/device enumerated; NVIDIA ICD compilation is not AMD compilation"
+    },
+    {
+      "action": "Build HIP backend for an actual gfx target",
+      "target": "hipcc/amdclang++/clang++ and AMD ROCm SDK",
+      "status": "blocked: absent",
+      "reason": "No existing HIP toolchain; none installed or bypassed"
+    },
+    {
+      "action": "Enable guarded AMD dispatch",
+      "target": "AMD read-only identity/temperature/hotspot/power/memory/AC telemetry",
+      "status": "blocked: not implemented or physically validated",
+      "reason": "NVML cannot be substituted for AMD sensors; unavailable data refuses GPU work"
+    },
+    {
+      "action": "Linux runtime validation",
+      "target": "Authorized native Linux host",
+      "status": "blocked; prior WSL denial not retried",
+      "reason": "Earlier Wsl/EnumerateDistros/Service/E_ACCESSDENIED; no alternate Linux path used"
+    }
+  ],
+  "minimum_safe_next_step": "On an existing authorized physical AMD host: python -m boris_pearl.opencl_diagnose > opencl-inventory.json ; read-only, no compiler/context/kernel/AMD load/settings changes. Review exact model/driver/UUID capabilities and AMD sensor coverage before enabling tests.",
+  "evidence_sha256": {
+    "docs/boris/AMD_OPENCL.md": "1fb6e94bc78274ecf8b4c9a055925f367e77f9eafb8145eb3c17869a49da901e",
+    "docs/boris/SUPPORT_MATRIX.md": "1f6d6fce4f7188cf037c6425f64dba6ee7afadb90fb50a29d49cfa534b176d63",
+    "docs/boris/evidence/amd/opencl-validation.json": "7fd151e7042e2d79ece441b3fd94a579d3ba5c6b18992ec93fa4cd6dc5b271f6",
+    "docs/boris/evidence/amd/readonly-validation.json": "231679b087b17213e23325b914fc9f528f886807044ff40f5a9957bd3e1fb2d4",
+    "docs/boris/evidence/amd/readonly-inventory.json": "da8fb1cf01df917eb6727c0c38620187e43cc3a850bed0b97106911fccc5d0a4",
+    "docs/boris/evidence/amd/portable-tests.txt": "cb2f304c9be49d1762c5931a90a7910655687d174aaad3d6fecd78d83d18d716",
+    "docs/boris/evidence/amd/backend-research.json": "0e4f8d309417af822479bb3a0e4f398783c3db60a77a9f5bf0e35c1a6be17662",
+    "boris_pearl/opencl_diagnose.py": "cb2b28197565d23e09da046a71fc3a5c20104c9761769524af7aa8d35a22628d",
+    "boris_pearl/backends.py": "ffe2c9894140da9c2fbcf29b1acba43ea6adb0440792ac94842736be819398a0"
+  },
+  "source_sha256": {
+    "native/opencl/fixed_tile.cl": "90da0d5f777eef4e45a39e4e87a121dd9cf472b2d69d9f6353f050f2c54e5184",
+    "boris_pearl/opencl_lab.py": "04335265b07f5f9a213e63f65d832c2eaee7fae7fc7fc3caab907132b8b33ae1",
+    "boris_pearl/opencl_fixtures.py": "7fe2ff79cab7c7315e2be77af78966e941114121ba91b7d240d9bb7ebd958ee2",
+    "boris_pearl/opencl_validation.py": "7ce1aca56f61d0d44bb33c1142f554873f5e116b173fa1ff70fd65583f2b9468",
+    "boris_pearl/ipc.py": "64952a0d5bfcaf66725bcae9069e855b0924a74391d806097b3dd180c98f9b3a",
+    "tests_portable/test_opencl.py": "194f1dd425c158a42b6fca04f2078ecb9aeda8c072b2852f08aa7e2749962ba3",
+    "tools/boris-opencl-verify.py": "24a65d0acc9a20bf4aa0972f69430cf69dfbe7c5cf62517020d7b97d73027e2e"
+  }
+}

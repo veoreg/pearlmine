@@ -1,0 +1,93 @@
+{
+  "time_utc": "2026-10-31T13:42:15.722713+00:00",
+  "status": "passed",
+  "worker_binary_sha256": "dd908e476a05c9f928ac3b5d4db61a263c471dceb9d8820ffe4c07c1fc7a87e3",
+  "unit_tests": {
+    "portable": 70,
+    "proof_official": 23,
+    "gpu_worker": 15,
+    "official_merkle": 35,
+    "gpu_kat": 37
+  },
+  "local_300s": {
+    "scope": "bounded artificial64x64x4096 hard-target nonce lifecycle; no pool/live mode",
+    "device": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5090"
+    },
+    "elapsed_seconds": 300.3440000000046,
+    "requested_seconds": 300,
+    "duty_limit": 0.2,
+    "stop_threshold_watts": 125.0,
+    "power_settings_changed": false,
+    "cpu_worker_threads": 2,
+    "stats": {
+      "nonce": 5422708195182214243,
+      "tile": 0,
+      "total_tiles": 114689,
+      "tiles_this_chunk": 32,
+      "nonce_changes": 3584,
+      "cache_hits": 200701,
+      "device_bytes": 98432,
+      "workspace_reused": true,
+      "kernel_variant": 4
+    },
+    "stop": {
+      "reason": "stop deadline",
+      "stop_call_seconds": 8.620000153314322e-05,
+      "worker_reaped": true,
+      "worker_still_listed_by_nvml": false,
+      "nvml_after_stop_fresh": true
+    },
+    "worker_binary_sha256": "dd908e476a05c9f928ac3b5d4db61a263c471dceb9d8820ffe4c07c1fc7a87e3",
+    "work_wall_seconds": 55.24400000242167,
+    "software_busy_fraction": 0.18412764015192157,
+    "pause_counts": {
+      "stop deadline": 1
+    },
+    "ledger": {
+      "user_active_ns": 14445869580,
+      "developer_active_ns": 0
+    },
+    "sensor_samples": 587,
+    "max_gpu_c": 32,
+    "max_watts": 80.009,
+    "max_gpu_util": 16,
+    "min_free_bytes": 30862106624,
+    "live_mode": false,
+    "external_pool_connections": 0,
+    "real_submissions": 0,
+    "status": "passed"
+  },
+  "small_fixture_profile": {
+    "scope": "fixed64x64x4096 hard artificial header/nonce; no pool or nonce progression",
+    "binary_sha256": "dd908e476a05c9f928ac3b5d4db61a263c471dceb9d8820ffe4c07c1fc7a87e3",
+    "samples": [
+      {
+        "tiles": 32,
+        "elapsed_seconds": 0.13525720000325236,
+        "device_ns": 4111667
+      },
+      {
+        "tiles": 32,
+        "elapsed_seconds": 0.012257200003659818,
+        "device_ns": 4132558
+      },
+      {
+        "tiles": 32,
+        "elapsed_seconds": 0.011949399995501153,
+        "device_ns": 4111823
+      },
+      {
+        "tiles": 32,
+        "elapsed_seconds": 0.01293660000374075,
+        "device_ns": 4168720
+      }
+    ],
+    "warm_fixed_batch_wall_speed_ratio": 3.932317330568425,
+    "warm_fixed_batch_device_speed_ratio": 1.3442652226538623,
+    "limits": "Small fixture timings, warm medians; driver clocks/background activity vary. Not production throughput."
+  },
+  "scope": "Windows RTX5090 only; artificial jobs/local TLS, no real mining/pool/submissions",
+  "remaining": "real accepted shares, high-throughput tensor backend, full-size full search, long full-load/OEM qualification, Linux/other GPU models/AMD/multi-GPU"
+}

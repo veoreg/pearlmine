@@ -1,0 +1,15 @@
+{
+  "time_utc": "2026-10-31T13:44:33.503730+00:00",
+  "action": "read-only inventory of existing WSL distributions",
+  "command": [
+    "wsl",
+    "--list",
+    "--quiet"
+  ],
+  "exit_code": 1,
+  "status": "denied",
+  "error": "Wsl/EnumerateDistros/Service/E_ACCESSDENIED",
+  "outcome": "distribution inventory not obtained; Linux availability unconfirmed",
+  "settings_changed": false,
+  "retried_or_bypassed": false
+}

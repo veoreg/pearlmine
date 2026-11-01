@@ -1,0 +1,68 @@
+{
+  "checked_utc": "2026-10-31",
+  "decision": "Original OpenCL C1.2 scalar INT8 fixed-tile lab; no third-party miner or ROCm implementation imported",
+  "sources": [
+    {
+      "component": "HIP public API/source",
+      "license_observed": "MIT",
+      "license_url": "https://raw.githubusercontent.com/ROCm/hip/develop/LICENSE.md",
+      "role": "researched only; no HIP compiler/header/runtime added"
+    },
+    {
+      "component": "AMD CLR (HIP/OpenCL source)",
+      "license_observed": "MIT",
+      "license_url": "https://raw.githubusercontent.com/ROCm/clr/develop/LICENSE.md",
+      "role": "researched only; no CLR source/runtime redistributed"
+    },
+    {
+      "component": "Khronos OpenCL ICD Loader",
+      "license_observed": "Apache-2.0",
+      "license_url": "https://raw.githubusercontent.com/KhronosGroup/OpenCL-ICD-Loader/main/LICENSE",
+      "role": "researched only; uses existing OS/vendor loader, not a bundled loader"
+    },
+    {
+      "component": "AMD SMI",
+      "license_observed": "MIT terms",
+      "license_url": "https://raw.githubusercontent.com/ROCm/amdsmi/amd-staging/LICENSE",
+      "role": "possible future Linux read-only telemetry; absent/not bound/tested"
+    },
+    {
+      "component": "ADLX Windows SDK",
+      "license_observed": "separate SDK License Agreement PDF; not assumed MIT",
+      "license_url": "https://github.com/GPUOpen-LibrariesAndSDKs/ADLX",
+      "role": "not adopted; actual SDK/runtime agreement and per-model sensor coverage need review"
+    },
+    {
+      "component": "Windows HIP SDK7.2 component policy (legacy release-specific documentation)",
+      "source_url": "https://rocm.docs.amd.com/projects/install-on-windows/en/latest/conceptual/component-support.html",
+      "role": "documents differing runtime/system-management coverage; does not grant redistribution rights for any selected future release"
+    },
+    {
+      "component": "Current ROCm model/OS compatibility matrix",
+      "source_url": "https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html",
+      "role": "release/model/OS qualification required; not a promise for every AMD card"
+    },
+    {
+      "component": "OpenCL C language",
+      "source_url": "https://registry.khronos.org/OpenCL/specs/unified/html/OpenCL_C.html",
+      "role": "signed char, defined unsigned integer wrap, barriers, rotate; no vendor/subgroup operation"
+    },
+    {
+      "component": "OpenCL API/device identity/profiling",
+      "source_url": "https://registry.khronos.org/OpenCL/specs/unified/html/OpenCL_API.html",
+      "role": "existing-loader APIs; immutable UUID, explicit context/compiler, bounded event profiling"
+    }
+  ],
+  "licensing_scope": "Public source license observations are not a binary/runtime redistribution clearance; runtime/driver licensing must be reviewed for a real release",
+  "code_provenance": "Original Apache-2.0 wrapper/fixtures/scalar tile; BLAKE3 algorithm adaptation from existing ISC-noticed cuda/common/blake3.cuh, preserving Pearl/Decred notice",
+  "new_dependencies": [],
+  "vendor_binaries_copied": [],
+  "fee_restricted_miner_code_copied": false,
+  "hardware_blockers": [
+    "No AMD GPU/OpenCL ICD enumerated; only NVIDIA RTX5090",
+    "hipcc/amdclang++/clang++ and AMD ROCm SDK absent",
+    "No reviewed AMD telemetry adapter: NVML/driver power/VRAM/UUID assumptions are not substituted for AMD",
+    "Linux validation unavailable; WSL denied earlier and not retried/bypassed"
+  ],
+  "next_step": "On an actual AMD Windows/Linux host with existing authorized driver/compiler, first obtain read-only device/compiler/identity and sensor capability inventory. Bind the exact device to reviewed temperature/hotspot/power/memory/AC telemetry before enabling even bounded GPU fixtures. No installation or mining requested now."
+}

@@ -1,0 +1,11 @@
+{
+  "binary_sha256": "ac12a272abcd05fa2fa0a145be124ed87e3a8c4b09fac3c7165ee0b3a1cd272d",
+  "manifest": "production_worker/Cargo.toml",
+  "lock_sha256": "626b5d32548535b3fcfcf5195bc67876d128a45a07da8ba17591abdaaf3bf3e7",
+  "official_source_commit": "3fe226761a139a9652b8f28a6464a4bbc25986c8",
+  "official_source_files_verified": 351,
+  "registry_archives_verified": 243,
+  "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2024 NVIDIA Corporation\nBuilt on Thu_Mar_28_02:30:10_Pacific_Daylight_Time_2024\nCuda compilation tools, release 12.4, V12.4.131\nBuild cuda_12.4.r12.4/compiler.34097967_0",
+  "scope": "DP4A/WMMA/MMA and isolated artificial resident grid; sm75/sm89 + PTX75/80/89; no production qualification"
+}

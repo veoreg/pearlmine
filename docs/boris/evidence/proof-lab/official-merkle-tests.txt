@@ -1,0 +1,42 @@
+
+running 35 tests
+test hasher::tests::test_chunk_cv ... ok
+test hasher::tests::test_hash_single_block ... ok
+test hasher::tests::test_hash_with_key ... ok
+test hasher::tests::test_hash_arbitrary_lengths ... ok
+test hasher::tests::test_parent_cv_and_root_cv ... ok
+test merkle::tests::test_leaf_indices_from_rows ... ok
+test hasher::tests::test_hash_chunks_matches_hash ... ok
+test hasher::tests::test_hash_large_data ... ok
+test merkle::tests::test_compute_sibling_ranges ... ok
+test hasher::tests::test_hash_multiple_chunks ... ok
+test merkle::tests::test_extract_bytes ... ok
+test merkle::tests::test_extract_bytes_fails_for_missing_leaves ... ok
+test merkle::tests::test_leaf_count ... ok
+test merkle::tests::test_single_leaf_proof ... ok
+test hasher::tests::test_hash_empty ... ok
+test merkle::tests::test_full_tree_proof ... ok
+test merkle::tests::test_multi_leaf_proof_consecutive ... ok
+test merkle::tests::test_pad_to_chunk_boundary ... ok
+test merkle::tests::test_4_leaf_proof_lengths ... ok
+test merkle::tests::test_padded_chunk_len ... ok
+test merkle::tests::test_reject_wrong_leaf_data ... ok
+test merkle::tests::test_reject_wrong_root ... ok
+test merkle::tests::test_multi_leaf_proof_non_consecutive ... ok
+test merkle::tests::test_padded_tree_root_differs_from_unpadded ... ok
+test merkle::tests::test_reject_wrong_indices ... ok
+test merkle::tests::test_root_matches_partial_last_chunk ... ok
+test hasher::tests::test_hash_single_chunk ... ok
+test merkle::tests::test_sanity_check ... ok
+test merkle::tests::test_root_matches_blake3_hash ... ok
+test merkle::tests::test_compute_cv_round_trip ... ok
+test merkle::tests::test_proof_dedup_and_ordering ... ok
+test merkle::tests::test_single_leaf_tree ... ok
+test merkle::tests::test_small_tree_3_leaves ... ok
+test merkle::tests::test_reject_extra_siblings ... ok
+test merkle::tests::test_random_round_trips ... ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+    Finished `release` profile [optimized] target(s) in 0.11s
+     Running unittests src\lib.rs (proof_bridge\target\release\deps\pearl_blake3-bc60005b04673e1a.exe)

@@ -1,0 +1,135 @@
+{
+  "time_utc": "2026-10-31T16:07:03.321117+00:00",
+  "scope": "Windows x64 pure/static/compiler-negative checks only; no Linux execution or GB10 GPU test",
+  "checks": {
+    "installed-rust-targets": {
+      "command": [
+        "rustup",
+        "target",
+        "list",
+        "--installed",
+        "--toolchain",
+        "stable"
+      ],
+      "exit_code": 0
+    },
+    "nvcc-targets": {
+      "command": [
+        "nvcc",
+        "--list-gpu-arch"
+      ],
+      "exit_code": 0
+    },
+    "build-policy-compile": {
+      "command": [
+        "rustc",
+        "+stable",
+        "--edition=2021",
+        "--test",
+        "production_worker/build_plan.rs",
+        "-o",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\build-policy-tests.exe"
+      ],
+      "exit_code": 0
+    },
+    "build-policy-tests": {
+      "command": [
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\build-policy-tests.exe"
+      ],
+      "exit_code": 0
+    },
+    "cuda121-compile-probe": {
+      "command": [
+        "nvcc",
+        "--ptx",
+        "-arch=compute_121",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\probe.cu",
+        "-o",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\probe.ptx"
+      ],
+      "exit_code": 1,
+      "classification": "blocked: installed CUDA12.4 lacks compute_121"
+    },
+    "arm64-rust-probe": {
+      "command": [
+        "rustc",
+        "+stable",
+        "--target",
+        "aarch64-unknown-linux-gnu",
+        "--emit=metadata",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\probe.rs",
+        "-o",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\probe.rmeta"
+      ],
+      "exit_code": 1,
+      "classification": "blocked: ARM64 std/sysroot absent"
+    },
+    "build-script-compile": {
+      "command": [
+        "rustc",
+        "+stable",
+        "--edition=2021",
+        "production_worker/build.rs",
+        "-o",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\build-script.exe"
+      ],
+      "exit_code": 0
+    },
+    "wrong-host-rejection": {
+      "command": [
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\native\\out\\gb10-static\\build-script.exe"
+      ],
+      "exit_code": 101,
+      "expected_rejection_confirmed": true
+    },
+    "preflight-wrong-host": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "boris_pearl.gb10_preflight"
+      ],
+      "exit_code": 2,
+      "expected_rejection_confirmed": true
+    },
+    "portable-tests": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_portable",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "rustfmt": {
+      "command": [
+        "rustfmt",
+        "+stable",
+        "--edition",
+        "2021",
+        "--check",
+        "production_worker/build.rs",
+        "production_worker/build_plan.rs"
+      ],
+      "exit_code": 0
+    }
+  },
+  "source_sha256": {
+    "production_worker/build.rs": "4acd154ac7ebcc0df7f8fb2f96367f82e1438fa05033a607b341a28abde95d45",
+    "production_worker/build_plan.rs": "2d7f406b176381119eac971c082a70667fd566a02d92d76e53313853c85d386e",
+    "native/worker_kernel.cu": "672989e8d1ddb1ad0684428ca9b606b4dc961084326369dc39d8039907d361ae",
+    "boris_pearl/devices.py": "c45f72c6c3dfd37a7b1486a0960ecb2a5e7886e016ff71c0d5c5320a267285a6",
+    "boris_pearl/local_search.py": "7dad997243851ad0701134d7c7f11c28e9fe4b02679cc30def84244b0edbc0e0",
+    "boris_pearl/gb10_preflight.py": "655e750e948e90910ba701e98b5752b41a139b8a5c9873c9d00c80d165a22425",
+    "tests_portable/test_gb10.py": "d77c788bfe5a527c8d6a1afcb281becd7e6d7148845952042c2f9f0c513dc44f",
+    "tests_portable/test_devices.py": "950ab4de33747309927827af2904d1c7b0b251714a32ee241819c1f11f2e7fe1",
+    "tools/boris-gb10-verify.py": "488e642c8875c3bbd21aec4e788004f19f913f2f9875f42eb67b8dab079bebee"
+  },
+  "gb10_native_build": "blocked: no native Linux ARM64 host/sysroot; installed nvcc12.4 cannot emit compute_121",
+  "prior_wsl_denial": "Wsl/EnumerateDistros/Service/E_ACCESSDENIED; not retried or bypassed",
+  "real_mining_runs": 0,
+  "gpu_work_executions_this_script": 0,
+  "system_changes": 0
+}

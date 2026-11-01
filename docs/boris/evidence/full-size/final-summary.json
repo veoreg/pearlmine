@@ -1,0 +1,166 @@
+{
+  "time_utc": "2026-10-31T15:14:39.771969+00:00",
+  "status": "passed",
+  "scope": "RTX5090 Windows x64; complete artificial grid only, no real mining/pool",
+  "worker_binary_sha256": "ac12a272abcd05fa2fa0a145be124ed87e3a8c4b09fac3c7165ee0b3a1cd272d",
+  "full_grid": {
+    "scope": "bounded artificial131072x131072x4096 hard-target nonce lifecycle; no pool/live mode",
+    "full_grid_mode": true,
+    "shape": [
+      131072,
+      131072,
+      4096
+    ],
+    "official_audits": [
+      {
+        "wire_bytes": 102193,
+        "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
+        "gpu_digest": "3f6c6e79e0748a495d5c9c8c3337fa68a63fa6c56c2f93247755f1f8e13a7511",
+        "nbits_override": 505413631,
+        "scope": "separate easy-target audit only; not a hit against hard search target"
+      },
+      {
+        "wire_bytes": 102193,
+        "wire_sha256": "e72721857251b049cceada24d761ac6aad47d8e444df11b996907d466bd4b08f",
+        "gpu_digest": "8648d238c80366341a4972d75aa220fdfb31878c9b08bb013434d3cef730da0e",
+        "nbits_override": 505413631,
+        "scope": "separate easy-target audit only; not a hit against hard search target"
+      },
+      {
+        "wire_bytes": 102193,
+        "wire_sha256": "61a76bcd20e7cd8aa0a4c0b6a05c86aa344450c9e67cc77d7530d662169f0096",
+        "gpu_digest": "7c4f49666b3066e8a7123b17b8559cba6fc3b2a33a66d489060a80182dc89555",
+        "nbits_override": 505413631,
+        "scope": "separate easy-target audit only; not a hit against hard search target"
+      }
+    ],
+    "device": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5090"
+    },
+    "elapsed_seconds": 1273.1879999999946,
+    "requested_seconds": 1800,
+    "backend": "mma-int8",
+    "duty_limit": 0.25,
+    "stop_threshold_watts": 125.0,
+    "power_settings_changed": false,
+    "cpu_worker_threads": 2,
+    "stats": {
+      "active_ns": 19845760,
+      "all_tiles_cpu_checked": false,
+      "audit_count": 3,
+      "checksum": "38e8ad48ad121b765fbbd374c8781d575dafce41e2810d2fb1778969bc95415b",
+      "chunk_start": 0,
+      "complete": true,
+      "cpu_checks": 65538,
+      "device_bytes": 1107706920,
+      "executed_tiles": 134221824,
+      "mode": "full-grid-local-test",
+      "next_cursor": 4096,
+      "nonce": 5422708195182210660,
+      "nonces_fully_scanned": 1,
+      "tiles_per_nonce": 134217728,
+      "tiles_this_chunk": 4096,
+      "host_prepare_wall_seconds": 0.6043116,
+      "kernel_variant": 32,
+      "official_audits": 3,
+      "nonce_changes": 1
+    },
+    "stop": {
+      "reason": "local full grid complete",
+      "stop_call_seconds": 0.026259599995682947,
+      "worker_reaped": true,
+      "worker_still_listed_by_nvml": false,
+      "nvml_after_stop_fresh": true
+    },
+    "worker_binary_sha256": "ac12a272abcd05fa2fa0a145be124ed87e3a8c4b09fac3c7165ee0b3a1cd272d",
+    "work_wall_seconds": 268.45699999295175,
+    "software_busy_fraction": 0.21085417078463894,
+    "pause_counts": {},
+    "ledger": {
+      "user_active_ns": 119102156286,
+      "developer_active_ns": 0
+    },
+    "sensor_samples": 1300,
+    "max_gpu_c": 32,
+    "max_watts": 78.428,
+    "max_gpu_util": 22,
+    "min_free_bytes": 29740703744,
+    "live_mode": false,
+    "external_pool_connections": 0,
+    "real_submissions": 0,
+    "status": "passed",
+    "error": null,
+    "completion_note": "One complete artificial nonce plus next-nonce prefix required for PASS",
+    "performance_note": "Physical local arithmetic/verification throughput only; no accepted-share hashrate or income estimate",
+    "measured_tiles_per_wall_second": 105421.841864674,
+    "full_nonce_coverage_fraction": 1,
+    "sensor_retention_limit": 1300,
+    "sensor_window_start": 1793458862.5804636,
+    "sensor_window_end": 1793459527.21101,
+    "sensor_extrema_scope": "Retained last1300 readings only; not whole-run extrema. Safety guard sampled throughout.",
+    "delivered_logging_fix": "Full-grid source now retains4000 readings and window timestamps; exact launched source is run-local-search-source.txt"
+  },
+  "unit_tests": {
+    "portable": 70,
+    "gpu_worker": 24,
+    "cross_backend_arithmetic_cases": 45,
+    "cross_backend_proof_cases": 15
+  },
+  "inherited_prior_checks": {
+    "proof_official": 23,
+    "official_merkle": 35,
+    "original_gpu_kat": 37,
+    "gui_smokes": 2
+  },
+  "evidence_sha256": {
+    "grid-131072-complete.json": "9ee8eba2b5cc30c84d3bc107299b853d51d73ab6b52c20d593cf5e56916ffa2d",
+    "grid-512-all-cpu.json": "7e755b30f420a8fbe46c24a9557c76bf2a3d41690118d7e02c57679d2232ece0",
+    "grid-manual-stop.json": "2e097a9a821293f91497a5010cb21590a62ef7c6b25f03f58833a678c7b54469",
+    "grid-sensor-loss-stop.json": "05bb16298cac0c7769b22044b550c2a8305a179a4b5ad8e1c2b20960d4b477ed",
+    "grid-full-size-deadline-stop.json": "93f8d88127143c04d6d3dd29e9e8dd7253c462890cf11401afe3c5984e57d042",
+    "build-review.json": "c3a2bf886935e3133f0815652f67412f2130681be97b25c6e74dfc8fc360e44a",
+    "sensor-retention-note.json": "f49528fa93925429ad3b7dae71c7e85967722b470b735fc3b23d3f7f603fe279",
+    "pool-protocol-review.json": "835e3c63416ea5cb06ab36f126d8ec0fc0181d3101a8a9b68256dc7476699fc0"
+  },
+  "delivered_source_sha256": {
+    "native/local_grid.cuh": "d0e1b474e10cfa617a97fc2ccd925917542fb98b1943cb2ddf299233b3fcff1b",
+    "production_worker/src/local_grid.rs": "72ee5861429015ecbd7b27fca78c612a6f7804e755798de9838aef3b5ad96c2a",
+    "production_worker/src/main.rs": "8fdcc5887c5238b347a4621b83901e8faaeaba7ed237a663dd014609df14c876",
+    "production_worker/src/ffi.rs": "09116562042526fe2943ba8560be029111b33340bbac37fe6c9b49acae83eeb4",
+    "boris_pearl/full_grid.py": "eb8f03b8bd7b30074089618af75bb9b482dd5f74aa8e69fceac0febbedb44904",
+    "boris_pearl/local_search.py": "6cc9874940dd274ca2820b4400a7dbab95711ec9d773f9ae66591f35d7db0d1d",
+    "boris_pearl/pool.py": "01099741daa8eaa9fafc5b9edcc1f05b12125fd9578d1faf98a52c6f35559026",
+    "tools/boris-full-grid-test.py": "ad42d939f84dbbe9eb34d675809ca5f90c48aedf79ead3732174b6e170e810ab",
+    "tests_worker/test_full_grid.py": "9eeaa6004fdecc8bc85518a0940b209c0d07e16b3b59e592db5f8242b90c9db7",
+    "tests_portable/test_pool.py": "fc9dc8daeedaf50a6763a29fa553c19e2ab68516c1b57021cefe3c7698eee7b7"
+  },
+  "performance_scope": "Measured artificial tiles/wall-second including CPU verification/pacing; no accepted-share hashrate, credited work or income prediction",
+  "production_readiness": "Not ready: resident mode cannot accept live data; actual job/target/owner/fee integration, current pool wire confirmation and credited real shares remain unqualified",
+  "remaining_blockers": [
+    {
+      "action": "Choose exact pool and confirm JSON/gzip credit",
+      "status": "pending user choice/operator specification or separately authorized handshake",
+      "reason": "Example pool empty; Kryptex official pages expose settings, not complete wire contract"
+    },
+    {
+      "action": "Live mining and submissions",
+      "status": "not performed; separate consent pending",
+      "reason": "Only artificial jobs authorized; public PRL destinations and bounded device/endpoint/submission consent absent"
+    },
+    {
+      "action": "Linux build/runtime",
+      "target": "wsl --list --quiet",
+      "status": "prior access denied; not retried",
+      "reason": "Wsl/EnumerateDistros/Service/E_ACCESSDENIED; separate authorized Linux system required"
+    },
+    {
+      "action": "Other GPU/OS/OEM qualification",
+      "status": "not performed",
+      "reason": "No GB10/4090/2060 hardware here; AMD backend absent"
+    }
+  ],
+  "real_submissions": 0,
+  "external_pool_connections": 0,
+  "settings_changed": false
+}

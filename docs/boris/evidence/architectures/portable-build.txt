@@ -1,0 +1,109 @@
+   Compiling boris-pearl-worker v0.1.0 (C:\Users\user\Documents\Codex\2026-10-31\task\pearl-miner\production_worker)
+warning: trait `AbortFlag` is never used
+  --> src\..\..\crates\spm-worker\src\engine.rs:15:11
+   |
+15 | pub trait AbortFlag: Send + Sync {
+   |           ^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `JobSpec` is never constructed
+  --> src\..\..\crates\spm-worker\src\engine.rs:23:12
+   |
+23 | pub struct JobSpec {
+   |            ^^^^^^^
+
+warning: methods `credited_macs` and `hash_tiles` are never used
+  --> src\..\..\crates\spm-worker\src\engine.rs:38:12
+   |
+36 | impl JobSpec {
+   | ------------ methods in this implementation
+37 |     /// Credited multiply-accumulates of one full attempt.
+38 |     pub fn credited_macs(&self) -> u64 {
+   |            ^^^^^^^^^^^^^
+...
+43 |     pub fn hash_tiles(&self) -> u64 {
+   |            ^^^^^^^^^^
+
+warning: enum `ChunkStatus` is never used
+  --> src\..\..\crates\spm-worker\src\engine.rs:49:10
+   |
+49 | pub enum ChunkStatus {
+   |          ^^^^^^^^^^^
+
+warning: struct `ChunkReport` is never constructed
+  --> src\..\..\crates\spm-worker\src\engine.rs:59:12
+   |
+59 | pub struct ChunkReport {
+   |            ^^^^^^^^^^^
+
+warning: struct `Hit` is never constructed
+  --> src\..\..\crates\spm-worker\src\engine.rs:67:12
+   |
+67 | pub struct Hit {
+   |            ^^^
+
+warning: struct `EngineError` is never constructed
+  --> src\..\..\crates\spm-worker\src\engine.rs:75:12
+   |
+75 | pub struct EngineError {
+   |            ^^^^^^^^^^^
+
+warning: associated function `new` is never used
+  --> src\..\..\crates\spm-worker\src\engine.rs:81:12
+   |
+80 | impl EngineError {
+   | ---------------- associated function in this implementation
+81 |     pub fn new(kind: FaultKind, msg: impl Into<String>) -> Self {
+   |            ^^^
+
+warning: trait `Engine` is never used
+  --> src\..\..\crates\spm-worker\src\engine.rs:98:11
+   |
+98 | pub trait Engine: Send {
+   |           ^^^^^^
+
+warning: fields `nonce`, `root_a`, and `bound_a` are never read
+  --> src\..\..\crates\spm-worker\src\host.rs:68:9
+   |
+67 | pub struct AttemptHost {
+   |            ----------- fields in this struct
+68 |     pub nonce: u64,
+   |         ^^^^^
+69 |     patch: ChunkPatch,
+70 |     pub root_a: Hash256,
+   |         ^^^^^^
+71 |     pub bound_a: Hash256,
+   |         ^^^^^^^
+   |
+   = note: `AttemptHost` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `key`, `config`, `root_b`, `spec`, and `matrices` are never used
+   --> src\..\..\crates\spm-worker\src\host.rs:204:12
+    |
+119 | impl JobHost {
+    | ------------ methods in this implementation
+...
+204 |     pub fn key(&self) -> JobKey {
+    |            ^^^
+...
+212 |     pub fn config(&self) -> &MiningConfiguration {
+    |            ^^^^^^
+...
+220 |     pub fn root_b(&self) -> Hash256 {
+    |            ^^^^^^
+...
+229 |     pub fn spec(&self) -> JobSpec {
+    |            ^^^^
+...
+358 |     pub fn matrices(&self, att: &AttemptHost) -> (Vec<i8>, Vec<i8>) {
+    |            ^^^^^^^^
+
+warning: type alias `SharedHost` is never used
+   --> src\..\..\crates\spm-worker\src\host.rs:366:10
+    |
+366 | pub type SharedHost = Arc<JobHost>;
+    |          ^^^^^^^^^^
+
+warning: `boris-pearl-worker` (bin "boris-pearl-worker") generated 12 warnings
+    Finished `release` profile [optimized] target(s) in 7.71s

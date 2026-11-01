@@ -1,0 +1,31 @@
+{
+  "invalid-laptop-override": {
+    "exit_code": 2,
+    "error": "__main__.py: error: Laptop profile requires confirmed AC; desktop override refused",
+    "gpu_dispatch": false
+  },
+  "missing-device": {
+    "exit_code": 2,
+    "error": "__main__.py: error: Requested CUDA device not visible or ambiguous; no automatic GPU0 fallback",
+    "gpu_dispatch": false
+  },
+  "sensors-by-uuid": {
+    "exit_code": 0,
+    "read_only": true,
+    "device": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5090"
+    },
+    "sample": {
+      "observed_at": 1793461330.1352224,
+      "gpu_c": 30,
+      "watts": 52.192,
+      "free_bytes": 31316324352,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 6,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  }
+}

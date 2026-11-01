@@ -1,0 +1,137 @@
+{
+  "scope": "bounded artificial64x64x4096 hard-target nonce lifecycle; no pool/live mode",
+  "full_grid_mode": false,
+  "shape": [
+    64,
+    64,
+    4096
+  ],
+  "official_audits": [],
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "selected_cuda_device": {
+    "cuda_index": 0,
+    "name": "NVIDIA GeForce RTX 5090",
+    "pci_bus_id": "0000:01:00.0",
+    "cc_major": 12,
+    "cc_minor": 0,
+    "memory_bytes": 34162016256,
+    "build_profile": "portable",
+    "build_min_cc": 75,
+    "build_backend_mask": 7,
+    "eligible_backends": [
+      "dp4a",
+      "wmma-int8",
+      "mma-int8"
+    ],
+    "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+  },
+  "load_profile": "standard",
+  "elapsed_seconds": 5.0310000000026776,
+  "requested_seconds": 5,
+  "backend": "wmma-int8",
+  "duty_limit": 0.1,
+  "stop_threshold_watts": 125,
+  "power_settings_changed": false,
+  "cpu_worker_threads": 2,
+  "stats": {
+    "nonce": 5422708195182210669,
+    "tile": 0,
+    "total_tiles": 321,
+    "tiles_this_chunk": 32,
+    "nonce_changes": 10,
+    "cache_hits": 557,
+    "device_bytes": 98432,
+    "workspace_reused": true,
+    "kernel_variant": 16
+  },
+  "stop": {
+    "reason": "stop deadline",
+    "stop_call_seconds": 2.9999995604157448e-05,
+    "worker_reaped": true,
+    "worker_still_listed_by_nvml": false,
+    "nvml_after_stop_fresh": true
+  },
+  "worker_binary_sha256": "83e4d2197eac5463700f74c0850e5ecd0f2fa03f83e9add6dda1eb00b5df6250",
+  "work_wall_seconds": 0.5020000000149594,
+  "software_busy_fraction": 0.09978135559822941,
+  "pause_counts": {
+    "stop deadline": 1
+  },
+  "ledger": {
+    "user_active_ns": 36144829,
+    "developer_active_ns": 0
+  },
+  "sensor_retention_limit": 1300,
+  "sensor_window_start": 1793461671.7394562,
+  "sensor_window_end": 1793461676.343978,
+  "sensor_samples": 5,
+  "max_gpu_c": 31,
+  "max_watts": 76.286,
+  "max_gpu_util": 5,
+  "min_free_bytes": 30862131200,
+  "sensors": [
+    {
+      "observed_at": 1793461671.7394562,
+      "gpu_c": 30,
+      "watts": 51.931,
+      "free_bytes": 31316389888,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793461674.804416,
+      "gpu_c": 31,
+      "watts": 74.677,
+      "free_bytes": 30862131200,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793461675.3164408,
+      "gpu_c": 31,
+      "watts": 74.825,
+      "free_bytes": 30862131200,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793461675.830693,
+      "gpu_c": 31,
+      "watts": 75.339,
+      "free_bytes": 30862131200,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793461676.343978,
+      "gpu_c": 31,
+      "watts": 76.286,
+      "free_bytes": 30862131200,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  ],
+  "live_mode": false,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "status": "passed",
+  "test_note": "Uppercase complete UUID selected; canonical UUID bound compute/NVML. Actual5090 only; no physical2060 test."
+}

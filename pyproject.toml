@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "boris-pearl-prototype"
+version = "0.2.0"
+requires-python = ">=3.11"
+description = "Offline cross-platform development prototype for a Pearl miner"
+license = {text = "Apache-2.0"}
+dependencies = []
+
+[project.optional-dependencies]
+# Offline proof lab only; installed 1.0.8 reused, never downloaded by this prototype.
+proof-lab = ["blake3==1.0.8"]
+# Optional loopback TLS tests only; existing package reused, not auto-installed.
+test-tls = ["cryptography==46.0.5"]
+
+[tool.setuptools.packages.find]
+include = ["boris_pearl*"]

@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "binary_sha256": "8990056241d6205d6604548586a6942b6e885e5b37adc1a5158a1b2a57c0e2fc",
+  "samples": {
+    "dp4a": [
+      {
+        "tiles": 32,
+        "wall_seconds": 0.014257599999837112,
+        "device_ns": 4119696
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011651599998003803,
+        "device_ns": 4158957
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011737300003005657,
+        "device_ns": 4116245
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.012017299995932262,
+        "device_ns": 4108594
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011611499998252839,
+        "device_ns": 4118893
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011983799995505251,
+        "device_ns": 4105841
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011451099999248981,
+        "device_ns": 4160783
+      }
+    ],
+    "wmma-int8": [
+      {
+        "tiles": 32,
+        "wall_seconds": 0.012822199998481665,
+        "device_ns": 3640082
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.01092169999901671,
+        "device_ns": 3666193
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011244500004977454,
+        "device_ns": 3755956
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011658700001135003,
+        "device_ns": 3677716
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011033900002075825,
+        "device_ns": 3710256
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011143499999889173,
+        "device_ns": 3688401
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011525499998242594,
+        "device_ns": 3727659
+      }
+    ],
+    "mma-int8": [
+      {
+        "tiles": 32,
+        "wall_seconds": 0.011097999995399732,
+        "device_ns": 1313806
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.008401400002185255,
+        "device_ns": 1317390
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.00878260000172304,
+        "device_ns": 1310226
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.008738399999856483,
+        "device_ns": 1298069
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.008627199997135904,
+        "device_ns": 1312369
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.00901920000615064,
+        "device_ns": 1390735
+      },
+      {
+        "tiles": 32,
+        "wall_seconds": 0.009103999997023493,
+        "device_ns": 1352274
+      }
+    ]
+  },
+  "medians": {
+    "dp4a": {
+      "wall_seconds": 0.011737300003005657,
+      "device_ns": 4118893
+    },
+    "wmma-int8": {
+      "wall_seconds": 0.011244500004977454,
+      "device_ns": 3688401
+    },
+    "mma-int8": {
+      "wall_seconds": 0.00878260000172304,
+      "device_ns": 1313806
+    }
+  },
+  "ratios": {
+    "dp4a": {
+      "wall_vs_dp4a": 1.0,
+      "device_vs_dp4a": 1.0
+    },
+    "wmma-int8": {
+      "wall_vs_dp4a": 1.043825870230785,
+      "device_vs_dp4a": 1.1167150751775634
+    },
+    "mma-int8": {
+      "wall_vs_dp4a": 1.336426570799415,
+      "device_vs_dp4a": 3.1350846319776284
+    }
+  },
+  "scope": "same-binary artificial256x256x4096 fixed-nonce job; rotated7 warm32-tile batches per backend",
+  "limitations": "Not production hashrate. Includes CPU canary/driver/RPC; excludes full-job preparation/proof/network. GPU event intervals include scheduling.",
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "settings_changed": false
+}

@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "scope": "artificial one-tile full proofs; no pool, no live mode",
+  "cases": [
+    {
+      "backend": "dp4a",
+      "m": 192,
+      "n": 320,
+      "k": 2176,
+      "active_ns": 69888,
+      "wire_bytes": 68945,
+      "wire_sha256": "121f6266e98589774e3759e15d182bcaed0dd273d9f77ddc265a814099c516ef",
+      "official": true
+    },
+    {
+      "backend": "wmma-int8",
+      "m": 192,
+      "n": 320,
+      "k": 2176,
+      "active_ns": 60575,
+      "wire_bytes": 68945,
+      "wire_sha256": "121f6266e98589774e3759e15d182bcaed0dd273d9f77ddc265a814099c516ef",
+      "official": true
+    },
+    {
+      "backend": "mma-int8",
+      "m": 192,
+      "n": 320,
+      "k": 2176,
+      "active_ns": 22848,
+      "wire_bytes": 68945,
+      "wire_sha256": "121f6266e98589774e3759e15d182bcaed0dd273d9f77ddc265a814099c516ef",
+      "official": true
+    }
+  ]
+}

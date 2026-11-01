@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "time_utc": "2026-10-31T15:34:47.787343+00:00",
+  "profiles": {
+    "turing75": {
+      "status": "passed",
+      "profile": "turing75",
+      "binary_sha256": "9356acc78ba8933fb0e468d6028bc2239c3e06cbb3c8af7d863a4873b3091c8b",
+      "compiled_images": {
+        "--list-elf": [
+          "ELF file    1: boris-worker-turing75.1.sm_75.cubin"
+        ],
+        "--list-ptx": [
+          "PTX file    1: boris-worker-turing75.1.sm_75.ptx"
+        ],
+        "tensor_opcodes": [
+          "IMMA.8816.S8.S8"
+        ]
+      },
+      "actual_device": {
+        "cuda_index": 0,
+        "name": "NVIDIA GeForce RTX 5090",
+        "pci_bus_id": "0000:01:00.0",
+        "cc_major": 12,
+        "cc_minor": 0,
+        "memory_bytes": 34162016256,
+        "build_profile": "turing75",
+        "build_min_cc": 75,
+        "build_backend_mask": 3,
+        "eligible_backends": [
+          "dp4a",
+          "wmma-int8"
+        ],
+        "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+      },
+      "execution": "CUDA_FORCE_PTX_JIT=1 on physical RTX5090, not physical2060/4090",
+      "rejected_mma": "backend unavailable for physical capability or compiled profile",
+      "physical_target_gpu_tests": false,
+      "external_pool_connections": 0,
+      "real_submissions": 0,
+      "settings_changed": false
+    },
+    "ada89": {
+      "status": "passed",
+      "profile": "ada89",
+      "binary_sha256": "b3a9ae09a34aa998cf1890bd3fb84bec3a149fa84a65598096411a0f97fae577",
+      "compiled_images": {
+        "--list-elf": [
+          "ELF file    1: boris-worker-ada89.1.sm_89.cubin"
+        ],
+        "--list-ptx": [
+          "PTX file    1: boris-worker-ada89.1.sm_89.ptx"
+        ],
+        "tensor_opcodes": [
+          "IMMA.16816.S8.S8",
+          "IMMA.16832.S8.S8"
+        ]
+      },
+      "actual_device": {
+        "cuda_index": 0,
+        "name": "NVIDIA GeForce RTX 5090",
+        "pci_bus_id": "0000:01:00.0",
+        "cc_major": 12,
+        "cc_minor": 0,
+        "memory_bytes": 34162016256,
+        "build_profile": "ada89",
+        "build_min_cc": 89,
+        "build_backend_mask": 7,
+        "eligible_backends": [
+          "dp4a",
+          "wmma-int8",
+          "mma-int8"
+        ],
+        "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+      },
+      "execution": "CUDA_FORCE_PTX_JIT=1 on physical RTX5090, not physical2060/4090",
+      "rejected_mma": null,
+      "physical_target_gpu_tests": false,
+      "external_pool_connections": 0,
+      "real_submissions": 0,
+      "settings_changed": false
+    }
+  },
+  "restored_portable_binary_sha256": "83e4d2197eac5463700f74c0850e5ecd0f2fa03f83e9add6dda1eb00b5df6250",
+  "shared_receipt_note": "Run boris-worker-verify.py to audit/update the shared portable receipt before ordinary local tests"
+}

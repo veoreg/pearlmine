@@ -1,0 +1,87 @@
+{
+  "time_utc": "2026-10-31T15:13:52.398629+00:00",
+  "checks": {
+    "cargo-metadata": {
+      "command": [
+        "cargo",
+        "+stable",
+        "metadata",
+        "--locked",
+        "--offline",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "production_worker/Cargo.toml"
+      ],
+      "exit_code": 0
+    },
+    "integrity-check": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "tools/audit-proof-deps.py",
+        "--lock",
+        "production_worker/Cargo.lock",
+        "--output",
+        "docs/boris/evidence/worker"
+      ],
+      "exit_code": 0
+    },
+    "build-log": {
+      "command": [
+        "cargo",
+        "+stable",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--manifest-path",
+        "production_worker/Cargo.toml"
+      ],
+      "exit_code": 0
+    },
+    "portable-tests": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_portable",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "fixed-gpu-tls-tests": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_worker",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "rustfmt": {
+      "command": [
+        "rustfmt",
+        "+stable",
+        "--edition",
+        "2021",
+        "--check",
+        "production_worker/src/main.rs",
+        "production_worker/src/ffi.rs",
+        "production_worker/src/kernel_selftest.rs",
+        "production_worker/src/local_grid.rs",
+        "production_worker/build.rs"
+      ],
+      "exit_code": 0
+    }
+  },
+  "status": "passed",
+  "scope": "offline fixed fixtures and literal loopback TLS only",
+  "live_mode_executions": 0,
+  "external_pool_connections": 0,
+  "real_submissions": 0
+}

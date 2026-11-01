@@ -1,0 +1,54 @@
+{
+  "time_utc": "2026-10-31T16:24:42.010402+00:00",
+  "status": "read-only/CPU checks passed; GPU validation not requested",
+  "scope": "AMD-oriented vendor-neutral OpenCL prototype; optional execution is explicitly selected NVIDIA validation only",
+  "system": "Windows",
+  "machine": "AMD64",
+  "amd_physical_execution": false,
+  "hip_compilation": false,
+  "linux_execution": false,
+  "real_mining_executions": 0,
+  "pool_connections": 0,
+  "real_submissions": 0,
+  "fee_percent": 0,
+  "toolchain": {
+    "hipcc": null,
+    "amdclang++": null,
+    "clang++": null,
+    "glslangValidator": null,
+    "glslc": null
+  },
+  "checks": {
+    "portable_tests": "passed; see portable-tests.txt",
+    "idle_inventory": "passed; no context, buffer or kernel"
+  },
+  "inventory": [
+    {
+      "platform_index": 0,
+      "device_index": 0,
+      "name": "NVIDIA GeForce RTX 5090",
+      "vendor": "NVIDIA Corporation",
+      "vendor_id": 4318,
+      "driver": "617.42",
+      "version": "OpenCL 3.0 CUDA",
+      "opencl_c": "OpenCL C 1.2 ",
+      "compiler_available": true,
+      "available": true,
+      "little_endian": true,
+      "max_group_size": 1024,
+      "local_bytes": 49152,
+      "total_bytes": 34162016256,
+      "qualification": "OpenCL detection/capability only; AMD physical compatibility unverified"
+    }
+  ],
+  "source_sha256": {
+    "native/opencl/fixed_tile.cl": "90da0d5f777eef4e45a39e4e87a121dd9cf472b2d69d9f6353f050f2c54e5184",
+    "boris_pearl/opencl_lab.py": "04335265b07f5f9a213e63f65d832c2eaee7fae7fc7fc3caab907132b8b33ae1",
+    "boris_pearl/opencl_fixtures.py": "7fe2ff79cab7c7315e2be77af78966e941114121ba91b7d240d9bb7ebd958ee2",
+    "boris_pearl/opencl_validation.py": "7ce1aca56f61d0d44bb33c1142f554873f5e116b173fa1ff70fd65583f2b9468",
+    "boris_pearl/ipc.py": "64952a0d5bfcaf66725bcae9069e855b0924a74391d806097b3dd180c98f9b3a",
+    "tests_portable/test_opencl.py": "194f1dd425c158a42b6fca04f2078ecb9aeda8c072b2852f08aa7e2749962ba3",
+    "tools/boris-opencl-verify.py": "24a65d0acc9a20bf4aa0972f69430cf69dfbe7c5cf62517020d7b97d73027e2e"
+  },
+  "completed_utc": "2026-10-31T16:24:53.295300+00:00"
+}

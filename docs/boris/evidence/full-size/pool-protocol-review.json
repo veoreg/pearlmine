@@ -1,0 +1,36 @@
+{
+  "reviewed_at_utc": "2026-10-31T14:40:01.084474+00:00",
+  "selected_pool": null,
+  "research_assumption": "Kryptex because an existing adapter and historical fixtures are present",
+  "official_urls": [
+    "https://pool.kryptex.com/en/prl",
+    "https://pool.kryptex.com/articles/how-to-mine-pearl-en",
+    "https://github.com/kryptex/krig-miner",
+    "https://github.com/kryptex/krig-miner/blob/master/LICENSE",
+    "https://github.com/pearl-research-labs/pearl/blob/master/node/chaincfg/params.go",
+    "https://raw.githubusercontent.com/pearl-research-labs/pearl/master/zk-pow/src/api/verify.rs"
+  ],
+  "operator_documented": {
+    "tcp_port": 7048,
+    "tls_port": 8048,
+    "pps_pool_fee_percent": 3,
+    "solo_pool_fee_percent": 1,
+    "minimum_payout_prl": 1,
+    "static_difficulty": 2097152
+  },
+  "json_wire_operator_spec_found": false,
+  "live_acceptance": "unverified",
+  "gzip_credit": "unverified; explicit ack required by existing adapter",
+  "fix": "Kryptex submit.worker now exactly matches wallet.worker authorization identity",
+  "mining_endpoint_connections": 0,
+  "real_submissions": 0,
+  "configuration_changed": false,
+  "system_network_settings_changed": false,
+  "consensus_review": {
+    "source": "https://raw.githubusercontent.com/pearl-research-labs/pearl/master/node/chaincfg/params.go",
+    "mainnet_salted_fork_height": 99000,
+    "required_certificate_after_fork": 3,
+    "observed_read_only": true,
+    "compiled_verifier_upgraded": false
+  }
+}

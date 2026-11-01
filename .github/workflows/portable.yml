@@ -1,0 +1,20 @@
+name: Portable prototype CPU checks
+on: [workflow_dispatch, pull_request]
+permissions:
+  contents: read
+jobs:
+  portable:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s tests_portable -v
+      - run: python -m boris_pearl check --config boris-config.example.json

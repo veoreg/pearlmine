@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "scope": "actual single5090 CUDA/NVML UUID join; no kernels/pool",
+  "devices": [
+    {
+      "cuda_index": 0,
+      "name": "NVIDIA GeForce RTX 5090",
+      "pci_bus_id": "0000:01:00.0",
+      "cc_major": 12,
+      "cc_minor": 0,
+      "memory_bytes": 34162016256,
+      "build_profile": "portable",
+      "build_min_cc": 75,
+      "build_backend_mask": 7,
+      "eligible_backends": [
+        "dp4a",
+        "wmma-int8",
+        "mma-int8"
+      ],
+      "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+    }
+  ],
+  "selected": {
+    "cuda_index": 0,
+    "name": "NVIDIA GeForce RTX 5090",
+    "pci_bus_id": "0000:01:00.0",
+    "cc_major": 12,
+    "cc_minor": 0,
+    "memory_bytes": 34162016256,
+    "build_profile": "portable",
+    "build_min_cc": 75,
+    "build_backend_mask": 7,
+    "eligible_backends": [
+      "dp4a",
+      "wmma-int8",
+      "mma-int8"
+    ],
+    "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+  },
+  "nvml_index": 0,
+  "index_reordering_test": "separate synthetic fixtures, not physical multi-GPU"
+}

@@ -1,0 +1,24 @@
+{
+  "binary_sha256": "8990056241d6205d6604548586a6942b6e885e5b37adc1a5158a1b2a57c0e2fc",
+  "scope": "static inspection only; compiled targets are not hardware qualification",
+  "--list-elf": {
+    "exit_code": 0,
+    "stdout": "ELF file    1: boris-pearl-worker.1.sm_75.cubin\nELF file    2: boris-pearl-worker.2.sm_89.cubin\n",
+    "stderr": ""
+  },
+  "--list-ptx": {
+    "exit_code": 0,
+    "stdout": "PTX file    1: boris-pearl-worker.1.sm_75.ptx\nPTX file    2: boris-pearl-worker.2.sm_89.ptx\nPTX file    3: boris-pearl-worker.3.sm_80.ptx\n",
+    "stderr": ""
+  },
+  "sass_tensor_opcodes": {
+    "arch = sm_75": [
+      "IMMA.8816.S8.S8"
+    ],
+    "arch = sm_89": [
+      "IMMA.16816.S8.S8",
+      "IMMA.16832.S8.S8"
+    ]
+  },
+  "sass_exit_code": 0
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "fixed synthetic full-size preparation and exactly one tile; no search/network",
+  "shape": [
+    131072,
+    131072,
+    4096
+  ],
+  "fixed_nonce": 5422708195182210659,
+  "tiles_executed": 1,
+  "official_verification": "passed",
+  "wire_bytes": 102193,
+  "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
+  "active_ns": 125152,
+  "whole_test_elapsed_seconds": 0.6719999999986612,
+  "second_tile_refused": true,
+  "worker_reaped": true,
+  "live_mode": false,
+  "real_submissions": 0
+}

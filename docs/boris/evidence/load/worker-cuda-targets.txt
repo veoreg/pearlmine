@@ -1,0 +1,2 @@
+ELF file    1: boris-pearl-worker.1.sm_75.cubin
+ELF file    2: boris-pearl-worker.2.sm_89.cubin

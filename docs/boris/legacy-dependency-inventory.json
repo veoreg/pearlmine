@@ -1,0 +1,2039 @@
+{
+  "scope": "legacy Cargo.lock inventory only, not license clearance",
+  "packages": [
+    {
+      "name": "adler2",
+      "version": "2.0.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ahash",
+      "version": "0.8.12",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "aho-corasick",
+      "version": "1.1.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "android_system_properties",
+      "version": "0.1.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ansi_term",
+      "version": "0.12.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anstream",
+      "version": "1.0.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anstyle",
+      "version": "1.0.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anstyle-parse",
+      "version": "1.0.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anstyle-query",
+      "version": "1.1.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anstyle-wincon",
+      "version": "3.0.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "anyhow",
+      "version": "1.0.104",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "arrayvec",
+      "version": "0.7.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "atomic-waker",
+      "version": "1.1.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "atty",
+      "version": "0.2.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "axum",
+      "version": "0.8.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "axum-core",
+      "version": "0.5.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "base64",
+      "version": "0.21.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "base64",
+      "version": "0.22.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "base64",
+      "version": "0.23.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bech32",
+      "version": "0.11.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bincode",
+      "version": "1.3.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bit-set",
+      "version": "0.8.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bit-vec",
+      "version": "0.8.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bitflags",
+      "version": "1.3.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bitflags",
+      "version": "2.13.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bitvec",
+      "version": "1.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "blake3",
+      "version": "1.8.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "block-buffer",
+      "version": "0.10.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bs58",
+      "version": "0.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bumpalo",
+      "version": "3.20.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "byte-slice-cast",
+      "version": "1.2.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "bytes",
+      "version": "1.12.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "cc",
+      "version": "1.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "cfg-if",
+      "version": "1.0.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "chrono",
+      "version": "0.4.45",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "clap",
+      "version": "2.34.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "clap",
+      "version": "4.6.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "clap_builder",
+      "version": "4.6.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "clap_derive",
+      "version": "4.6.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "clap_lex",
+      "version": "1.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "colorchoice",
+      "version": "1.0.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "const-random",
+      "version": "0.1.18",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "const-random-macro",
+      "version": "0.1.16",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "const_format",
+      "version": "0.2.36",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "const_format_proc_macros",
+      "version": "0.2.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "constant_time_eq",
+      "version": "0.4.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "core-foundation-sys",
+      "version": "0.8.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "cpufeatures",
+      "version": "0.2.17",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "cpufeatures",
+      "version": "0.3.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crc32fast",
+      "version": "1.5.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crossbeam-deque",
+      "version": "0.8.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crossbeam-epoch",
+      "version": "0.9.21",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crossbeam-utils",
+      "version": "0.8.23",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crunchy",
+      "version": "0.2.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "crypto-common",
+      "version": "0.1.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling",
+      "version": "0.20.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling",
+      "version": "0.24.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling_core",
+      "version": "0.20.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling_core",
+      "version": "0.24.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling_macro",
+      "version": "0.20.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "darling_macro",
+      "version": "0.24.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "defmt",
+      "version": "1.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "defmt-macros",
+      "version": "1.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "defmt-parser",
+      "version": "1.0.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "deranged",
+      "version": "0.5.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "digest",
+      "version": "0.10.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "dyn-clone",
+      "version": "1.0.20",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "either",
+      "version": "1.18.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "env_logger",
+      "version": "0.9.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "env_logger",
+      "version": "0.10.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "equivalent",
+      "version": "1.0.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "errno",
+      "version": "0.3.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "fastrand",
+      "version": "2.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "find-msvc-tools",
+      "version": "0.1.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "fixed-hash",
+      "version": "0.7.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "fixed-hash",
+      "version": "0.8.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "flate2",
+      "version": "1.1.10",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "fnv",
+      "version": "1.0.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "form_urlencoded",
+      "version": "1.2.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "funty",
+      "version": "2.0.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "futures-channel",
+      "version": "0.3.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "futures-core",
+      "version": "0.3.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "futures-task",
+      "version": "0.3.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "futures-util",
+      "version": "0.3.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "generic-array",
+      "version": "0.14.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "getrandom",
+      "version": "0.2.17",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "getrandom",
+      "version": "0.3.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "getrandom",
+      "version": "0.4.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hashbrown",
+      "version": "0.12.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hashbrown",
+      "version": "0.14.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hashbrown",
+      "version": "0.17.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "heck",
+      "version": "0.3.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "heck",
+      "version": "0.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hermit-abi",
+      "version": "0.1.19",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hermit-abi",
+      "version": "0.5.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hex",
+      "version": "0.4.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "http",
+      "version": "1.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "http-body",
+      "version": "1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "http-body-util",
+      "version": "0.1.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "httparse",
+      "version": "1.10.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "httpdate",
+      "version": "1.0.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "humantime",
+      "version": "2.4.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hyper",
+      "version": "1.11.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "hyper-util",
+      "version": "0.1.21",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "iana-time-zone",
+      "version": "0.1.65",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "iana-time-zone-haiku",
+      "version": "0.1.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ident_case",
+      "version": "1.0.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "impl-codec",
+      "version": "0.6.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "impl-serde",
+      "version": "0.4.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "impl-trait-for-tuples",
+      "version": "0.2.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "include_dir",
+      "version": "0.7.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "include_dir_macros",
+      "version": "0.7.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "indexmap",
+      "version": "1.9.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "indexmap",
+      "version": "2.14.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "is-terminal",
+      "version": "0.4.17",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "is_terminal_polyfill",
+      "version": "1.70.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "itertools",
+      "version": "0.11.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "itertools",
+      "version": "0.14.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jiff",
+      "version": "0.2.37",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jiff-core",
+      "version": "0.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jiff-static",
+      "version": "0.2.37",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jiff-tzdb",
+      "version": "0.1.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jiff-tzdb-platform",
+      "version": "0.1.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "jobserver",
+      "version": "0.1.35",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "js-sys",
+      "version": "0.3.106",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "keccak-hash",
+      "version": "0.8.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "konst",
+      "version": "0.2.20",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "konst_macro_rules",
+      "version": "0.2.19",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "layout-macro",
+      "version": "0.1.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "lazy_static",
+      "version": "1.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "libc",
+      "version": "0.2.189",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "libloading",
+      "version": "0.8.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "linux-raw-sys",
+      "version": "0.12.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "log",
+      "version": "0.4.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "matchers",
+      "version": "0.2.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "matchit",
+      "version": "0.8.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "mime",
+      "version": "0.3.17",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "miniz_oxide",
+      "version": "0.9.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "mio",
+      "version": "1.2.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "nu-ansi-term",
+      "version": "0.50.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num",
+      "version": "0.4.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-bigint",
+      "version": "0.4.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-complex",
+      "version": "0.4.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-conv",
+      "version": "0.2.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-integer",
+      "version": "0.1.47",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-iter",
+      "version": "0.1.46",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-rational",
+      "version": "0.4.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "nvml-wrapper",
+      "version": "0.13.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "nvml-wrapper-sys",
+      "version": "0.10.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "once_cell",
+      "version": "1.21.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "once_cell_polyfill",
+      "version": "1.70.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "parity-scale-codec",
+      "version": "3.7.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "parity-scale-codec-derive",
+      "version": "3.7.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "pearl-blake3",
+      "version": "0.1.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "pem",
+      "version": "3.0.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "percent-encoding",
+      "version": "2.3.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "pin-project-lite",
+      "version": "0.2.17",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "pkg-config",
+      "version": "0.3.34",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "plonky2",
+      "version": "1.1.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "plonky2_field",
+      "version": "1.0.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "plonky2_maybe_rayon",
+      "version": "1.0.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "plonky2_util",
+      "version": "1.0.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "portable-atomic",
+      "version": "1.15.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "portable-atomic-util",
+      "version": "0.2.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "powerfmt",
+      "version": "0.2.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ppv-lite86",
+      "version": "0.2.21",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "primitive-types",
+      "version": "0.10.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "primitive-types",
+      "version": "0.12.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "proc-macro-crate",
+      "version": "3.5.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "proc-macro-error",
+      "version": "1.0.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "proc-macro-error-attr",
+      "version": "1.0.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "proptest",
+      "version": "1.11.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "quick-error",
+      "version": "1.2.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "r-efi",
+      "version": "5.3.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "r-efi",
+      "version": "6.0.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "radium",
+      "version": "0.7.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand",
+      "version": "0.8.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand",
+      "version": "0.9.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand_chacha",
+      "version": "0.3.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand_chacha",
+      "version": "0.9.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand_core",
+      "version": "0.6.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand_core",
+      "version": "0.9.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rand_xorshift",
+      "version": "0.4.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rayon",
+      "version": "1.12.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rayon-core",
+      "version": "1.13.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rcgen",
+      "version": "0.13.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ref-cast",
+      "version": "1.0.27",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ref-cast-impl",
+      "version": "1.0.27",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "regex",
+      "version": "1.13.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "regex-automata",
+      "version": "0.4.18",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "regex-syntax",
+      "version": "0.8.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ring",
+      "version": "0.17.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustc-hex",
+      "version": "2.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustix",
+      "version": "1.1.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustls",
+      "version": "0.23.45",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustls-pki-types",
+      "version": "1.15.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustls-webpki",
+      "version": "0.103.15",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rustversion",
+      "version": "1.0.23",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "rusty-fork",
+      "version": "0.3.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "ryu",
+      "version": "1.0.23",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "schemars",
+      "version": "0.9.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "schemars",
+      "version": "1.2.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde",
+      "version": "1.0.229",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_derive",
+      "version": "1.0.229",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.151",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_path_to_error",
+      "version": "0.1.20",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_spanned",
+      "version": "1.1.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_urlencoded",
+      "version": "0.7.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_with",
+      "version": "3.24.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "serde_with_macros",
+      "version": "3.24.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "sha2",
+      "version": "0.10.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "sharded-slab",
+      "version": "0.1.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "shlex",
+      "version": "2.0.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "signal-hook-registry",
+      "version": "1.4.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "simd-adler32",
+      "version": "0.3.10",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "slab",
+      "version": "0.4.12",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "smallvec",
+      "version": "1.16.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "socket2",
+      "version": "0.6.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "sorted-vec",
+      "version": "0.8.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spark-pearl-miner",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-api",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-coexist",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-cpuref",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-fee",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-governor",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-gpu",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-ipc",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-mockpool",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-pool",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-pow",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-proto",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-work",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "spm-worker",
+      "version": "0.1.0-alpha.3",
+      "source": "workspace",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "starky",
+      "version": "1.1.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "static_assertions",
+      "version": "1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "strsim",
+      "version": "0.8.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "strsim",
+      "version": "0.11.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "structopt",
+      "version": "0.3.26",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "structopt-derive",
+      "version": "0.4.18",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "subtle",
+      "version": "2.6.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "syn",
+      "version": "1.0.109",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "syn",
+      "version": "2.0.119",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "syn",
+      "version": "3.0.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "sync_wrapper",
+      "version": "1.0.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tap",
+      "version": "1.0.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tempfile",
+      "version": "3.27.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "termcolor",
+      "version": "1.4.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "textwrap",
+      "version": "0.11.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "thiserror",
+      "version": "1.0.69",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "thiserror",
+      "version": "2.0.21",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "1.0.69",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "2.0.21",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "thread_local",
+      "version": "1.1.10",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tikv-jemalloc-sys",
+      "version": "0.6.1+5.3.0-1-ge13ca993e8ccb9ba9847cc330696e02839f328f7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tikv-jemallocator",
+      "version": "0.6.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "time",
+      "version": "0.3.55",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "time-core",
+      "version": "0.1.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "time-macros",
+      "version": "0.2.32",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tiny-keccak",
+      "version": "2.0.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tinyvec",
+      "version": "1.13.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tokio",
+      "version": "1.53.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tokio-macros",
+      "version": "2.7.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tokio-rustls",
+      "version": "0.26.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "toml",
+      "version": "1.1.6+spec-1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "toml_datetime",
+      "version": "1.1.1+spec-1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "toml_edit",
+      "version": "0.25.15+spec-1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "toml_parser",
+      "version": "1.1.3+spec-1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "toml_writer",
+      "version": "1.1.2+spec-1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tower",
+      "version": "0.5.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tower-layer",
+      "version": "0.3.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tower-service",
+      "version": "0.3.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tracing",
+      "version": "0.1.44",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tracing-attributes",
+      "version": "0.1.31",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tracing-core",
+      "version": "0.1.36",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "tracing-subscriber",
+      "version": "0.3.23",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "typenum",
+      "version": "1.20.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "uint",
+      "version": "0.9.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unarray",
+      "version": "0.1.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.26",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unicode-segmentation",
+      "version": "1.13.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unicode-width",
+      "version": "0.1.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unicode-xid",
+      "version": "0.2.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "unroll",
+      "version": "0.1.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "untrusted",
+      "version": "0.9.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "utf8parse",
+      "version": "0.2.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "vec_map",
+      "version": "0.8.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "version_check",
+      "version": "0.9.5",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wait-timeout",
+      "version": "0.2.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasi",
+      "version": "0.11.1+wasi-snapshot-preview1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasip2",
+      "version": "1.0.4+wasi-0.2.12",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasm-bindgen",
+      "version": "0.2.129",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasm-bindgen-macro",
+      "version": "0.2.129",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasm-bindgen-macro-support",
+      "version": "0.2.129",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wasm-bindgen-shared",
+      "version": "0.2.129",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "web-time",
+      "version": "1.1.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "webpki-roots",
+      "version": "1.0.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "winapi",
+      "version": "0.3.9",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "winapi-i686-pc-windows-gnu",
+      "version": "0.4.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "winapi-util",
+      "version": "0.1.11",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "winapi-x86_64-pc-windows-gnu",
+      "version": "0.4.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-core",
+      "version": "0.62.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-implement",
+      "version": "0.60.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-interface",
+      "version": "0.59.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-link",
+      "version": "0.2.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-result",
+      "version": "0.4.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-strings",
+      "version": "0.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-sys",
+      "version": "0.52.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-sys",
+      "version": "0.61.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows-targets",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_aarch64_gnullvm",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_aarch64_msvc",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_i686_gnu",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_i686_gnullvm",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_i686_msvc",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_x86_64_gnu",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_x86_64_gnullvm",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "windows_x86_64_msvc",
+      "version": "0.52.6",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "winnow",
+      "version": "1.0.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wit-bindgen",
+      "version": "0.57.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wrapcenum-derive",
+      "version": "0.4.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "wyz",
+      "version": "0.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "yasna",
+      "version": "0.5.2",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zerocopy",
+      "version": "0.8.59",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zerocopy-derive",
+      "version": "0.8.59",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zeroize",
+      "version": "1.9.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zk-pow",
+      "version": "0.1.0",
+      "source": "git+https://github.com/pearl-research-labs/pearl?rev=3fe226761a139a9652b8f28a6464a4bbc25986c8#3fe226761a139a9652b8f28a6464a4bbc25986c8",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zlib-rs",
+      "version": "0.6.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zmij",
+      "version": "1.0.23",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zstd",
+      "version": "0.13.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zstd-safe",
+      "version": "7.3.0",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    },
+    {
+      "name": "zstd-sys",
+      "version": "2.1.0+zstd.1.5.7",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "license_status": "not individually audited; not bundled in portable runtime"
+    }
+  ]
+}

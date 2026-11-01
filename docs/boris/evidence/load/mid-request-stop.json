@@ -1,0 +1,91 @@
+{
+  "scope": "bounded artificial64x64x4096 hard-target nonce lifecycle; no pool/live mode",
+  "full_grid_mode": false,
+  "shape": [
+    64,
+    64,
+    4096
+  ],
+  "official_audits": [],
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "selected_cuda_device": {
+    "cuda_index": 0,
+    "name": "NVIDIA GeForce RTX 5090",
+    "pci_bus_id": "0000:01:00.0",
+    "cc_major": 12,
+    "cc_minor": 0,
+    "memory_bytes": 34162016256,
+    "build_profile": "portable",
+    "build_min_cc": 75,
+    "build_backend_mask": 7,
+    "eligible_backends": [
+      "dp4a",
+      "wmma-int8",
+      "mma-int8"
+    ],
+    "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+  },
+  "load_profile": "standard",
+  "elapsed_seconds": 0.3600000000005821,
+  "requested_seconds": 10,
+  "backend": "dp4a",
+  "duty_limit": 0.2,
+  "stop_threshold_watts": 125,
+  "power_settings_changed": false,
+  "cpu_worker_threads": 2,
+  "stats": {
+    "nonce": 5422708195182210659,
+    "tile": 0,
+    "total_tiles": 1,
+    "tiles_this_chunk": 1,
+    "nonce_changes": 0,
+    "cache_hits": 0,
+    "device_bytes": 98432,
+    "workspace_reused": false,
+    "kernel_variant": 4
+  },
+  "stop": {
+    "reason": "explicit mid-request stop",
+    "stop_call_seconds": 8.999995770864189e-06,
+    "worker_reaped": true,
+    "worker_still_listed_by_nvml": false,
+    "nvml_after_stop_fresh": true
+  },
+  "worker_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "work_wall_seconds": 0.3280000000013388,
+  "software_busy_fraction": 0.9111111111133567,
+  "pause_counts": {},
+  "ledger": {
+    "user_active_ns": 127711,
+    "developer_active_ns": 0
+  },
+  "sensor_retention_limit": 1300,
+  "sensor_window_start": 1793462625.4361646,
+  "sensor_window_end": 1793462625.4361646,
+  "sensor_samples": 1,
+  "max_gpu_c": 32,
+  "max_watts": 77.351,
+  "max_gpu_util": 5,
+  "min_free_bytes": 31314624512,
+  "sensors": [
+    {
+      "observed_at": 1793462625.4361646,
+      "gpu_c": 32,
+      "watts": 77.351,
+      "free_bytes": 31314624512,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  ],
+  "live_mode": false,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "test_result": "passed",
+  "async_stop_call_seconds": 0.02030229999945732
+}

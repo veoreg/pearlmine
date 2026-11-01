@@ -1,0 +1,123 @@
+{
+  "scope": "bounded artificial64x64x4096 hard-target nonce lifecycle; no pool/live mode",
+  "full_grid_mode": true,
+  "shape": [
+    64,
+    64,
+    4096
+  ],
+  "official_audits": [
+    {
+      "wire_bytes": 101489,
+      "wire_sha256": "1504b5172c9e2cd6f4bbab8b6919604c974fff7e4a136075116452994bc00566",
+      "gpu_digest": "d14b085b6813e6cf7cf50512953cc7636138d73d3e600ead4a4adf008b495b8b",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101489,
+      "wire_sha256": "f1152afcc232881700155660c3ca33e1d0f18802c822e04adea3970bc89d1476",
+      "gpu_digest": "0d865d616bef7f7da4bc6409dd04a5e7b5d6668965c6e5e6bb768a1ad450ff37",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101489,
+      "wire_sha256": "2850f5a5272bb690c7e39b36ffcc3c5ed04976e8cf3906560a48141ea3a84cab",
+      "gpu_digest": "05388e9fa655a5a28e2e2c78a639b175028bfaf97b8198d7cfa17bea3942614b",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101489,
+      "wire_sha256": "3aac3afe894185041a42806b25a1801d419d3898a48e8d2c26ea970241196225",
+      "gpu_digest": "67721dfd8b38140e55ab1f2c9037346c9c7e8fb53725819c0d67ac5b29786480",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    }
+  ],
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "elapsed_seconds": 3.6560000000026776,
+  "requested_seconds": 30,
+  "backend": "mma-int8",
+  "duty_limit": 0.1,
+  "stop_threshold_watts": 125,
+  "power_settings_changed": false,
+  "cpu_worker_threads": 2,
+  "stats": {
+    "active_ns": 58655,
+    "all_tiles_cpu_checked": true,
+    "audit_count": 4,
+    "checksum": "5d768574ff311ad2b2f120ec5468f95371afc06bcbc6ded59461cd8fc69c835f",
+    "chunk_start": 0,
+    "complete": true,
+    "cpu_checks": 64,
+    "device_bytes": 951336,
+    "executed_tiles": 64,
+    "mode": "full-grid-local-test",
+    "next_cursor": 32,
+    "nonce": 5422708195182210660,
+    "nonces_fully_scanned": 2,
+    "tiles_per_nonce": 32,
+    "tiles_this_chunk": 32,
+    "kernel_variant": 32,
+    "official_audits": 4,
+    "nonce_changes": 1
+  },
+  "stop": {
+    "reason": "local full grid complete",
+    "stop_call_seconds": 0.018307500002265442,
+    "worker_reaped": true,
+    "worker_still_listed_by_nvml": false,
+    "nvml_after_stop_fresh": true
+  },
+  "worker_binary_sha256": "ee8fe54d4e65bbef38569155fc62fd2f223d91b43042ac86796bced427ded3c6",
+  "work_wall_seconds": 0.4210000000020955,
+  "software_busy_fraction": 0.11515317286700961,
+  "pause_counts": {},
+  "ledger": {
+    "user_active_ns": 126974,
+    "developer_active_ns": 0
+  },
+  "sensor_samples": 2,
+  "max_gpu_c": 34,
+  "max_watts": 75.578,
+  "max_gpu_util": 5,
+  "min_free_bytes": 30866935808,
+  "sensors": [
+    {
+      "observed_at": 1793457383.97711,
+      "gpu_c": 33,
+      "watts": 52.01,
+      "free_bytes": 31321194496,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793457387.5323517,
+      "gpu_c": 34,
+      "watts": 75.578,
+      "free_bytes": 30866935808,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  ],
+  "live_mode": false,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "status": "passed",
+  "error": null,
+  "completion_note": "One complete artificial nonce plus next-nonce prefix required for PASS",
+  "performance_note": "Physical local arithmetic/verification throughput only; no accepted-share hashrate or income estimate",
+  "measured_tiles_per_wall_second": 17.50547045950578,
+  "full_nonce_coverage_fraction": 1
+}

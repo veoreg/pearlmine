@@ -1,0 +1,267 @@
+{
+  "time_utc": "2026-10-31T14:24:04.176579+00:00",
+  "status": "passed",
+  "scope": "physical Windows x64 RTX5090 only; artificial jobs/loopback TLS; no real mining",
+  "worker_binary_sha256": "8990056241d6205d6604548586a6942b6e885e5b37adc1a5158a1b2a57c0e2fc",
+  "unit_tests": {
+    "portable": 70,
+    "proof_official": 23,
+    "gpu_worker": 20,
+    "official_merkle": 35,
+    "original_gpu_kat": 37,
+    "cross_backend_arithmetic_cases": 45,
+    "cross_backend_proof_cases": 15,
+    "gui_smokes": 2
+  },
+  "tensor_proof_equivalence": "canonical full proof bytes identical to DP4A within each fixture group",
+  "same_binary_warm_timing": {
+    "status": "passed",
+    "binary_sha256": "8990056241d6205d6604548586a6942b6e885e5b37adc1a5158a1b2a57c0e2fc",
+    "samples": {
+      "dp4a": [
+        {
+          "tiles": 32,
+          "wall_seconds": 0.014257599999837112,
+          "device_ns": 4119696
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011651599998003803,
+          "device_ns": 4158957
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011737300003005657,
+          "device_ns": 4116245
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.012017299995932262,
+          "device_ns": 4108594
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011611499998252839,
+          "device_ns": 4118893
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011983799995505251,
+          "device_ns": 4105841
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011451099999248981,
+          "device_ns": 4160783
+        }
+      ],
+      "wmma-int8": [
+        {
+          "tiles": 32,
+          "wall_seconds": 0.012822199998481665,
+          "device_ns": 3640082
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.01092169999901671,
+          "device_ns": 3666193
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011244500004977454,
+          "device_ns": 3755956
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011658700001135003,
+          "device_ns": 3677716
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011033900002075825,
+          "device_ns": 3710256
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011143499999889173,
+          "device_ns": 3688401
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011525499998242594,
+          "device_ns": 3727659
+        }
+      ],
+      "mma-int8": [
+        {
+          "tiles": 32,
+          "wall_seconds": 0.011097999995399732,
+          "device_ns": 1313806
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.008401400002185255,
+          "device_ns": 1317390
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.00878260000172304,
+          "device_ns": 1310226
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.008738399999856483,
+          "device_ns": 1298069
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.008627199997135904,
+          "device_ns": 1312369
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.00901920000615064,
+          "device_ns": 1390735
+        },
+        {
+          "tiles": 32,
+          "wall_seconds": 0.009103999997023493,
+          "device_ns": 1352274
+        }
+      ]
+    },
+    "medians": {
+      "dp4a": {
+        "wall_seconds": 0.011737300003005657,
+        "device_ns": 4118893
+      },
+      "wmma-int8": {
+        "wall_seconds": 0.011244500004977454,
+        "device_ns": 3688401
+      },
+      "mma-int8": {
+        "wall_seconds": 0.00878260000172304,
+        "device_ns": 1313806
+      }
+    },
+    "ratios": {
+      "dp4a": {
+        "wall_vs_dp4a": 1.0,
+        "device_vs_dp4a": 1.0
+      },
+      "wmma-int8": {
+        "wall_vs_dp4a": 1.043825870230785,
+        "device_vs_dp4a": 1.1167150751775634
+      },
+      "mma-int8": {
+        "wall_vs_dp4a": 1.336426570799415,
+        "device_vs_dp4a": 3.1350846319776284
+      }
+    },
+    "scope": "same-binary artificial256x256x4096 fixed-nonce job; rotated7 warm32-tile batches per backend",
+    "limitations": "Not production hashrate. Includes CPU canary/driver/RPC; excludes full-job preparation/proof/network. GPU event intervals include scheduling.",
+    "external_pool_connections": 0,
+    "real_submissions": 0,
+    "settings_changed": false
+  },
+  "local_mma_180s": {
+    "scope": "bounded artificial64x64x4096 hard-target nonce lifecycle; no pool/live mode",
+    "device": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5090"
+    },
+    "elapsed_seconds": 180.07800000000134,
+    "requested_seconds": 180,
+    "backend": "mma-int8",
+    "duty_limit": 0.2,
+    "stop_threshold_watts": 125.0,
+    "power_settings_changed": false,
+    "cpu_worker_threads": 2,
+    "stats": {
+      "nonce": 5422708195182213662,
+      "tile": 0,
+      "total_tiles": 96097,
+      "tiles_this_chunk": 32,
+      "nonce_changes": 3003,
+      "cache_hits": 168165,
+      "device_bytes": 98432,
+      "workspace_reused": true,
+      "kernel_variant": 32
+    },
+    "stop": {
+      "reason": "stop deadline",
+      "stop_call_seconds": 2.5800000003073364e-05,
+      "worker_reaped": true,
+      "worker_still_listed_by_nvml": false,
+      "nvml_after_stop_fresh": true
+    },
+    "worker_binary_sha256": "8990056241d6205d6604548586a6942b6e885e5b37adc1a5158a1b2a57c0e2fc",
+    "work_wall_seconds": 33.120000001486915,
+    "software_busy_fraction": 0.18396831657595872,
+    "pause_counts": {
+      "stop deadline": 1
+    },
+    "ledger": {
+      "user_active_ns": 3580537647,
+      "developer_active_ns": 0
+    },
+    "sensor_samples": 351,
+    "max_gpu_c": 31,
+    "max_watts": 78.545,
+    "max_gpu_util": 12,
+    "min_free_bytes": 30714429440,
+    "live_mode": false,
+    "external_pool_connections": 0,
+    "real_submissions": 0,
+    "status": "passed"
+  },
+  "evidence_sha256": {
+    "warm-comparison.json": "1d81c3cf7c1e3800677d49ad0b54a0541695a812e43e69e77918198e8ff0bf48",
+    "signed-arithmetic-kat.json": "c5ee2ce0057035f5786adaff92666e6714dd41348bf1937e7d6e4ea6b51b17f8",
+    "three-k-proof-equivalence.json": "67553fec08d37ca76f676a7556a649473738a641bd6540c0313ab679dbbfd38d",
+    "irregular-proof-equivalence.json": "fbc0044ccb32123f38deeaf4d6e092f30561dd2e8a786a1aafd3370cf649affe",
+    "full-size-proof-equivalence.json": "dce09e218b8c33a3519b0136a83e3d1a8cb8ff24a51ef2aba2f8b4efb41b67d2",
+    "tensor-stops.json": "a1b2d3ff8209c948424a0641555c12ecbc0e5a168661eb00d8a2aed4b4573090",
+    "mma-local-search-180s.json": "ca3f1998181aa85ae76820068437bbe07f3fab5d26a43119d37599becab5a2c2",
+    "compiled-targets.json": "513c11eb9a6b0fbb4304b5bb93556a9c8b80248edd00461c4d1c4945da8a8fc5"
+  },
+  "source_sha256": {
+    "native/worker_kernel.cu": "1ed8785625804ad1203c46a5014adb0b83984f00f813c20f6209903ea87e3f0d",
+    "native/tensor_tile.cuh": "1f709c1073bae7d0b130d63c2ef0c993b59ccd609357cae3cc16d8334a2aa710",
+    "production_worker/build.rs": "7754712591545555cce73a74ef06839c585c0b086db731931df3fcee4e2d4335",
+    "production_worker/src/main.rs": "1fd32567619fb14d388e59b55e034e98c34907964fd12dfd69c5603869760c88",
+    "production_worker/src/ffi.rs": "d13239fdcf51130b9d37892b8e1b4e82e6ac9b15a1e0f1e7cf4e639cf1d9abb3",
+    "production_worker/src/kernel_selftest.rs": "c28226457474fab0547f1fdf95e11b97d42a6c963230e99478c916e8dcbe1bbc",
+    "boris_pearl/cuda_worker.py": "bccfd4e0e146a762a6f44bce35c5598d4f6bb0d248463f8a8190bdd14e2ba64b",
+    "boris_pearl/controller.py": "fdb0bc8693e7ddf0e1d532e4fa2d367d82ea91c680e168403d89f33b5ede72cb",
+    "tests_worker/test_tensor.py": "c7e411f00f9ffef08229e54d2f007379ede2a64725b38370e5979d24bcfa22e5"
+  },
+  "inherited_evidence_note": "23 proof/35 official Merkle/37 original GPU KAT/GUI checks remain prior passing checks; not rerun solely for documentation. Latest worker suite rerun is70 portable+20 worker and rustfmt.",
+  "live_mode_executions": 0,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "system_settings_changed": false,
+  "blockers": [
+    {
+      "action": "Inventory Linux distributions",
+      "target": "wsl --list --quiet",
+      "status": "denied",
+      "reason": "Wsl/EnumerateDistros/Service/E_ACCESSDENIED; not retried/bypassed",
+      "required": "An independently authorized Linux x64/ARM64 environment"
+    },
+    {
+      "action": "Qualify GB10/4090/2060 Laptop and AMD",
+      "status": "not performed",
+      "reason": "No physical devices here; AMD backend not implemented",
+      "required": "Separate platform build, exact proof and telemetry/OEM/stop checks on each device"
+    },
+    {
+      "action": "Execute full-size production search and live pool submissions",
+      "status": "not performed; separate consent pending",
+      "reason": "Only bounded artificial tests authorized; full-size full search and current pool protocol not qualified",
+      "required": "Close release gates, public PRL addresses, exact endpoint/device/load/deadline and explicit live/submission consent"
+    }
+  ],
+  "remaining": "Resident-data batched GEMM/full-size search, production throughput, long full-load/OEM soak, sleep/resume/TDR, real accepted shares, Linux, physical other GPU/AMD/multi-GPU; no universal compatibility claim",
+  "historical_phase_note": "Tensor-only phase evidence before resident-grid extension. Latest worker build and full-size results are in evidence/full-size/final-summary.json; newer tensor proof reports may have their own hashes."
+}

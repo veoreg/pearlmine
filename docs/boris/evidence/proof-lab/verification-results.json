@@ -1,0 +1,107 @@
+{
+  "time_utc": "2026-10-31T13:33:53.480115+00:00",
+  "checks": {
+    "dependency_integrity": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "tools/audit-proof-deps.py"
+      ],
+      "exit_code": 0
+    },
+    "official_bridge_offline_build": {
+      "command": [
+        "cargo",
+        "+stable",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--manifest-path",
+        "proof_bridge/local-build/Cargo.toml"
+      ],
+      "exit_code": 0
+    },
+    "portable_cpu_tests": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_portable",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "proof_cpu_and_official_tests": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests_proof_lab",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    "official_merkle_library_tests": {
+      "command": [
+        "cargo",
+        "+stable",
+        "test",
+        "--locked",
+        "--offline",
+        "--release",
+        "--manifest-path",
+        "proof_bridge/local-build/Cargo.toml",
+        "-p",
+        "pearl-blake3",
+        "--lib"
+      ],
+      "exit_code": 0
+    },
+    "bridge_source_syntax": {
+      "command": [
+        "rustfmt",
+        "+stable",
+        "--edition",
+        "2021",
+        "--check",
+        "proof_bridge/src/main.rs"
+      ],
+      "exit_code": 0
+    },
+    "fixed_cuda_proof_pipeline": {
+      "command": [
+        "D:\\Python311\\python.exe",
+        "-m",
+        "boris_pearl",
+        "proof-lab",
+        "--output",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\docs\\boris\\evidence\\proof-lab",
+        "--verifier",
+        "C:\\Users\\user\\Documents\\Codex\\2026-10-31\\task\\pearl-miner\\proof_bridge\\target\\release\\boris-official-proof-check.exe",
+        "--verifier-sha256",
+        "5e0a98e8aff4b5d034f03e7ac5ce96e29510b8a17ef56ccfa805fa8d313a54f3"
+      ],
+      "exit_code": 0
+    }
+  },
+  "status": "passed",
+  "official_acceptance": "passed",
+  "pipeline": {
+    "mode": "fixed offline fixture, no pool or nonce search",
+    "proof_bytes": 51697,
+    "proof_sha256": "786614f2d1a0e02130d9f4c64d636d7cf83ec1e7abfc9ea4ab44e8fb0bcd3125",
+    "cuda_binary_sha256": "5245b06b46c909fa7dbe873778024da07b7f9de1d6256a1914c9ac8bf81e3cf9",
+    "gpu_digest": "0e9359d550d555994ea1cf0d3ec4a015e63fd019f011c0082ab6a9ad5570608d",
+    "merkle_precheck": "passed; independent implementation",
+    "independent_dense_precheck": "passed; not official consensus verification",
+    "official_verification": "passed",
+    "submitted": false,
+    "difficulty_note": "0x207fffff is a test-only saturated override; never a real pool target",
+    "official_wire_sha256": "786614f2d1a0e02130d9f4c64d636d7cf83ec1e7abfc9ea4ab44e8fb0bcd3125"
+  },
+  "scope": "fixed offline fixtures only, no pool, no search, no mining"
+}

@@ -1,0 +1,39 @@
+OFFLINE KAT ONLY. No pool connection or mining.
+device=NVIDIA GeForce RTX 5090 cc=12.0
+BLAKE3 official keyed vector64 host+device=PASS
+K=128 pattern=0 transcript+digest=PASS
+K=128 pattern=1 transcript+digest=PASS
+K=128 pattern=2 transcript+digest=PASS
+K=256 pattern=0 transcript+digest=PASS
+K=256 pattern=1 transcript+digest=PASS
+K=256 pattern=2 transcript+digest=PASS
+K=2176 pattern=0 transcript+digest=PASS
+K=2176 pattern=1 transcript+digest=PASS
+K=2176 pattern=2 transcript+digest=PASS
+K=4096 pattern=0 transcript+digest=PASS
+K=4096 pattern=1 transcript+digest=PASS
+K=4096 pattern=2 transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=0 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=2 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=4 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=6 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=64 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=66 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=68 fill+noise+transcript+digest=PASS
+golden seed=1 K=2048 row=0 col=70 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=0 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=2 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=4 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=6 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=64 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=66 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=68 fill+noise+transcript+digest=PASS
+golden seed=2 K=4096 row=0 col=70 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=0 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=2 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=4 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=6 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=64 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=66 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=68 fill+noise+transcript+digest=PASS
+golden seed=3 K=4096 row=0 col=70 fill+noise+transcript+digest=PASS

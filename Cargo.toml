@@ -1,4 +1,11 @@
+# Boris fork: keep isolated proof builds and exact official source workspaces separate.
 [workspace]
+exclude = [
+    "proof_bridge",
+    "third_party/pearl-proof/zk-pow",
+    "third_party/pearl-proof/pearl-blake3",
+    "third_party/pearl-proof/plonky2",
+]
 resolver = "2"
 members = [
     "crates/spm-pow",
@@ -26,8 +33,10 @@ rust-version = "1.88"
 
 [workspace.dependencies]
 # Official Pearl reference (ISC) — pinned. Never bump without re-running the bit-exact suite.
-zk-pow = { git = "https://github.com/pearl-research-labs/pearl", rev = "3fe226761a139a9652b8f28a6464a4bbc25986c8", package = "zk-pow" }
-pearl-blake3 = { git = "https://github.com/pearl-research-labs/pearl", rev = "3fe226761a139a9652b8f28a6464a4bbc25986c8", package = "pearl-blake3", features = ["serde"] }
+# Exact files at 3fe226761a139a9652b8f28a6464a4bbc25986c8; verified by PROVENANCE.json.
+# Local paths avoid fetching the unrelated CUDA submodule on Windows.
+zk-pow = { path = "third_party/pearl-proof/zk-pow", package = "zk-pow" }
+pearl-blake3 = { path = "third_party/pearl-proof/pearl-blake3", package = "pearl-blake3", features = ["serde"] }
 anyhow = "1"
 thiserror = "1"
 serde = { version = "1", features = ["derive"] }

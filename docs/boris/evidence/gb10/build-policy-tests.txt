@@ -1,0 +1,12 @@
+
+running 7 tests
+test tests::cross_compiler_is_not_silently_selected ... ok
+test tests::arm64_library_path_is_not_x64 ... ok
+test tests::existing_profiles_unchanged ... ok
+test tests::gb10_native_only_has_generic_121_sass_and_ptx ... ok
+test tests::gb10_rejects_windows ... ok
+test tests::unknown_profile_rejected ... ok
+test tests::gb10_rejects_x64_linux ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

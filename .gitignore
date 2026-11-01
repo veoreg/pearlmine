@@ -21,3 +21,16 @@
 
 # Release tarballs from packaging/make-release.sh
 /dist/
+
+# Boris portable prototype: local outputs, never include machine-specific config/state.
+__pycache__/
+/native/out/
+/production_worker/target/
+/proof_bridge/target/
+/proof_bridge/local-build/target/
+/boris-state.json
+/boris-config.json
+/PearlMine.exe
+/.cargo-proof-offline/
+/build/
+*.egg-info/

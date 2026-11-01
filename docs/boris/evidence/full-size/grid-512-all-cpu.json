@@ -1,0 +1,140 @@
+{
+  "scope": "bounded artificial512x512x4096 hard-target nonce lifecycle; no pool/live mode",
+  "full_grid_mode": true,
+  "shape": [
+    512,
+    512,
+    4096
+  ],
+  "official_audits": [
+    {
+      "wire_bytes": 101681,
+      "wire_sha256": "22e16b738cd3755f1ce50dfa3ba8d371483be6d73e2b04f8c1fb7c5304aeddc4",
+      "gpu_digest": "61699f775b26bc4b2c73111cc73275661c2efa61366a4ed4ab9f70be83b08fc3",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101681,
+      "wire_sha256": "ab3ed2967f7a768830196671d507463651fe3e9f0313515a61cd2dce16047fee",
+      "gpu_digest": "82ab564a69442f92c3f35d1818afbf0284a77e4ddcaeaf5c35efe77e9a8bf058",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101681,
+      "wire_sha256": "02a16daa31c529b8223298e1604a4ce3b2776bea87a4a472a7f41278edba78d7",
+      "gpu_digest": "e29c8ac2248e71a539d227620fd2ab853a2408b53f31d9b7c17f385eb670c847",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    },
+    {
+      "wire_bytes": 101681,
+      "wire_sha256": "4a26606dccc829f7b4c6c919194f5c4eae30049b63c46a495521174286e218fb",
+      "gpu_digest": "81f7b22aff29fce2db8b9a02978adb2c8d8bc8b34026b2ff10005566b67db526",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    }
+  ],
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "selected_cuda_device": {
+    "cuda_index": 0,
+    "name": "NVIDIA GeForce RTX 5090",
+    "pci_bus_id": "0000:01:00.0",
+    "cc_major": 12,
+    "cc_minor": 0,
+    "memory_bytes": 34162016256,
+    "build_profile": "portable",
+    "build_min_cc": 75,
+    "build_backend_mask": 7,
+    "eligible_backends": [
+      "dp4a",
+      "wmma-int8",
+      "mma-int8"
+    ],
+    "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+  },
+  "load_profile": "standard",
+  "elapsed_seconds": 17.531000000002678,
+  "requested_seconds": 45,
+  "backend": "mma-int8",
+  "duty_limit": 0.1,
+  "stop_threshold_watts": 125,
+  "power_settings_changed": false,
+  "cpu_worker_threads": 2,
+  "stats": {
+    "active_ns": 362783,
+    "all_tiles_cpu_checked": true,
+    "audit_count": 4,
+    "checksum": "ed2254123ce47aa469737d0a176e162877272009c3fb5ce5fa4e883bc54b0c17",
+    "chunk_start": 0,
+    "complete": true,
+    "cpu_checks": 4096,
+    "device_bytes": 4736040,
+    "executed_tiles": 4096,
+    "mode": "full-grid-local-test",
+    "next_cursor": 2048,
+    "nonce": 5422708195182210660,
+    "nonces_fully_scanned": 2,
+    "tiles_per_nonce": 2048,
+    "tiles_this_chunk": 2048,
+    "host_prepare_wall_seconds": 0.3118609,
+    "kernel_variant": 32,
+    "official_audits": 4,
+    "nonce_changes": 1
+  },
+  "stop": {
+    "reason": "small complete grid",
+    "stop_call_seconds": 0.02226419999351492,
+    "worker_reaped": true,
+    "worker_still_listed_by_nvml": false,
+    "nvml_after_stop_fresh": true
+  },
+  "worker_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "work_wall_seconds": 1.7509999999965657,
+  "software_busy_fraction": 0.09988021219532818,
+  "pause_counts": {},
+  "ledger": {
+    "user_active_ns": 464062,
+    "developer_active_ns": 0
+  },
+  "sensor_retention_limit": 4000,
+  "sensor_window_start": 1793462598.264399,
+  "sensor_window_end": 1793462608.5284905,
+  "sensor_samples": 2,
+  "max_gpu_c": 31,
+  "max_watts": 64.883,
+  "max_gpu_util": 6,
+  "min_free_bytes": 30853353472,
+  "sensors": [
+    {
+      "observed_at": 1793462598.264399,
+      "gpu_c": 31,
+      "watts": 64.883,
+      "free_bytes": 30856302592,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 5,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    },
+    {
+      "observed_at": 1793462608.5284905,
+      "gpu_c": 31,
+      "watts": 51.651,
+      "free_bytes": 30853353472,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 6,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  ],
+  "live_mode": false,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "test_result": "passed"
+}

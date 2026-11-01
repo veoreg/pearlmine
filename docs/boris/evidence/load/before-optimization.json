@@ -1,0 +1,26 @@
+{
+  "scope": "fixed 64x64x4096 artificial header/nonce, no pool or nonce progression",
+  "binary_sha256": "7d390740fd5e2190ea977e79fa0623f9b2d79e0107d4dfe4d09fb39eef421371",
+  "samples": [
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.17520630000217352,
+      "device_ns": 5556370
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.04832960000203457,
+      "device_ns": 5555254
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.047822699998505414,
+      "device_ns": 5539088
+    },
+    {
+      "tiles": 32,
+      "elapsed_seconds": 0.04819919999863487,
+      "device_ns": 5578065
+    }
+  ]
+}

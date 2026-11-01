@@ -1,0 +1,108 @@
+{
+  "scope": "bounded artificial131072x131072x4096 hard-target nonce lifecycle; no pool/live mode",
+  "full_grid_mode": true,
+  "shape": [
+    131072,
+    131072,
+    4096
+  ],
+  "official_audits": [
+    {
+      "wire_bytes": 102193,
+      "wire_sha256": "fcac5547cdad0c2ed860e4fb9321dead0803deb3943d5b5bfd44fdb4fc3bfa2e",
+      "gpu_digest": "3f6c6e79e0748a495d5c9c8c3337fa68a63fa6c56c2f93247755f1f8e13a7511",
+      "nbits_override": 505413631,
+      "scope": "separate easy-target audit only; not a hit against hard search target"
+    }
+  ],
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "selected_cuda_device": {
+    "cuda_index": 0,
+    "name": "NVIDIA GeForce RTX 5090",
+    "pci_bus_id": "0000:01:00.0",
+    "cc_major": 12,
+    "cc_minor": 0,
+    "memory_bytes": 34162016256,
+    "build_profile": "portable",
+    "build_min_cc": 75,
+    "build_backend_mask": 7,
+    "eligible_backends": [
+      "dp4a",
+      "wmma-int8",
+      "mma-int8"
+    ],
+    "qualification": "ISA/build eligibility only; no physical compatibility or performance claim"
+  },
+  "load_profile": "standard",
+  "elapsed_seconds": 2.5160000000032596,
+  "requested_seconds": 2.5,
+  "backend": "mma-int8",
+  "duty_limit": 0.1,
+  "stop_threshold_watts": 125,
+  "power_settings_changed": false,
+  "cpu_worker_threads": 2,
+  "stats": {
+    "active_ns": 957632,
+    "all_tiles_cpu_checked": false,
+    "audit_count": 1,
+    "checksum": "9813d1627d7409c7187ad84e3b598ab5612a6d81178ef3acb76171e13d38dada",
+    "chunk_start": 0,
+    "complete": false,
+    "cpu_checks": 2,
+    "device_bytes": 1107706920,
+    "executed_tiles": 4096,
+    "mode": "full-grid-local-test",
+    "next_cursor": 4096,
+    "nonce": 5422708195182210659,
+    "nonces_fully_scanned": 0,
+    "tiles_per_nonce": 134217728,
+    "tiles_this_chunk": 4096,
+    "host_prepare_wall_seconds": 0.6269693,
+    "kernel_variant": 32,
+    "official_audits": 1,
+    "nonce_changes": 0
+  },
+  "stop": {
+    "reason": "stop deadline",
+    "stop_call_seconds": 7.650000043213367e-05,
+    "worker_reaped": true,
+    "worker_still_listed_by_nvml": false,
+    "nvml_after_stop_fresh": true
+  },
+  "worker_binary_sha256": "678f5f2599e432051308767eca90d6a2dbe35572361fb770bc1d4a9073b992c5",
+  "work_wall_seconds": 0.7030000000013388,
+  "software_busy_fraction": 0.27941176470605245,
+  "pause_counts": {},
+  "ledger": {
+    "user_active_ns": 957632,
+    "developer_active_ns": 0
+  },
+  "sensor_retention_limit": 4000,
+  "sensor_window_start": 1793462615.9276073,
+  "sensor_window_end": 1793462615.9276073,
+  "sensor_samples": 1,
+  "max_gpu_c": 30,
+  "max_watts": 53.023,
+  "max_gpu_util": 8,
+  "min_free_bytes": 30862397440,
+  "sensors": [
+    {
+      "observed_at": 1793462615.9276073,
+      "gpu_c": 30,
+      "watts": 53.023,
+      "free_bytes": 30862397440,
+      "board_c": null,
+      "on_battery": false,
+      "gpu_util_percent": 8,
+      "total_bytes": 34190917632,
+      "power_limit_watts": 575.0
+    }
+  ],
+  "live_mode": false,
+  "external_pool_connections": 0,
+  "real_submissions": 0,
+  "test_result": "passed"
+}

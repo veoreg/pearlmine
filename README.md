@@ -1,3 +1,15 @@
+# PearlMine — development prototype
+
+Modified distribution notice, 2026-10-31: this checkout adds a separate portable
+prototype for Boris. Read [BORIS_README.md](BORIS_README.md) first. The new entry
+point is `python -m boris_pearl gui`; live mining is disabled. The legacy Spark
+program, installer, benchmark claims and fixed third-party fee described below
+are preserved upstream reference material, not a Boris release or tested support.
+Do not run the legacy installer as installation instructions for this prototype.
+No legacy worker is launched by the portable prototype, so its fee is not added.
+
+## Preserved upstream README (original authors and claims)
+
 # Spark Pearl Miner
 
 **Earn Pearl (PRL) with your NVIDIA DGX Spark while it would otherwise sit idle, at low power.**

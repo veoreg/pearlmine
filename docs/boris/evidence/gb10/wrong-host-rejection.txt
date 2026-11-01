@@ -1,0 +1,4 @@
+
+thread 'main' (41880) panicked at production_worker/build.rs:20:30:
+gb10 requires a native aarch64-unknown-linux-gnu host; no WSL/cross-compiler fallback
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

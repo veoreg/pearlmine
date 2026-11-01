@@ -1,0 +1,27 @@
+{
+  "binary_sha256": "d456fb1cc9e7d46fb12b1f781d6989a65d11ce7fef976885f2421da3f7fb2af9",
+  "scope": "fixed synthetic one-tile WMMA proofs, no pool",
+  "results": [
+    {
+      "k": 2048,
+      "variant": 16,
+      "active_ns": 59647,
+      "wire_bytes": 51569,
+      "accepted": true
+    },
+    {
+      "k": 2176,
+      "variant": 16,
+      "active_ns": 61888,
+      "wire_bytes": 68849,
+      "accepted": true
+    },
+    {
+      "k": 4096,
+      "variant": 16,
+      "active_ns": 110752,
+      "wire_bytes": 101489,
+      "accepted": true
+    }
+  ]
+}

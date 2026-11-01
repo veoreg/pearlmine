@@ -1,0 +1,29 @@
+{
+  "time_utc_epoch": 1793464023.2605097,
+  "system": "Windows",
+  "machine": "AMD64",
+  "devices": [
+    {
+      "platform_index": 0,
+      "device_index": 0,
+      "name": "NVIDIA GeForce RTX 5090",
+      "vendor": "NVIDIA Corporation",
+      "vendor_id": 4318,
+      "driver": "617.42",
+      "version": "OpenCL 3.0 CUDA",
+      "opencl_c": "OpenCL C 1.2 ",
+      "compiler_available": true,
+      "available": true,
+      "little_endian": true,
+      "max_group_size": 1024,
+      "local_bytes": 49152,
+      "total_bytes": 34162016256,
+      "qualification": "OpenCL detection/capability only; AMD physical compatibility unverified",
+      "uuid_available": true
+    }
+  ],
+  "amd_detected": false,
+  "gpu_kernels_launched": 0,
+  "runtime_qualification": "unverified; inventory never authorizes workloads",
+  "mining_enabled": false
+}

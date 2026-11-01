@@ -1,0 +1,47 @@
+{
+  "time_utc": "2026-10-31T14:53:15.422004+00:00",
+  "binary_sha256": "ac12a272abcd05fa2fa0a145be124ed87e3a8c4b09fac3c7165ee0b3a1cd272d",
+  "scope": "Static source/target review during the artificial run; no additional GPU workload",
+  "original_sources_unchanged": [
+    "cuda/prep/prep.cu",
+    "cuda/prep/prep.cuh",
+    "crates/spm-worker/src/host.rs",
+    "crates/spm-worker/src/engine.rs"
+  ],
+  "source_sha256": {
+    "native/local_grid.cuh": "d0e1b474e10cfa617a97fc2ccd925917542fb98b1943cb2ddf299233b3fcff1b",
+    "native/worker_kernel.cu": "9b8e0e0518d5b91258dcaad3bcc728c1d91fc2109e4d62eb27dacaab0f256f96",
+    "production_worker/src/local_grid.rs": "72ee5861429015ecbd7b27fca78c612a6f7804e755798de9838aef3b5ad96c2a",
+    "production_worker/src/ffi.rs": "09116562042526fe2943ba8560be029111b33340bbac37fe6c9b49acae83eeb4",
+    "production_worker/src/main.rs": "8fdcc5887c5238b347a4621b83901e8faaeaba7ed237a663dd014609df14c876",
+    "production_worker/build.rs": "e2c9749cc7d0c598d06f079d4533b5ea0ee29aea3d40fbb4632d1254803d22ad",
+    "production_worker/Cargo.toml": "abb009c251c779c2f5ee5b465f8abb2494ae9214241d5801aa640b8242aa0551",
+    "production_worker/Cargo.lock": "626b5d32548535b3fcfcf5195bc67876d128a45a07da8ba17591abdaaf3bf3e7",
+    "boris_pearl/full_grid.py": "eb8f03b8bd7b30074089618af75bb9b482dd5f74aa8e69fceac0febbedb44904",
+    "boris_pearl/local_search.py": "8bad67ee9289d19d82d3834f2525ffc0488a8510208d7a1cb264d120340cd03e",
+    "boris_pearl/pool.py": "01099741daa8eaa9fafc5b9edcc1f05b12125fd9578d1faf98a52c6f35559026",
+    "tools/boris-full-grid-test.py": "ad42d939f84dbbe9eb34d675809ca5f90c48aedf79ead3732174b6e170e810ab",
+    "tests_worker/test_full_grid.py": "71af2ab6759ae470f14f8f94d0975fa4cccb470b91f99905cced95f110f255f9",
+    "tests_portable/test_pool.py": "fc9dc8daeedaf50a6763a29fa553c19e2ab68516c1b57021cefe3c7698eee7b7"
+  },
+  "grid_properties": [
+    "fixed internal artificial header/target1/nonce; no wallet/network",
+    "sizes64/512/131072,rank128,K4096; CC8.0+",
+    "4096-tile maximum batch; step16; one nonce plus at most4096 next tiles",
+    "native1800s+parent deadline; ordinary local mode600s unchanged",
+    "allocation plus1GiB free admission, <=25% whole-work duty,125W observed stop threshold/75C",
+    "GPU preparation and compute included in device events; CPU/transfers excluded",
+    "full small-grid CPU comparison; two original-host CPU canaries per large batch",
+    "separate easy-target official audit proofs; no acceptance against search target inferred",
+    "default/live worker path independent; live resident integration unqualified"
+  ],
+  "no_system_or_network_setting_changes": true,
+  "--list-elf": {
+    "exit_code": 0,
+    "stdout": "ELF file    1: boris-pearl-worker.1.sm_75.cubin\nELF file    2: boris-pearl-worker.2.sm_89.cubin\n"
+  },
+  "--list-ptx": {
+    "exit_code": 0,
+    "stdout": "PTX file    1: boris-pearl-worker.1.sm_75.ptx\nPTX file    2: boris-pearl-worker.2.sm_89.ptx\nPTX file    3: boris-pearl-worker.3.sm_80.ptx\n"
+  }
+}

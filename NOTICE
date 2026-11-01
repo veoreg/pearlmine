@@ -6,12 +6,12 @@ Licensed under the Apache License, Version 2.0 (see LICENSE).
 This product includes software developed by third parties:
 
 - Pearl network reference implementation (zk-pow, pearl-blake3, and ported
-  CUDA kernels from miner/pearl-gemm) — ISC License
+  CUDA kernels from miner/pearl-gemm) РІР‚вЂќ ISC License
   Copyright (c) 2025-2026 Pearl Research Labs
   Copyright (c) 2015-2016 The Decred developers
   https://github.com/pearl-research-labs/pearl (pinned at 3fe226761a139a9652b8f28a6464a4bbc25986c8)
 
-- NVIDIA CUTLASS / CuTe — BSD-3-Clause License
+- NVIDIA CUTLASS / CuTe РІР‚вЂќ BSD-3-Clause License
   Copyright (c) 2017-2026 NVIDIA CORPORATION & AFFILIATES
   https://github.com/NVIDIA/cutlass
 
@@ -22,3 +22,73 @@ This product includes software developed by third parties:
 NVIDIA, DGX and DGX Spark are trademarks of NVIDIA Corporation. Pearl and PRL
 are marks of Pearl Research Labs. This project is unofficial and is not
 affiliated with, sponsored by, or endorsed by NVIDIA or Pearl Research Labs.
+
+PearlMine (formerly Boris Pearl) prototype additions, 2026-10-31:
+- Separate Python portable control prototype, offline CUDA scalar tile KAT,
+  tests, interface, build recipes and qualification documentation.
+- Integrated synthetic process-pipe controller and pinned golden tile checks
+  reuse the original unmodified CUDA prep sources and fixture data.
+- Added offline full dense-proof candidate/Merkle code, actual fixed-fixture
+  CUDA process export and a source wrapper for the pinned official verifier;
+  official verifier now builds and accepts the fixed proof with matching bincode.
+- This source distribution includes an exact Rust subset of official Pearl
+  commit 3fe226761a139a9652b8f28a6464a4bbc25986c8 in third_party/pearl-proof,
+  with its original ISC and Plonky2 MIT/Apache licenses and provenance hashes.
+- Root Cargo.toml was changed to separate these nested source workspaces from
+  the legacy miner workspace and select the exact audited official path sources
+  for shared host crates. No official verifier source file was changed.
+- Added production_worker Rust/CUDA scalar baseline and portable controller,
+  immutable official-proof routing, explicitly gated Stratum/TLS transport,
+  coordinator and loopback-only integration tests. Original host.rs/engine.rs
+  and CPU/type crates are reused unchanged; the original fee scheduler is not.
+- Expanded the new verifier wrapper's bounded dense shape admission; the
+  official verification implementation remains unchanged. New baseline has no
+  production qualification, no public live-mining release and no live test.
+- README.md, .gitignore and this NOTICE were changed to identify the fork,
+  separate legacy material, and document its unqualified development status.
+- No affiliation or endorsement by NVIDIA, Pearl Research Labs, or upstream
+  miner authors is claimed. Original notices and licenses remain intact.
+- The portable prototype does not launch the upstream miner or inherit its
+  fee. Its default fee is 0%, payout address empty; nonzero public payout
+  configuration must be explicitly provided before a future live run.
+
+Boris prototype local-search/safety extension,2026-10-31:
+- Added DP4A/persistent CUDA workspace and bounded per-job row/context caches,
+  acknowledged nonce/cursor continuation, read-only installed NVML sampling,
+  software duty pacing, deadline/stop controls and synthetic local search/UI.
+- Original host/engine/CPU reference and official verifier sources unchanged.
+- No NVML/CUDA runtime binary redistributed; no live mining/pool execution.
+
+Boris prototype tensor extension,2026-10-31:
+- Original Apache-2.0 WMMA and dense MMA INT8 tile code, explicit backend gates,
+  deterministic arithmetic/proof/safety checks and local timing evidence.
+- Uses documented CUDA APIs/PTX instructions, no restricted miner code copied.
+- Original host/engine and vendored official verifier files remain unchanged;
+  no CUDA/NVML implementation binaries or toolkit sources redistributed.
+
+Boris artificial resident-grid extension,2026-10-31:
+- Added original paired-MMA/shared-panel experiment, fixed local protocol,
+  complete-grid CPU/proof checks and guarded duration tooling.
+- Reuses unchanged CUDA prep and existing Apache/ISC hash sources. No live data
+  or network use in this mode. Original upstream/vendor sources unchanged.
+- Added direct blake3=1.8.7 dependency already present in audited lock/cache;
+  no runtime/toolkit binary redistribution.
+
+Boris architecture/device selection extension,2026-10-31:
+- Original Apache-2.0 named CUDA build profiles, checked capability/image gates,
+  read-only CUDA device descriptors, UUID-bound NVML lookup, GUI/CLI selection,
+  conservative optional laptop guard and bounded compilation/proof tests.
+- Public CUDA/WMMA/PTX and NVML APIs only; no toolkit/runtime binary or header
+  implementation redistributed, no new dependency or restricted miner source.
+- Original CUDA prep, host/engine and official verifier sources remain unchanged.
+
+GB10/Linux ARM64 preparation (2026-10-31): original Apache-2.0 native-build
+policy, read-only diagnostics and conservative capability/safety tests. No
+NVIDIA runtime or OEM firmware is redistributed; no upstream TMA performance
+or physical GB10 qualification is claimed.
+
+AMD-oriented OpenCL laboratory (2026-10-31): original Apache-2.0 runtime wrapper,
+fixed fixtures and scalar tile controller. Native OpenCL BLAKE3 adaptation
+retains the existing Pearl Research Labs/Decred ISC notice in fixed_tile.cl.
+HIP/AMD CLR/AMD SMI/ADLX/ICD implementations and vendor binaries are not bundled.
+No AMD physical compatibility, optimized throughput or vendor endorsement.
