@@ -117,7 +117,7 @@ class DeviceService:
                     for d in devices:
                         available=bool(d.eligible_backends) and not d.requires_gb10_guards
                         self.records[d.uuid]=dict(name=d.name,kind="NVIDIA CUDA",state="idle",eligible=available,
-                            note="Тест доступен" if available else ("Нужна проверка Spark" if d.requires_gb10_guards else "Карта пока не поддержана"),
+                            note=("Можно майнить" if (d.cc_major,d.cc_minor)==(12,0) else "Только тест: быстрого ядра пока нет") if available else ("Нужна проверка Spark" if d.requires_gb10_guards else "Карта пока не поддержана"),
                             backends=list(d.eligible_backends),temperature=None,watts=None,free_bytes=None,updated_at=None,
                             profile="laptop" if "LAPTOP" in d.name.upper() else "standard",report=None,error=None)
                 self.log(f"Найдено CUDA-устройств: {len(devices)}.")
