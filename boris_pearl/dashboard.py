@@ -26,7 +26,7 @@ class Dashboard:
     def __init__(self,root,*,service=None,fleet=None,auto_discover=True,settings_path=None):
         self.root=root;self.service=service or DeviceService();self.fleet=fleet or Fleet()
         self.settings_path=Path(settings_path) if settings_path else ROOT/"state/control-center/settings.json"
-        self.checked=set();self.remote_checked=set();self.closing=False;self.background=[];self.events=Queue();self.saved_peers=[]
+        self.checked=set();self.remote_checked=set();self.peer_mine=set();self.closing=False;self.background=[];self.events=Queue();self.saved_peers=[]
         self.pages={};self.nav={};self.last_log="";self.current_peer=None;self.agent_windows=[];self.saved_config=Config()
         root.title("PearlMine — центр управления");root.geometry("1220x840");root.minsize(1060,760)
         theme.apply(root)
@@ -223,9 +223,12 @@ class Dashboard:
         seconds={"1 час":3600,"8 часов":28800,"24 часа":86400,"7 дней":604800}[self.mine_for.get()]
         text=(f"Выплаты: {config.user_wallet}\nПул: {config.user_pool}\nКомиссия пула указана на его сайте, она отдельная.\n"
             f"Комиссия разработчика: {config.effective_bps/100:g}% активного времени GPU.\nНагрузка: {duty*100:g}%, срок: {self.mine_for.get()}.\n\n"
-            "Карта будет под высокой нагрузкой и расходует электричество. При нагреве программа сбавит темп, при 83 °C остановится.\n\nНачать майнинг?")
+            "Карта будет под высокой нагрузкой и расходует электричество. При нагреве программа сбавит темп, при 83 °C остановится.\n"
+            +("На удалённом компьютере майнинг работает отдельно от панели, сам уступает заказам и останавливается кнопкой «Остановить всё».\n" if self.peer_mine else "")+"\nНачать майнинг?")
         if not messagebox.askokcancel("Начать майнинг",text,parent=self.root):return
-        try:self.service.start_mining(list(self.checked),config,seconds=seconds,duty=duty,profile="laptop" if laptop else "standard")
+        try:
+            if self.checked:self.service.start_mining(list(self.checked),config,seconds=seconds,duty=duty,profile="laptop" if laptop else "standard")
+            for peer in self.peer_mine:self.fleet.miner(peer,"start",config.user_wallet,config.user_pool,seconds)
         except Exception as exc:self.footer.set(human_error(exc))
 
     def stop_all(self):self.service.stop();self.fleet.stop();self.footer.set("Останавливаю все принадлежащие программе тесты…")
@@ -248,6 +251,10 @@ class Dashboard:
         key=self.table.focus()
         if key:self._toggle(key)
     def _toggle(self,key):
+        if key.startswith("remote:"):
+            peer=key.split(":",1)[1].rsplit(":GPU-",1)[0]
+            if (self.fleet.snapshot().get(peer,{}).get("status") or {}).get("miner_ready"):self.peer_mine.symmetric_difference_update({peer})
+            return
         if self.service.snapshot()["devices"].get(key,{}).get("eligible"):
             if key in self.checked:self.checked.remove(key)
             else:self.checked.add(key)
@@ -351,7 +358,7 @@ class Dashboard:
             if not cards:remote_rows[f"remote:{peer_key}"]=("",peer["name"],"Нет связи" if peer["error"] else "Подключаем…","—","—","—",peer["error"] or "")
             for card_key,card in cards.items():
                 free=card.get("free_bytes")
-                remote_rows[f"remote:{peer_key}:{card_key}"]=("",peer["name"]+" · "+card["name"],self.state_text(card) if alive else "Нет связи",self.value(card.get("temperature") if alive else None,digits=0),self.value(card.get("watts") if alive else None,digits=0),self.value(None if not alive or free is None else free/(1<<30)," ГБ"),card.get("note","") if alive else (peer["error"] or ""))
+                remote_rows[f"remote:{peer_key}:{card_key}"]=(("☑" if peer_key in self.peer_mine else "☐") if (peer["status"] or {}).get("miner_ready") else "",peer["name"]+" · "+card["name"],self.state_text(card) if alive else "Нет связи",self.value(card.get("temperature") if alive else None,digits=0),self.value(card.get("watts") if alive else None,digits=0),self.value(None if not alive or free is None else free/(1<<30)," ГБ"),card.get("note","") if alive else (peer["error"] or ""))
         for key in self.table.get_children():
             if key not in devices and key not in remote_rows:self.table.delete(key)
         for key,values in remote_rows.items():
@@ -370,7 +377,8 @@ class Dashboard:
         self.metrics["devices"].set(str(len(devices)+sum(len(status.get("devices",{})) for status in online.values())));self.metrics["active"].set(str(snap["active"]+remote_active))
         self.metrics["power"].set(f"{sum(powers):.0f} Вт" if powers else "—")
         self.refresh_button.state(["disabled"] if snap["refreshing"] or snap["active"] else ["!disabled"])
-        for button in (self.start_button,self.mine_button):button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
+        self.start_button.state(["!disabled"] if self.checked and not snap["refreshing"] and not self.closing else ["disabled"])
+        self.mine_button.state(["!disabled"] if (self.checked or self.peer_mine) and not snap["refreshing"] and not self.closing else ["disabled"])
         self.empty.set("Диагностика устройств…" if snap["refreshing"] else (snap["error"] or ("Нажмите на строку карты, чтобы отметить её." if devices else "Нет проверенного вычислительного модуля или доступных CUDA GPU. Откройте журнал для подробностей.")))
         self.activity.set(f"Идёт майнинг на {snap['mining']} GPU, подключение к вашему пулу открыто. Кнопка «Остановить всё» завершает его сразу." if snap.get("mining") else f"Тесты: здесь {snap['active']}, на других компьютерах {remote_active}. Без пула и выплат." if snap["active"] or remote_active else "Вычисления не запущены. Майнинг начинается только по вашей кнопке.")
         logs="\n".join(row["time"]+"  "+row["message"] for row in snap["logs"])

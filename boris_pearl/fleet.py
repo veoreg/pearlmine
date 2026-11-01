@@ -2,7 +2,9 @@
 """Explicitly paired remote devices; no external broker or developer master key."""
 from copy import deepcopy
 from dataclasses import dataclass
+import json
 import re
+import shlex
 import secrets
 import subprocess
 import sys
@@ -12,7 +14,10 @@ from .remote_control import Pairing,RemoteClient
 from .control_center import human_error
 
 
-QUERY="nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits -l 3"
+# One shell loop over one SSH connection. The miner lines appear only where the service is installed.
+MINER_ROOT="/srv/spark/pearlmine"
+QUERY=("while :; do nvidia-smi --query-gpu=uuid,name,temperature.gpu,power.draw,utilization.gpu --format=csv,noheader,nounits; "
+    f"[ -f {MINER_ROOT}/src/boris_pearl/spark_miner.py ] && echo PEARLMINE_READY && [ -f {MINER_ROOT}/run/status.json ] && echo \"PEARLMINE $(cat {MINER_ROOT}/run/status.json)\"; sleep 3; done")
 
 
 @dataclass(frozen=True)
@@ -35,6 +40,15 @@ class SshPeer:
 def number(text):
     try:return float(text)
     except ValueError:return None
+
+
+def miner_row(miner):
+    """How the service's own report looks in the panel's table."""
+    if not miner:return dict(note="Майнинг готов к запуску")
+    state=miner.get("state");counts=f"принято {miner.get('accepted',0)}, отклонено {miner.get('rejected',0)}"
+    if state=="running":return dict(state="running",note=f"Майнинг {miner.get('th',0):.0f} TH/s · {counts}")
+    if state=="waiting":return dict(note=f"{miner.get('reason') or 'Ждёт'} · {counts}")
+    return dict(note=human_error(miner.get("reason") or "Остановлено")+" · "+counts)
 
 
 def parse_ssh_line(line):
@@ -90,12 +104,18 @@ class Fleet:
                 try:
                     process=subprocess.Popen(command+[peer.target,QUERY],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,stdin=subprocess.DEVNULL,text=True,encoding="utf-8",errors="replace",
                         creationflags=subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0)
-                    row["process"]=process;devices={}
+                    row["process"]=process;devices={};ready=False;miner=None
                     for line in process.stdout:
+                        if line.startswith("PEARLMINE_READY"):ready=True;continue
+                        if line.startswith("PEARLMINE "):
+                            try:miner=json.loads(line[10:])
+                            except ValueError:miner=None
+                            continue
                         parsed=parse_ssh_line(line)
                         if parsed:
                             devices[parsed[0]]=parsed[1];wait=5
-                            with self.lock:row.update(status=dict(devices=dict(devices),active=0,allow_tests=False,read_only=True),error=None,updated_at=time.time())
+                            shown={k:dict(v,**miner_row(miner)) for k,v in devices.items()} if ready else dict(devices)
+                            with self.lock:row.update(status=dict(devices=shown,active=int(ready and (miner or {}).get("state")=="running"),allow_tests=False,read_only=True,miner_ready=ready,miner=miner),error=None,updated_at=time.time())
                     process.wait()
                 except OSError:pass
                 if row["stop"].is_set():break
@@ -103,6 +123,23 @@ class Fleet:
                 row["stop"].wait(wait);wait=min(120,wait*2)  # Rare retries: servers limit the rate of SSH connections.
         thread=threading.Thread(target=read,name="boris-fleet-ssh",daemon=False);row["threads"].append(thread);thread.start()
         return peer.key
+
+    def miner(self,key,action,*values):
+        """Start or stop the service on a computer that has it. It keeps its own state: closing the panel does not stop it."""
+        with self.lock:
+            row=self.peers.get(key)
+            if not row or row["client"] is not None or not (row["status"] or {}).get("miner_ready"):raise ValueError("На этом компьютере нет службы майнинга.")
+            peer=row["pairing"];row["notice"]=None
+        remote=f"cd {MINER_ROOT}/src && python3 -X utf8 -m boris_pearl.spark_miner {action} "+" ".join(shlex.quote(str(v)) for v in values)
+        def send():
+            command=["ssh","-o","BatchMode=yes","-o","ConnectTimeout=10"]+(["-i",peer.identity] if peer.identity else [])+[peer.target,remote]
+            try:
+                done=subprocess.run(command,capture_output=True,text=True,encoding="utf-8",errors="replace",timeout=40,creationflags=subprocess.CREATE_NO_WINDOW if sys.platform=="win32" else 0)
+                if done.returncode:
+                    with self.lock:row["notice"]=human_error(done.stderr.strip().splitlines()[-1] if done.stderr.strip() else "Команда не выполнена")
+            except (OSError,subprocess.SubprocessError) as exc:
+                with self.lock:row["notice"]=human_error(exc)
+        thread=threading.Thread(target=send,name="boris-fleet-miner",daemon=False);row["threads"].append(thread);thread.start()
 
     def _end_ssh(self,row):
         row["stop"].set()
@@ -140,7 +177,10 @@ class Fleet:
         self.command(key,"start",dict(request_id=secrets.token_hex(16),devices=list(devices),seconds=seconds,duty=duty,profile=profile,backend=backend))
 
     def stop(self,key=None):
-        with self.lock:keys=[k for k in ([key] if key else list(self.peers)) if k in self.peers and self.peers[k]["client"] is not None]
+        with self.lock:
+            keys=[k for k in ([key] if key else list(self.peers)) if k in self.peers and self.peers[k]["client"] is not None]
+            miners=[k for k in ([key] if key else list(self.peers)) if k in self.peers and self.peers[k]["client"] is None and (self.peers[k]["status"] or {}).get("miner_ready")]
+        for peer in miners:self.miner(peer,"stop")
         for peer in keys:
             try:self.command(peer,"stop",{})
             except ValueError as exc:
